@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PrestasiController;
 use App\Http\Controllers\Api\EkstrakurikulerController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\SambutanController;
+use App\Http\Controllers\Api\TentangController;
 use App\Http\Controllers\Api\AuthController;
 
 Route::get('/test', function () {
@@ -59,6 +60,10 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
     
     // Sambutan Routes
     Route::apiResource('sambutan', SambutanController::class);
+    
+    // Tentang Routes
+    Route::get('tentang', [TentangController::class, 'getCurrent']);
+    Route::put('tentang', [TentangController::class, 'update']);
 });
 
 // Public API Routes (for frontend public pages)
@@ -82,4 +87,6 @@ Route::prefix('public')->group(function () {
     Route::get('courses/{id}', [CourseController::class, 'show']);
     
     Route::get('sambutan', [SambutanController::class, 'getCurrent']);
+    
+    Route::get('tentang', [TentangController::class, 'show']);
 });
