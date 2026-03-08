@@ -10,6 +10,10 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\SambutanController;
 use App\Http\Controllers\Api\TentangController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\SiswaPtnController;
+use App\Http\Controllers\Api\JadwalEkstrakurikulerController;
+use App\Http\Controllers\Api\StrukturEkstrakurikulerController;
+use App\Http\Controllers\Api\PrestasiEkstrakurikulerController;
 
 Route::get('/test', function () {
     return response()->json([
@@ -55,6 +59,15 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
     // Ekstrakurikuler Routes
     Route::apiResource('ekstrakurikuler', EkstrakurikulerController::class);
     
+    // Jadwal Ekstrakurikuler Routes
+    Route::apiResource('jadwal-ekstrakurikuler', JadwalEkstrakurikulerController::class);
+    
+    // Struktur Ekstrakurikuler Routes
+    Route::apiResource('struktur-ekstrakurikuler', StrukturEkstrakurikulerController::class);
+    
+    // Prestasi Ekstrakurikuler Routes
+    Route::apiResource('prestasi-ekstrakurikuler', PrestasiEkstrakurikulerController::class);
+    
     // Course Routes
     Route::apiResource('courses', CourseController::class);
     
@@ -64,6 +77,9 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
     // Tentang Routes
     Route::get('tentang', [TentangController::class, 'getCurrent']);
     Route::put('tentang', [TentangController::class, 'update']);
+    
+    // Siswa PTN Routes
+    Route::apiResource('siswa-ptn', SiswaPtnController::class);
 });
 
 // Public API Routes (for frontend public pages)
@@ -83,10 +99,22 @@ Route::prefix('public')->group(function () {
     Route::get('ekstrakurikuler', [EkstrakurikulerController::class, 'index']);
     Route::get('ekstrakurikuler/{id}', [EkstrakurikulerController::class, 'show']);
     
+    Route::get('jadwal-ekstrakurikuler', [JadwalEkstrakurikulerController::class, 'index']);
+    Route::get('jadwal-ekstrakurikuler/{id}', [JadwalEkstrakurikulerController::class, 'show']);
+    
+    Route::get('struktur-ekstrakurikuler', [StrukturEkstrakurikulerController::class, 'index']);
+    Route::get('struktur-ekstrakurikuler/{id}', [StrukturEkstrakurikulerController::class, 'show']);
+    
+    Route::get('prestasi-ekstrakurikuler', [PrestasiEkstrakurikulerController::class, 'index']);
+    Route::get('prestasi-ekstrakurikuler/{id}', [PrestasiEkstrakurikulerController::class, 'show']);
+    
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{id}', [CourseController::class, 'show']);
     
     Route::get('sambutan', [SambutanController::class, 'getCurrent']);
     
     Route::get('tentang', [TentangController::class, 'show']);
+    
+    Route::get('siswa-ptn', [SiswaPtnController::class, 'index']);
+    Route::get('siswa-ptn/{id}', [SiswaPtnController::class, 'show']);
 });

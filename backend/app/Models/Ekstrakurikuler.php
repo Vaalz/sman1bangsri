@@ -40,4 +40,28 @@ class Ekstrakurikuler extends Model
             }
         });
     }
+
+    /**
+     * Get the jadwal for the ekstrakurikuler.
+     */
+    public function jadwal()
+    {
+        return $this->hasMany(JadwalEkstrakurikuler::class);
+    }
+
+    /**
+     * Get the struktur for the ekstrakurikuler.
+     */
+    public function struktur()
+    {
+        return $this->hasMany(StrukturEkstrakurikuler::class);
+    }
+
+    /**
+     * Get the prestasi for the ekstrakurikuler.
+     */
+    public function prestasi()
+    {
+        return $this->hasMany(PrestasiEkstrakurikuler::class);
+    }
 }
