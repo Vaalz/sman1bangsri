@@ -15,7 +15,7 @@ class CourseController extends Controller
         $perPage = $request->get('per_page', 10);
         
         // Exclude large 'konten' field from list view
-        $courses = Course::select(['id', 'judul', 'mapel', 'kelas', 'deskripsi', 'file', 'created_at'])
+        $courses = Course::select(['id', 'judul', 'mapel', 'kelas', 'deskripsi', 'file', 'link', 'created_at'])
             ->orderBy('mapel', 'asc')
             ->paginate($perPage);
             
@@ -30,7 +30,8 @@ class CourseController extends Controller
             'kelas' => 'required|string',
             'deskripsi' => 'nullable|string',
             'konten' => 'nullable|string',
-            'file' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,gif|max:5120',
+            'link' => 'nullable|url|max:500',
         ]);
 
         if ($request->hasFile('file')) {
@@ -57,7 +58,8 @@ class CourseController extends Controller
             'kelas' => 'sometimes|required|string',
             'deskripsi' => 'nullable|string',
             'konten' => 'nullable|string',
-            'file' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png,gif|max:5120',
+            'link' => 'nullable|url|max:500',
         ]);
 
         if ($request->hasFile('file')) {

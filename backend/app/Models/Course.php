@@ -16,5 +16,6 @@ class Course extends Model
         'deskripsi',
         'konten',
         'file',
+        'link',
     ];
 }

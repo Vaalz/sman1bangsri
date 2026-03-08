@@ -36,7 +36,7 @@ class BeritaController extends Controller
             'judul' => 'required|string|max:255',
             'kategori' => 'nullable|string',
             'penulis' => 'required|string',
-            'konten' => 'required|string',
+            'konten' => 'nullable|string',
             'foto' => 'nullable|image|max:2048',
             'tanggal' => 'required|date',
         ]);
@@ -67,7 +67,7 @@ class BeritaController extends Controller
             'judul' => 'sometimes|required|string|max:255',
             'kategori' => 'sometimes|nullable|string',
             'penulis' => 'sometimes|required|string',
-            'konten' => 'sometimes|required|string',
+            'konten' => 'nullable|string',
             'foto' => 'nullable|image|max:2048',
             'tanggal' => 'sometimes|required|date',
         ]);

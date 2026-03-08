@@ -15,6 +15,7 @@ class Prestasi extends Model
         'judul',
         'tingkat',
         'kategori',
+        'juara',
         'tahun',
     ];
 }
