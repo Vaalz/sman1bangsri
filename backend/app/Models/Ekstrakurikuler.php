@@ -19,6 +19,7 @@ class Ekstrakurikuler extends Model
         'deskripsi',
         'pembina',
         'icon',
+        'logo',
     ];
 
     /**

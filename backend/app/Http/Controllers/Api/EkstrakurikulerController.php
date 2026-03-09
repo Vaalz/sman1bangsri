@@ -6,9 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Ekstrakurikuler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Traits\ImageCompressionTrait;
 
 class EkstrakurikulerController extends Controller
 {
+    use ImageCompressionTrait;
+    
     public function index(Request $request)
     {
         // Check if pagination is requested
@@ -19,7 +22,7 @@ class EkstrakurikulerController extends Controller
         
         // Cache response for 5 minutes (300 seconds)
         $ekstrakurikuler = Cache::remember($cacheKey, 300, function () use ($perPage) {
-            return Ekstrakurikuler::select(['id', 'nama', 'kategori', 'pembina', 'icon', 'slug', 'created_at'])
+            return Ekstrakurikuler::select(['id', 'nama', 'kategori', 'pembina', 'icon', 'logo', 'slug', 'created_at'])
                 ->orderBy('nama', 'asc')
                 ->paginate($perPage);
         });
@@ -35,7 +38,12 @@ class EkstrakurikulerController extends Controller
             'pembina' => 'required|string',
             'deskripsi' => 'nullable|string',
             'icon' => 'nullable|string',
+            'logo' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('logo')) {
+            $validated['logo'] = $this->uploadCompressedImage($request->file('logo'), 'ekstrakurikuler', 800, 85);
+        }
 
         $ekstrakurikuler = Ekstrakurikuler::create($validated);
         
@@ -61,7 +69,16 @@ class EkstrakurikulerController extends Controller
             'pembina' => 'sometimes|required|string',
             'deskripsi' => 'nullable|string',
             'icon' => 'nullable|string',
+            'logo' => 'nullable|image|max:2048',
         ]);
+
+        if ($request->hasFile('logo')) {
+            // Delete old logo if exists
+            if ($ekstrakurikuler->logo) {
+                $this->deleteImage($ekstrakurikuler->logo);
+            }
+            $validated['logo'] = $this->uploadCompressedImage($request->file('logo'), 'ekstrakurikuler', 800, 85);
+        }
 
         $ekstrakurikuler->update($validated);
         
@@ -74,6 +91,12 @@ class EkstrakurikulerController extends Controller
     public function destroy($id)
     {
         $ekstrakurikuler = Ekstrakurikuler::findOrFail($id);
+        
+        // Delete logo if exists
+        if ($ekstrakurikuler->logo) {
+            $this->deleteImage($ekstrakurikuler->logo);
+        }
+        
         $ekstrakurikuler->delete();
         
         // Clear cache after deleting
