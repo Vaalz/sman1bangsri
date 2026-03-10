@@ -23,6 +23,8 @@ Route::get('/test', function () {
 
 // Authentication Routes
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 // Protected Auth Routes
 Route::middleware('auth:sanctum')->group(function () {

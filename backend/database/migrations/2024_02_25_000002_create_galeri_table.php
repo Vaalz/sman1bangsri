@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('galeri', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
+            $table->string('kategori')->nullable();
             $table->string('foto');
-            $table->enum('kategori', ['SCHOOL', 'TEACHERS', 'STUDENTS', 'CEREMONY', 'UNIVERSITY CORNER'])->default('SCHOOL');
+            $table->text('caption')->nullable();
+            $table->date('tanggal')->nullable();
             $table->timestamps();
         });
     }

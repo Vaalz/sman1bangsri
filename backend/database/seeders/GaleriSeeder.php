@@ -4,27 +4,32 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Galeri;
-use Carbon\Carbon;
 
 class GaleriSeeder extends Seeder
 {
-    public function run(): void
+    public function run()
     {
         $galeri = [
             [
-                'judul' => 'Kegiatan Upacara Bendera',
-                'kategori' => 'CEREMONY',
-                'foto' => '',
+                'judul' => 'Upacara Bendera',
+                'kategori' => 'Kegiatan Rutin',
+                'foto' => 'default-placeholder.jpg',
+                'caption' => 'Upacara bendera hari Senin di halaman sekolah',
+                'tanggal' => '2024-03-01',
             ],
             [
-                'judul' => 'Ruang Kelas SMAN 1 BANGSRI',
-                'kategori' => 'SCHOOL',
-                'foto' => '',
+                'judul' => 'Kegiatan Ekstrakurikuler Basket',
+                'kategori' => 'Ekstrakurikuler',
+                'foto' => 'default-placeholder.jpg',
+                'caption' => 'Latihan rutin basket setiap hari Rabu dan Jumat',
+                'tanggal' => '2024-03-05',
             ],
             [
-                'judul' => 'Kegiatan Ekstrakurikuler',
-                'kategori' => 'STUDENTS',
-                'foto' => '',
+                'judul' => 'Lomba Kebersihan Kelas',
+                'kategori' => 'Kompetisi',
+                'foto' => 'default-placeholder.jpg',
+                'caption' => 'Penilaian lomba kebersihan kelas tingkat sekolah',
+                'tanggal' => '2024-03-10',
             ],
         ];
 
