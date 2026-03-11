@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\SiswaPtnController;
 use App\Http\Controllers\Api\JadwalEkstrakurikulerController;
 use App\Http\Controllers\Api\StrukturEkstrakurikulerController;
 use App\Http\Controllers\Api\PrestasiEkstrakurikulerController;
+use App\Http\Controllers\Api\DashboardController;
 
 Route::get('/test', function () {
     return response()->json([
@@ -46,6 +47,9 @@ Route::middleware(['auth:sanctum', 'superadmin'])->prefix('superadmin')->group(f
 
 // API Routes for Admin Dashboard (Protected)
 Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
+    // Dashboard Stats
+    Route::get('dashboard/stats', [DashboardController::class, 'stats']);
+    
     // Berita Routes
     Route::apiResource('berita', BeritaController::class);
     
@@ -86,6 +90,9 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
 
 // Public API Routes (for frontend public pages)
 Route::prefix('public')->group(function () {
+    // Statistics
+    Route::get('stats', [DashboardController::class, 'stats']);
+    
     Route::get('berita', [BeritaController::class, 'index']);
     Route::get('berita/{id}', [BeritaController::class, 'show']);
     
