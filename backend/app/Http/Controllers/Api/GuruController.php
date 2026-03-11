@@ -16,7 +16,7 @@ class GuruController extends Controller
         // Check if pagination is requested
         $perPage = $request->get('per_page', 15);
         
-        $guru = Guru::select(['id', 'nama', 'jabatan', 'mapel', 'foto', 'created_at'])
+        $guru = Guru::select(['id', 'nama', 'nip', 'jabatan', 'mapel', 'foto', 'created_at'])
             ->orderBy('nama', 'asc')
             ->paginate($perPage);
             
@@ -27,6 +27,7 @@ class GuruController extends Controller
     {
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
+            'nip' => 'nullable|string|max:255',
             'jabatan' => 'required|string',
             'mapel' => 'required|string',
             'foto' => 'nullable|image|max:2048',
@@ -52,6 +53,7 @@ class GuruController extends Controller
 
         $validated = $request->validate([
             'nama' => 'sometimes|required|string|max:255',
+            'nip' => 'nullable|string|max:255',
             'jabatan' => 'sometimes|required|string',
             'mapel' => 'sometimes|required|string',
             'foto' => 'nullable|image|max:2048',

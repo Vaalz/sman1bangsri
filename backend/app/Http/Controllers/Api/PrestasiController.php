@@ -19,7 +19,7 @@ class PrestasiController extends Controller
         
         // Cache response for 5 minutes (300 seconds)
         $prestasi = Cache::remember($cacheKey, 300, function () use ($perPage) {
-            return Prestasi::select(['id', 'judul', 'tingkat', 'kategori', 'juara', 'tahun', 'created_at'])
+            return Prestasi::select(['id', 'judul', 'nama_siswa', 'tingkat', 'kategori', 'juara', 'tahun', 'created_at'])
                 ->orderBy('tahun', 'desc')
                 ->paginate($perPage);
         });
@@ -31,6 +31,7 @@ class PrestasiController extends Controller
     {
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
+            'nama_siswa' => 'nullable|string|max:255',
             'tingkat' => 'required|in:Kabupaten,Provinsi,Nasional',
             'kategori' => 'required|string',
             'juara' => 'nullable|string|max:50',
@@ -57,6 +58,7 @@ class PrestasiController extends Controller
 
         $validated = $request->validate([
             'judul' => 'sometimes|required|string|max:255',
+            'nama_siswa' => 'nullable|string|max:255',
             'tingkat' => 'sometimes|required|in:Kabupaten,Provinsi,Nasional',
             'kategori' => 'sometimes|required|string',
             'juara' => 'nullable|string|max:50',
