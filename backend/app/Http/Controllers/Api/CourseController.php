@@ -13,11 +13,22 @@ class CourseController extends Controller
     {
         // Check if pagination is requested
         $perPage = $request->get('per_page', 10);
+        $search = $request->get('search', '');
         
-        // Exclude large 'konten' field from list view
-        $courses = Course::select(['id', 'judul', 'mapel', 'kelas', 'deskripsi', 'file', 'link', 'created_at'])
-            ->orderBy('mapel', 'asc')
-            ->paginate($perPage);
+        // Build query with search
+        $query = Course::select(['id', 'judul', 'mapel', 'kelas', 'deskripsi', 'file', 'link', 'created_at']);
+        
+        // Apply search filter if search term exists
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('judul', 'like', '%' . $search . '%')
+                  ->orWhere('mapel', 'like', '%' . $search . '%')
+                  ->orWhere('kelas', 'like', '%' . $search . '%')
+                  ->orWhere('deskripsi', 'like', '%' . $search . '%');
+            });
+        }
+        
+        $courses = $query->orderBy('mapel', 'asc')->paginate($perPage);
             
         return response()->json($courses);
     }

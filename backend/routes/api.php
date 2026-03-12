@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\EkstrakurikulerController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\SambutanController;
 use App\Http\Controllers\Api\TentangController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SiswaPtnController;
 use App\Http\Controllers\Api\JadwalEkstrakurikulerController;
@@ -84,6 +85,10 @@ Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
     Route::get('tentang', [TentangController::class, 'getCurrent']);
     Route::put('tentang', [TentangController::class, 'update']);
     
+    // Contact Routes
+    Route::get('contact', [ContactController::class, 'getCurrent']);
+    Route::put('contact', [ContactController::class, 'update']);
+    
     // Siswa PTN Routes
     Route::apiResource('siswa-ptn', SiswaPtnController::class);
 });
@@ -123,6 +128,8 @@ Route::prefix('public')->group(function () {
     Route::get('sambutan', [SambutanController::class, 'getCurrent']);
     
     Route::get('tentang', [TentangController::class, 'show']);
+    
+    Route::get('contact', [ContactController::class, 'show']);
     
     Route::get('siswa-ptn', [SiswaPtnController::class, 'index']);
     Route::get('siswa-ptn/{id}', [SiswaPtnController::class, 'show']);
