@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\SiswaPtn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Schema;
 use App\Traits\ImageCompressionTrait;
+use Throwable;
 
 class SiswaPtnController extends Controller
 {
@@ -14,14 +16,50 @@ class SiswaPtnController extends Controller
     
     public function index(Request $request)
     {
-        // Check if pagination is requested
         $perPage = $request->get('per_page', 15);
-        
-        $siswaPtn = SiswaPtn::select(['id', 'nama_siswa', 'foto_siswa', 'kelas', 'nama_ptn', 'logo_ptn', 'jurusan', 'created_at'])
-            ->orderBy('created_at', 'desc')
-            ->paginate($perPage);
-            
-        return response()->json($siswaPtn);
+
+        try {
+            if (!Schema::hasTable('siswa_ptn')) {
+                return response()->json([
+                    'data' => [],
+                    'current_page' => 1,
+                    'last_page' => 1,
+                    'per_page' => (int) $perPage,
+                    'total' => 0,
+                ]);
+            }
+
+            $preferredColumns = ['id', 'nama_siswa', 'foto_siswa', 'kelas', 'nama_ptn', 'logo_ptn', 'jurusan', 'created_at'];
+            $availableColumns = array_values(array_filter($preferredColumns, fn ($column) => Schema::hasColumn('siswa_ptn', $column)));
+
+            if (empty($availableColumns)) {
+                return response()->json([
+                    'data' => [],
+                    'current_page' => 1,
+                    'last_page' => 1,
+                    'per_page' => (int) $perPage,
+                    'total' => 0,
+                ]);
+            }
+
+            $query = SiswaPtn::select($availableColumns);
+
+            if (in_array('created_at', $availableColumns, true)) {
+                $query->orderBy('created_at', 'desc');
+            } elseif (in_array('id', $availableColumns, true)) {
+                $query->orderBy('id', 'desc');
+            }
+
+            return response()->json($query->paginate($perPage));
+        } catch (Throwable $e) {
+            return response()->json([
+                'data' => [],
+                'current_page' => 1,
+                'last_page' => 1,
+                'per_page' => (int) $perPage,
+                'total' => 0,
+            ]);
+        }
     }
 
     public function store(Request $request)
