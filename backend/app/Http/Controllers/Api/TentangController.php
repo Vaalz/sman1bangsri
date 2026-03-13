@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Tentang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Schema;
+use Throwable;
 
 class TentangController extends Controller
 {
@@ -15,10 +17,33 @@ class TentangController extends Controller
      */
     public function show()
     {
-        $tentang = Tentang::first();
-        
-        if (!$tentang) {
-            // Return empty structure if no record exists yet
+        try {
+            if (!Schema::hasTable('tentang')) {
+                return response()->json([
+                    'data' => [
+                        'sejarah' => '',
+                        'tentang_kami' => '',
+                        'visi' => '',
+                        'misi' => '',
+                    ]
+                ]);
+            }
+
+            $tentang = Tentang::first();
+
+            if (!$tentang) {
+                return response()->json([
+                    'data' => [
+                        'sejarah' => '',
+                        'tentang_kami' => '',
+                        'visi' => '',
+                        'misi' => '',
+                    ]
+                ]);
+            }
+
+            return response()->json(['data' => $tentang]);
+        } catch (Throwable $e) {
             return response()->json([
                 'data' => [
                     'sejarah' => '',
@@ -28,8 +53,6 @@ class TentangController extends Controller
                 ]
             ]);
         }
-
-        return response()->json(['data' => $tentang]);
     }
 
     /**
