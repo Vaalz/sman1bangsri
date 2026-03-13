@@ -14,35 +14,19 @@ class SuperAdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Check if superadmin exists
-        $superadmin = User::where('email', 'valzopsional@gmail.com')->first();
-        
-        if (!$superadmin) {
-            // Create new superadmin
-            User::create([
+        User::updateOrCreate(
+            ['email' => 'valzopsional@gmail.com'],
+            [
                 'name' => 'Super Admin',
                 'username' => 'superadmin',
-                'email' => 'valzopsional@gmail.com',
-                'password' => Hash::make('superadmin123'), // Change this password after first login
+                'password' => Hash::make('superadmin123'),
                 'role' => 'superadmin',
                 'is_active' => true,
-            ]);
+            ]
+        );
 
-            $this->command->info('SuperAdmin created successfully!');
-            $this->command->info('Email: valzopsional@gmail.com');
-            $this->command->info('Password: superadmin123');
-        } else {
-            // Update existing user to superadmin
-            $superadmin->role = 'superadmin';
-            $superadmin->is_active = true;
-            if (empty($superadmin->password)) {
-                $superadmin->password = Hash::make('superadmin123');
-            }
-            $superadmin->save();
-            
-            $this->command->info('SuperAdmin updated successfully!');
-            $this->command->info('Email: valzopsional@gmail.com');
-            $this->command->info('Please use your existing password or reset it.');
-        }
+        $this->command->info('SuperAdmin reset successfully!');
+        $this->command->info('Email: valzopsional@gmail.com');
+        $this->command->info('Password: superadmin123');
     }
 }
