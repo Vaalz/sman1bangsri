@@ -43,6 +43,23 @@ api.interceptors.request.use(
   }
 );
 
+// Auto reset auth state when token is invalid/expired in admin area
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status;
+    const currentPath = window.location.pathname || '';
+
+    if (status === 401 && currentPath.startsWith('/admin')) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/admin/login';
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 // ==================== PUBLIC API ====================
 
 // Berita
