@@ -316,7 +316,8 @@ export const deleteSiswaPtn = (id) => api.delete(`/admin/siswa-ptn/${id}`);
 export const getImageUrl = (path) => {
   if (!path) return '';
   if (path.startsWith('http')) return path;
-  return `http://localhost:8000/storage/${path}`;
+  const backendBaseUrl = API_BASE_URL.replace(/\/api\/?$/, '');
+  return `${backendBaseUrl}/storage/${path}`;
 };
 
 export default api;

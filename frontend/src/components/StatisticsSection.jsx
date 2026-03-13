@@ -3,6 +3,8 @@ import { Box, Container, Typography } from '@mui/material';
 import { EmojiEventsOutlined, WorkspacePremiumOutlined, MilitaryTechOutlined } from '@mui/icons-material';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+
 const StatisticsSection = () => {
   const [stats, setStats] = useState({
     prestasi_nasional: 0,
@@ -16,7 +18,7 @@ const StatisticsSection = () => {
     // Fetch statistics from API
     const fetchStats = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/api/public/stats');
+        const response = await axios.get(`${API_BASE_URL}/public/stats`);
         if (response.data.success) {
           setStats({
             prestasi_nasional: response.data.data.prestasi_nasional,
