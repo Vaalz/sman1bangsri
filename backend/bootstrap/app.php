@@ -15,6 +15,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'superadmin' => \App\Http\Middleware\CheckSuperAdmin::class,
         ]);
+
+        // For API requests, do not redirect unauthenticated users to a web login route.
+        // Returning null here makes auth middleware respond with 401 JSON instead of 500.
+        $middleware->redirectGuestsTo(function ($request) {
+            if ($request->is('api/*') || $request->expectsJson()) {
+                return null;
+            }
+
+            return '/';
+        });
+
         // Add CORS middleware globally
         $middleware->append(\App\Http\Middleware\CorsMiddleware::class);
     })
