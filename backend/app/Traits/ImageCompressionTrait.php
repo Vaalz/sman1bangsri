@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Intervention\Image\Laravel\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 trait ImageCompressionTrait
 {
@@ -21,22 +22,28 @@ trait ImageCompressionTrait
         // Generate unique filename
         $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
         $path = $folder . '/' . $filename;
-        
-        // Load and compress image
-        $image = Image::read($file);
-        
-        // Resize if width exceeds max width (maintain aspect ratio)
-        if ($image->width() > $maxWidth) {
-            $image->scale(width: $maxWidth);
+
+        try {
+            // Load and compress image
+            $image = Image::read($file);
+
+            // Resize if width exceeds max width (maintain aspect ratio)
+            if ($image->width() > $maxWidth) {
+                $image->scale(width: $maxWidth);
+            }
+
+            // Encode with compression quality
+            $encoded = $image->encodeByExtension($file->getClientOriginalExtension(), quality: $quality);
+
+            // Save to storage
+            Storage::disk('public')->put($path, $encoded);
+
+            return $path;
+        } catch (Throwable $e) {
+            // Fallback: save original upload if compression fails on server runtime
+            \Log::warning('Image compression failed, fallback to original file: ' . $e->getMessage());
+            return $file->store($folder, 'public');
         }
-        
-        // Encode with compression quality
-        $encoded = $image->encodeByExtension($file->getClientOriginalExtension(), quality: $quality);
-        
-        // Save to storage
-        Storage::disk('public')->put($path, $encoded);
-        
-        return $path;
     }
     
     /**
@@ -67,66 +74,74 @@ trait ImageCompressionTrait
         $filename = time() . '_' . uniqid() . '.png';
         $path = $folder . '/' . $filename;
         
-        // Load image
-        $image = Image::read($file);
-        
-        // Resize if width exceeds max width (maintain aspect ratio)
-        if ($image->width() > $maxWidth) {
-            $image->scale(width: $maxWidth);
-        }
-        
-        // Try to remove white/light background and make transparent
         try {
-            // Get image as GD resource for pixel manipulation
-            $img = $image->core()->native();
-            
-            // Enable alpha blending and save alpha channel
-            imagealphablending($img, false);
-            imagesavealpha($img, true);
-            
-            $width = imagesx($img);
-            $height = imagesy($img);
-            
-            // Sample corner pixels to determine background color
-            $bgColor = imagecolorat($img, 0, 0);
-            $bgRgb = imagecolorsforindex($img, $bgColor);
-            
-            // Define tolerance for color matching (0-100)
-            $tolerance = 30;
-            
-            // Iterate through pixels and make similar colors transparent
-            for ($x = 0; $x < $width; $x++) {
-                for ($y = 0; $y < $height; $y++) {
-                    $pixelColor = imagecolorat($img, $x, $y);
-                    $pixelRgb = imagecolorsforindex($img, $pixelColor);
-                    
-                    // Calculate color difference
-                    $rDiff = abs($pixelRgb['red'] - $bgRgb['red']);
-                    $gDiff = abs($pixelRgb['green'] - $bgRgb['green']);
-                    $bDiff = abs($pixelRgb['blue'] - $bgRgb['blue']);
-                    $diff = ($rDiff + $gDiff + $bDiff) / 3;
-                    
-                    // If color is similar to background, make it transparent
-                    if ($diff < $tolerance) {
-                        $transparent = imagecolorallocatealpha($img, 0, 0, 0, 127);
-                        imagesetpixel($img, $x, $y, $transparent);
-                    }
-                }
+            // Load image
+            $image = Image::read($file);
+
+            // Resize if width exceeds max width (maintain aspect ratio)
+            if ($image->width() > $maxWidth) {
+                $image->scale(width: $maxWidth);
             }
-            
-            // Convert back to Intervention Image
-            $image = Image::read($img);
-        } catch (\Exception $e) {
-            // If background removal fails, continue with original image
-            \Log::warning('Background removal failed: ' . $e->getMessage());
+
+            // Try to remove white/light background and make transparent
+            try {
+                // Get image as GD resource for pixel manipulation
+                $img = $image->core()->native();
+
+                if ($img instanceof \GdImage || is_resource($img)) {
+                    // Enable alpha blending and save alpha channel
+                    imagealphablending($img, false);
+                    imagesavealpha($img, true);
+
+                    $width = imagesx($img);
+                    $height = imagesy($img);
+
+                    // Sample corner pixels to determine background color
+                    $bgColor = imagecolorat($img, 0, 0);
+                    $bgRgb = imagecolorsforindex($img, $bgColor);
+
+                    // Define tolerance for color matching (0-100)
+                    $tolerance = 30;
+
+                    // Iterate through pixels and make similar colors transparent
+                    for ($x = 0; $x < $width; $x++) {
+                        for ($y = 0; $y < $height; $y++) {
+                            $pixelColor = imagecolorat($img, $x, $y);
+                            $pixelRgb = imagecolorsforindex($img, $pixelColor);
+
+                            // Calculate color difference
+                            $rDiff = abs($pixelRgb['red'] - $bgRgb['red']);
+                            $gDiff = abs($pixelRgb['green'] - $bgRgb['green']);
+                            $bDiff = abs($pixelRgb['blue'] - $bgRgb['blue']);
+                            $diff = ($rDiff + $gDiff + $bDiff) / 3;
+
+                            // If color is similar to background, make it transparent
+                            if ($diff < $tolerance) {
+                                $transparent = imagecolorallocatealpha($img, 0, 0, 0, 127);
+                                imagesetpixel($img, $x, $y, $transparent);
+                            }
+                        }
+                    }
+
+                    // Convert back to Intervention Image
+                    $image = Image::read($img);
+                }
+            } catch (Throwable $e) {
+                // If background removal fails, continue with original image
+                \Log::warning('Background removal failed: ' . $e->getMessage());
+            }
+
+            // Encode as PNG with transparency
+            $encoded = $image->encodeByExtension('png', quality: 90);
+
+            // Save to storage
+            Storage::disk('public')->put($path, $encoded);
+
+            return $path;
+        } catch (Throwable $e) {
+            // Final fallback: store original file to avoid failing request
+            \Log::warning('Logo processing failed, fallback to original file: ' . $e->getMessage());
+            return $file->store($folder, 'public');
         }
-        
-        // Encode as PNG with transparency
-        $encoded = $image->encodeByExtension('png', quality: 90);
-        
-        // Save to storage
-        Storage::disk('public')->put($path, $encoded);
-        
-        return $path;
     }
 }
