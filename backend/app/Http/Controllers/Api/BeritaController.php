@@ -55,7 +55,13 @@ class BeritaController extends Controller
 
     public function show($slugOrId)
     {
-        $berita = Berita::where('slug', $slugOrId)->orWhere('id', $slugOrId)->firstOrFail();
+        $query = Berita::where('slug', $slugOrId);
+
+        if (is_numeric($slugOrId)) {
+            $query->orWhere('id', (int) $slugOrId);
+        }
+
+        $berita = $query->firstOrFail();
         return response()->json(['data' => $berita]);
     }
 
