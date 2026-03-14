@@ -8,6 +8,14 @@ const formFields = [
   { name: 'judul', label: 'Judul Berita', required: true },
   { name: 'kategori', label: 'Kategori', required: true },
   { name: 'penulis', label: 'Penulis', required: true },
+  {
+    name: 'konten',
+    label: 'Deskripsi Berita',
+    required: false,
+    multiline: true,
+    rows: 6,
+    placeholder: 'Tulis deskripsi/konten berita di sini...'
+  },
   { name: 'tanggal', label: 'Tanggal', type: 'date', required: true },
   { name: 'foto', label: 'Gambar', type: 'file', required: false },
 ];

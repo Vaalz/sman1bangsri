@@ -22,7 +22,7 @@ class BeritaController extends Controller
         
         // Cache response for 5 minutes (300 seconds)
         $berita = Cache::remember($cacheKey, 300, function () use ($perPage) {
-            return Berita::select(['id', 'judul', 'kategori', 'penulis', 'foto', 'slug', 'tanggal', 'created_at'])
+            return Berita::select(['id', 'judul', 'kategori', 'penulis', 'konten', 'foto', 'slug', 'tanggal', 'created_at'])
                 ->orderBy('tanggal', 'desc')
                 ->paginate($perPage);
         });

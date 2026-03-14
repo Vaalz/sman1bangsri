@@ -224,7 +224,7 @@ const DetailBeritaPage = () => {
                 textAlign: 'justify',
               }}
             >
-              {berita.konten}
+              {berita.konten || berita.deskripsi || 'Deskripsi berita belum tersedia.'}
             </Typography>
           </Paper>
         </Container>
