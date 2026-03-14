@@ -179,7 +179,7 @@ const BeritaPage = () => {
               {currentBerita.map((berita) => (
                 <Card
                   key={berita.id}
-                  onClick={() => navigate(`/detail-berita/${berita.slug}`)}
+                  onClick={() => navigate(`/detail-berita/${berita.slug || berita.id}`)}
                   sx={{
                     minWidth: { xs: '280px', sm: '320px' },
                     minHeight: '420px',

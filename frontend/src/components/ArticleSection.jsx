@@ -149,7 +149,7 @@ const ArticleSection = () => {
             {articles.map((article) => (
               <Card
                 key={article.id}
-                onClick={() => navigate(`/detail-berita/${article.slug}`)}
+                onClick={() => navigate(`/detail-berita/${article.slug || article.id}`)}
                 sx={{
                   minWidth: { xs: '280px', sm: '320px' },
                   minHeight: '420px',
