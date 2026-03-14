@@ -1,7 +1,6 @@
 import { Box, Container, Typography, Paper, Chip, CircularProgress } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import { ArrowBack, Person, CalendarToday } from '@mui/icons-material';
 import { IconButton } from '@mui/material';
@@ -45,7 +44,6 @@ const DetailBeritaPage = () => {
   if (loading) {
     return (
       <Box>
-        <Navbar />
         <Box sx={{ display: 'flex', justifyContent: 'center', py: 20 }}>
           <CircularProgress />
         </Box>
@@ -57,7 +55,6 @@ const DetailBeritaPage = () => {
   if (!berita) {
     return (
       <Box>
-        <Navbar />
         <Container maxWidth="md" sx={{ py: 10, textAlign: 'center' }}>
           <Typography variant="h4" sx={{ mb: 2 }}>Berita tidak ditemukan</Typography>
           <IconButton onClick={() => navigate('/berita')}>
@@ -71,13 +68,11 @@ const DetailBeritaPage = () => {
 
   return (
     <Box>
-      <Navbar />
-      
       {/* Header with Back Button */}
       <Box
         sx={{
           backgroundColor: '#f5f5f5',
-          padding: { xs: '100px 16px 20px', md: '120px 0 30px' },
+          padding: { xs: '24px 16px 20px', md: '40px 0 30px' },
           position: 'relative',
         }}
       >
@@ -86,7 +81,7 @@ const DetailBeritaPage = () => {
             onClick={() => navigate('/berita')}
             sx={{
               position: 'absolute',
-              top: { xs: '80px', md: '100px' },
+              top: { xs: '12px', md: '22px' },
               left: { xs: '16px', md: '24px' },
               color: '#333',
               backgroundColor: '#fff',
