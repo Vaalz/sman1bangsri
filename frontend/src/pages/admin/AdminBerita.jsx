@@ -74,13 +74,37 @@ function AdminBerita() {
 
   const handleAdd = () => {
     setEditingId(null);
-    setFormData({});
+    setFormData({ tanggal: '' });
     setOpenModal(true);
+  };
+
+  const normalizeDateForInput = (value) => {
+    if (!value) return '';
+
+    if (typeof value === 'string') {
+      if (value.includes('T')) {
+        return value.split('T')[0];
+      }
+
+      // Fallback for dd/mm/yyyy style values
+      if (value.includes('/')) {
+        const parts = value.split('/');
+        if (parts.length === 3) {
+          const [day, month, year] = parts;
+          return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+      }
+    }
+
+    return value;
   };
 
   const handleEdit = (row) => {
     setEditingId(row.id);
-    setFormData(row);
+    setFormData({
+      ...row,
+      tanggal: normalizeDateForInput(row.tanggal),
+    });
     setOpenModal(true);
   };
 
@@ -98,10 +122,15 @@ function AdminBerita() {
 
   const handleSubmit = async (data) => {
     try {
+      const payload = {
+        ...data,
+        tanggal: normalizeDateForInput(data.tanggal),
+      };
+
       if (editingId) {
-        await updateBerita(editingId, data);
+        await updateBerita(editingId, payload);
       } else {
-        await createBerita(data);
+        await createBerita(payload);
       }
       setOpenModal(false);
       setFormData({});
