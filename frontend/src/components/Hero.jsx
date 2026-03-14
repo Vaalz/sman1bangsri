@@ -99,18 +99,35 @@ const Hero = () => {
             variant="h1"
             sx={{
               fontSize: { xs: '2rem', sm: '2.75rem', md: '4rem' },
-              fontWeight: 800,
+              fontWeight: 900,
               marginBottom: { xs: '24px', md: '32px' },
-              textShadow: '3px 3px 6px rgba(0,0,0,0.4)',
-              lineHeight: 1.2,
-              letterSpacing: { xs: '-0.5px', md: '-1px' },
-              fontFamily: '"Inter", "Segoe UI", "Roboto", sans-serif',
+              textShadow: '3px 3px 10px rgba(0,0,0,0.45)',
+              lineHeight: 1.08,
+              letterSpacing: { xs: '0.5px', md: '1px' },
+              textTransform: 'uppercase',
+              fontFamily: '"Poppins", "Montserrat", "Segoe UI", sans-serif',
               opacity: isVisible ? 1 : 0,
               transform: isVisible ? 'translateY(0)' : 'translateY(30px)',
               transition: 'opacity 1.2s ease-out 0.2s, transform 1.2s ease-out 0.2s',
             }}
           >
-            Selamat Datang di SMANSABA
+            <Box component="span" sx={{ display: 'block' }}>
+              Selamat Datang di
+            </Box>
+            <Box
+              component="span"
+              sx={{
+                display: 'block',
+                fontSize: { xs: '2.4rem', sm: '3.2rem', md: '4.8rem' },
+                fontWeight: 900,
+                letterSpacing: { xs: '2px', md: '4px' },
+                color: '#ffd166',
+                textShadow: '0 0 8px rgba(255, 209, 102, 0.35), 3px 3px 12px rgba(0,0,0,0.55)',
+                WebkitTextStroke: '1px rgba(255, 255, 255, 0.25)',
+              }}
+            >
+              SMANSABA
+            </Box>
           </Typography>
           
           <Typography 
