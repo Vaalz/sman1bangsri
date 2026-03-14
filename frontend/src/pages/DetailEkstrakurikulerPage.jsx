@@ -354,7 +354,6 @@ const DetailEkstrakurikulerPage = () => {
               </Typography>
               <Box
                 sx={{
-                  display: 'flex',
                   alignItems: 'center',
                   gap: 1,
                   justifyContent: { xs: 'center', md: 'flex-start' },
