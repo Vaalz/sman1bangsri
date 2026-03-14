@@ -2,10 +2,21 @@ import { Box, Container, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import smansabaImage from '../assets/image/smansaba.jpg';
+import smansabaImage2 from '../assets/image/smansaba2.jpg';
+import smansabaImage3 from '../assets/image/smansaba3.jpg';
+import smansabaImage4 from '../assets/image/smansaba4.jpg';
 
 const Hero = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const backgroundImages = [
+    smansabaImage,
+    smansabaImage2,
+    smansabaImage3,
+    smansabaImage4,
+  ];
 
   useEffect(() => {
     // Trigger animation setelah component mount
@@ -14,6 +25,14 @@ const Hero = () => {
     }, 100);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [backgroundImages.length]);
 
   return (
     <Box
@@ -25,30 +44,36 @@ const Hero = () => {
         position: 'relative',
         padding: { xs: '0 16px', md: '0' },
         overflow: 'hidden',
-        '@keyframes zoomIn': {
-          from: {
-            transform: 'scale(1.1)',
-          },
-          to: {
-            transform: 'scale(1)',
-          },
-        },
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `url(${smansabaImage})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          animation: 'zoomIn 1.5s ease-out',
-          zIndex: 0,
-        },
-        '&::after': {
-          content: '""',
+      }}
+    >
+      {/* Background slideshow layers */}
+      {backgroundImages.map((image, index) => {
+        const isActive = index === currentSlide;
+        return (
+          <Box
+            key={image}
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundImage: `url(${image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              opacity: isActive ? 1 : 0,
+              transform: isActive ? 'scale(1.05)' : 'scale(1)',
+              transition: 'opacity 1.2s ease-in-out, transform 6s ease-in-out',
+              zIndex: 0,
+            }}
+          />
+        );
+      })}
+
+      {/* Dark overlay */}
+      <Box
+        sx={{
           position: 'absolute',
           top: 0,
           left: 0,
@@ -56,9 +81,9 @@ const Hero = () => {
           bottom: 0,
           background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))',
           zIndex: 1,
-        },
-      }}
-    >
+        }}
+      />
+
       <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 2 }}>
         <Box
           sx={{
