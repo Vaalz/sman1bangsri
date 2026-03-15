@@ -44,6 +44,26 @@ function AdminGaleri() {
     return fallback;
   };
 
+  const normalizeDateForInput = (value) => {
+    if (!value) return '';
+
+    if (typeof value === 'string') {
+      if (value.includes('T')) {
+        return value.split('T')[0];
+      }
+
+      if (value.includes('/')) {
+        const parts = value.split('/');
+        if (parts.length === 3) {
+          const [day, month, year] = parts;
+          return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+      }
+    }
+
+    return value;
+  };
+
   // Format tanggal
   const formatDate = (dateString) => {
     if (!dateString) return '';
@@ -112,13 +132,16 @@ function AdminGaleri() {
 
   const handleAdd = () => {
     setEditingId(null);
-    setFormData({});
+    setFormData({ tanggal: '' });
     setOpenModal(true);
   };
 
   const handleEdit = (row) => {
     setEditingId(row.id);
-    setFormData(row);
+    setFormData({
+      ...row,
+      tanggal: normalizeDateForInput(row.tanggal),
+    });
     setOpenModal(true);
   };
 
@@ -136,15 +159,20 @@ function AdminGaleri() {
 
   const handleSubmit = async (data) => {
     try {
+      const payload = {
+        ...data,
+        tanggal: normalizeDateForInput(data.tanggal),
+      };
+
       if (!editingId && !(data.foto instanceof File)) {
         alert('Foto wajib diupload saat menambah data galeri');
         return;
       }
 
       if (editingId) {
-        await updateGaleri(editingId, data);
+        await updateGaleri(editingId, payload);
       } else {
-        await createGaleri(data);
+        await createGaleri(payload);
       }
       setOpenModal(false);
       setFormData({});
