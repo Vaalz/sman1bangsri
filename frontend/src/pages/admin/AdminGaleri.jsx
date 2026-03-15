@@ -4,7 +4,7 @@ import CrudTable from '../../components/admin/CrudTable';
 import CrudModal from '../../components/admin/CrudModal';
 import { getAdminGaleri, createGaleri, updateGaleri, deleteGaleri, getImageUrl } from '../../services/api';
 
-const formFields = [
+const baseFormFields = [
   { name: 'judul', label: 'Judul Foto', required: true },
   { name: 'kategori', label: 'Kategori', required: true },
   { name: 'caption', label: 'Caption/Keterangan', multiline: true, rows: 3, required: false },
@@ -19,6 +19,30 @@ function AdminGaleri() {
   const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({});
   const [editingId, setEditingId] = useState(null);
+
+  const formFields = baseFormFields.map((field) =>
+    field.name === 'foto'
+      ? { ...field, required: !editingId }
+      : field
+  );
+
+  const getErrorMessage = (err, fallback = 'Gagal menyimpan data') => {
+    const responseData = err?.response?.data;
+
+    if (responseData?.message) {
+      return responseData.message;
+    }
+
+    if (responseData?.errors) {
+      const firstKey = Object.keys(responseData.errors)[0];
+      const firstError = firstKey ? responseData.errors[firstKey]?.[0] : null;
+      if (firstError) {
+        return firstError;
+      }
+    }
+
+    return fallback;
+  };
 
   // Format tanggal
   const formatDate = (dateString) => {
@@ -112,6 +136,11 @@ function AdminGaleri() {
 
   const handleSubmit = async (data) => {
     try {
+      if (!editingId && !(data.foto instanceof File)) {
+        alert('Foto wajib diupload saat menambah data galeri');
+        return;
+      }
+
       if (editingId) {
         await updateGaleri(editingId, data);
       } else {
@@ -121,7 +150,7 @@ function AdminGaleri() {
       setFormData({});
       fetchData(); // Refresh data
     } catch (err) {
-      alert('Gagal menyimpan data');
+      alert(getErrorMessage(err));
       console.error('Error saving galeri:', err);
     }
   };
