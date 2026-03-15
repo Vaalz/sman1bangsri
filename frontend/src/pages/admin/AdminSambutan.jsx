@@ -2,7 +2,14 @@ import { useState, useEffect } from 'react';
 import { Box, Avatar, CircularProgress, Alert } from '@mui/material';
 import CrudTable from '../../components/admin/CrudTable';
 import CrudModal from '../../components/admin/CrudModal';
-import { getAdminSambutan, createSambutan, updateSambutan, deleteSambutan, getImageUrl } from '../../services/api';
+import {
+  getAdminSambutan,
+  getAdminSambutanById,
+  createSambutan,
+  updateSambutan,
+  deleteSambutan,
+  getImageUrl
+} from '../../services/api';
 
 const formFields = [
   { name: 'nama', label: 'Nama Lengkap', required: true },
@@ -65,9 +72,17 @@ function AdminSambutan() {
     setOpenModal(true);
   };
 
-  const handleEdit = (row) => {
+  const handleEdit = async (row) => {
     setEditingId(row.id);
-    setFormData(row);
+    try {
+      const response = await getAdminSambutanById(row.id);
+      const detail = response?.data?.data || {};
+      setFormData({ ...row, ...detail });
+    } catch (err) {
+      setFormData({ ...row });
+      alert('Gagal memuat detail sambutan');
+      console.error(err);
+    }
     setOpenModal(true);
   };
 

@@ -269,6 +269,7 @@ export const deleteCourse = (id) => api.delete(`/admin/courses/${id}`);
 
 // Admin Sambutan
 export const getAdminSambutan = (params = {}) => api.get('/admin/sambutan', { params });
+export const getAdminSambutanById = (id) => api.get(`/admin/sambutan/${id}`);
 export const createSambutan = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
