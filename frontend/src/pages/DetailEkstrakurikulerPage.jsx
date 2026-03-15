@@ -530,7 +530,7 @@ const DetailEkstrakurikulerPage = () => {
                   </Typography>
                   <Grid container spacing={3}>
                     {struktur.map((member) => (
-                      <Grid item xs={6} sm={4} md={3} key={member.id}>
+                      <Grid item xs={12} sm={6} md={4} lg={3} key={member.id}>
                         <Card
                           sx={{
                             borderRadius: '12px',
@@ -538,7 +538,7 @@ const DetailEkstrakurikulerPage = () => {
                             padding: '24px 16px',
                             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                             height: '100%',
-                            minHeight: '280px',
+                            minHeight: { xs: '240px', sm: '280px' },
                             display: 'flex',
                             flexDirection: 'column',
                             alignItems: 'center',
@@ -548,11 +548,11 @@ const DetailEkstrakurikulerPage = () => {
                           <Avatar
                             src={member.foto ? getImageUrl(member.foto) : ''}
                             sx={{
-                              width: 100,
-                              height: 100,
+                              width: { xs: 84, sm: 100 },
+                              height: { xs: 84, sm: 100 },
                               margin: '0 auto 16px',
                               border: '4px solid #ed6c02',
-                              fontSize: '2rem',
+                              fontSize: { xs: '1.6rem', sm: '2rem' },
                               fontWeight: 700,
                               backgroundColor: '#fff3e0',
                               color: '#ed6c02',
@@ -562,7 +562,7 @@ const DetailEkstrakurikulerPage = () => {
                           </Avatar>
                           <Typography
                             sx={{
-                              fontSize: '1rem',
+                              fontSize: { xs: '0.95rem', sm: '1rem' },
                               fontWeight: 700,
                               color: '#333',
                               mb: 1,
@@ -636,7 +636,7 @@ const DetailEkstrakurikulerPage = () => {
                             overflow: 'hidden',
                             boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                             height: '100%',
-                            minHeight: '320px',
+                            minHeight: { xs: '300px', sm: '320px' },
                             display: 'flex',
                             flexDirection: 'column',
                           }}
@@ -648,7 +648,7 @@ const DetailEkstrakurikulerPage = () => {
                               alt={item.nama_prestasi}
                               sx={{
                                 width: '100%',
-                                height: 160,
+                                height: { xs: 140, sm: 160 },
                                 objectFit: 'cover',
                               }}
                             />
@@ -656,7 +656,7 @@ const DetailEkstrakurikulerPage = () => {
                             <Box
                               sx={{
                                 width: '100%',
-                                height: 160,
+                                height: { xs: 140, sm: 160 },
                                 backgroundColor: '#ffebee',
                                 display: 'flex',
                                 alignItems: 'center',

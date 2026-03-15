@@ -310,7 +310,7 @@ const WelcomeSection = () => {
               flexDirection: 'column',
               alignItems: 'center',
               minWidth: { xs: '100%', md: '280px' },
-              maxWidth: { xs: '280px', md: 'none' },
+              maxWidth: { xs: '100%', sm: '320px', md: 'none' },
               margin: { xs: '0 auto', md: '0' },
               position: 'relative',
             }}
@@ -391,7 +391,7 @@ const WelcomeSection = () => {
             <Paper
               elevation={3}
               sx={{
-                width: { xs: '240px', sm: '280px' },
+                width: { xs: 'min(88vw, 280px)', sm: '280px' },
                 height: { xs: '300px', sm: '350px' },
                 overflow: 'hidden',
                 borderRadius: '12px',
@@ -483,7 +483,7 @@ const WelcomeSection = () => {
               />
               <FormatQuote 
                 sx={{
-                  fontSize: '48px',
+                  fontSize: { xs: '40px', md: '48px' },
                   color: '#34495e',
                   opacity: 0.3,
                   position: 'relative',

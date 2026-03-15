@@ -58,9 +58,8 @@ const ArticleSection = () => {
   // Skeleton Loading Component
   const SkeletonCard = () => (
     <Card sx={{ 
-      minWidth: { xs: '280px', sm: '320px' },
-      width: { xs: '100%', sm: 'calc(33.333% - 16px)', md: '320px' },
-      maxWidth: { xs: '100%', sm: '320px' },
+      width: { xs: '100%', sm: 'calc(50% - 12px)', lg: '320px' },
+      maxWidth: '360px',
       minHeight: '420px',
       borderRadius: '16px', 
       overflow: 'hidden',
@@ -151,10 +150,9 @@ const ArticleSection = () => {
                 key={article.id}
                 onClick={() => navigate(`/detail-berita/${article.slug || article.id}`)}
                 sx={{
-                  minWidth: { xs: '280px', sm: '320px' },
                   minHeight: '420px',
-                  width: { xs: '100%', sm: 'calc(33.333% - 16px)', md: '320px' },
-                  maxWidth: { xs: '100%', sm: '320px' },
+                  width: { xs: '100%', sm: 'calc(50% - 12px)', lg: '320px' },
+                  maxWidth: '360px',
                   display: 'flex',
                   flexDirection: 'column',
                   borderRadius: '16px',

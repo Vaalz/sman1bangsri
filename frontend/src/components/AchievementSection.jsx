@@ -63,10 +63,9 @@ const AchievementSection = () => {
   const SkeletonCard = () => (
     <Card
       sx={{
-        minWidth: { xs: '280px', sm: '320px' },
         minHeight: { xs: '340px', sm: '360px' },
-        width: { xs: '100%', sm: '320px' },
-        maxWidth: { xs: '320px', sm: 'none' },
+        width: { xs: '100%', sm: 'calc(50% - 12px)', lg: '320px' },
+        maxWidth: '360px',
         backgroundColor: 'transparent',
         border: '2px solid rgba(255,255,255,0.2)',
         borderRadius: '16px',
@@ -294,10 +293,9 @@ const AchievementSection = () => {
                 key={achievement.id}
                 onClick={() => navigate(`/prestasi/detail-prestasi/${achievement.id}`)}
                 sx={{
-                  minWidth: { xs: '280px', sm: '320px' },
                   minHeight: { xs: '340px', sm: '360px' },
-                  width: { xs: '100%', sm: '320px' },
-                  maxWidth: { xs: '320px', sm: 'none' },
+                  width: { xs: '100%', sm: 'calc(50% - 12px)', lg: '320px' },
+                  maxWidth: '360px',
                   backgroundColor: 'transparent',
                   border: '2px solid rgba(255,255,255,0.2)',
                   borderRadius: '16px',

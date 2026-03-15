@@ -2,12 +2,16 @@ import { useState } from 'react';
 import { Box, Drawer, AppBar, Toolbar, Typography, IconButton, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Divider } from '@mui/material';
 import { Menu as MenuIcon, Dashboard, Article, Photo, People, EmojiEvents, Sports, School, RecordVoiceOver, Info, ContactMail, Settings, ExitToApp, SupervisorAccount, WorkspacePremium } from '@mui/icons-material';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import authService from '../../services/authService';
 
 const drawerWidth = 260;
 
 function AdminLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const theme = useTheme();
+  const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const navigate = useNavigate();
   const location = useLocation();
   const currentUser = authService.getStoredUser();
@@ -98,8 +102,8 @@ function AdminLayout() {
       <AppBar
         position="fixed"
         sx={{
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },
+          width: { lg: `calc(100% - ${drawerWidth}px)` },
+          ml: { lg: `${drawerWidth}px` },
         }}
       >
         <Toolbar>
@@ -108,7 +112,7 @@ function AdminLayout() {
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+            sx={{ mr: 2, display: { lg: 'none' } }}
           >
             <MenuIcon />
           </IconButton>
@@ -119,7 +123,7 @@ function AdminLayout() {
       </AppBar>
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{ width: { lg: drawerWidth }, flexShrink: { lg: 0 } }}
       >
         <Drawer
           variant="temporary"
@@ -129,7 +133,7 @@ function AdminLayout() {
             keepMounted: true,
           }}
           sx={{
-            display: { xs: 'block', sm: 'none' },
+            display: { xs: 'block', lg: 'none' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
         >
@@ -138,10 +142,10 @@ function AdminLayout() {
         <Drawer
           variant="permanent"
           sx={{
-            display: { xs: 'none', sm: 'block' },
+            display: { xs: 'none', lg: 'block' },
             '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
           }}
-          open
+          open={isDesktop}
         >
           {drawer}
         </Drawer>
@@ -150,8 +154,8 @@ function AdminLayout() {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          p: { xs: 2, sm: 3 },
+          width: { lg: `calc(100% - ${drawerWidth}px)` },
           mt: 8,
           backgroundColor: '#f5f5f5',
           minHeight: '100vh',

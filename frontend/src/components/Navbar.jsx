@@ -116,7 +116,7 @@ const Navbar = () => {
   const drawer = (
     <Box
       sx={{
-        width: 280,
+        width: 'min(86vw, 320px)',
         height: '100%',
         backgroundColor: '#ffffff',
         display: 'flex',
@@ -156,7 +156,7 @@ const Navbar = () => {
             <Box
               component="span"
               sx={{
-                fontSize: '16px',
+                    fontSize: { xs: '14px', sm: '16px' },
                 fontWeight: 700,
                 color: '#34495e',
                 lineHeight: 1.2,
@@ -168,7 +168,7 @@ const Navbar = () => {
             <Box
               component="span"
               sx={{
-                fontSize: '11px',
+                    fontSize: { xs: '10px', sm: '11px' },
                 fontWeight: 400,
                 color: '#666',
                 fontStyle: 'italic',
@@ -288,7 +288,7 @@ const Navbar = () => {
                   <Box
                     component="span"
                     sx={{
-                      fontSize: { xs: '16px', sm: '20px', md: '24px' },
+                      fontSize: { xs: '14px', sm: '18px', md: '22px' },
                       fontWeight: 700,
                       color: scrolled ? '#34495e' : '#ffffff',
                       lineHeight: 1.2,
@@ -301,7 +301,8 @@ const Navbar = () => {
                   <Box
                     component="span"
                     sx={{
-                      fontSize: { xs: '10px', sm: '12px', md: '14px' },
+                      display: { xs: 'none', sm: 'inline' },
+                      fontSize: { sm: '11px', md: '13px' },
                       fontWeight: 400,
                       color: scrolled ? '#666' : '#ffffff',
                       fontStyle: 'italic',
@@ -315,7 +316,7 @@ const Navbar = () => {
             </Box>
 
             {/* Desktop Menu */}
-            <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' }, gap: 1 }}>
+            <Box sx={{ flexGrow: 0, display: { xs: 'none', lg: 'flex' }, gap: 1 }}>
               {menuItems.map((item) => (
                 <Box 
                   key={item.label} 
@@ -410,7 +411,7 @@ const Navbar = () => {
               edge="end"
               onClick={handleDrawerToggle}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', lg: 'none' },
                 color: scrolled ? '#333' : '#ffffff',
               }}
             >
@@ -430,10 +431,10 @@ const Navbar = () => {
           keepMounted: true, // Better open performance on mobile.
         }}
         sx={{
-          display: { xs: 'block', md: 'none' },
+          display: { xs: 'block', lg: 'none' },
           '& .MuiDrawer-paper': { 
             boxSizing: 'border-box', 
-            width: 280,
+            width: 'min(86vw, 320px)',
           },
         }}
       >

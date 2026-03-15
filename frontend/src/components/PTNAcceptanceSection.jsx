@@ -92,18 +92,20 @@ const PTNAcceptanceSection = () => {
           className="scroll-container"
           sx={{
             display: 'flex',
-            gap: 4,
-            animation: `${scroll} 25s linear infinite`,
+            gap: { xs: 2, md: 4 },
+            animation: { xs: 'none', md: `${scroll} 25s linear infinite` },
             width: 'fit-content',
-            paddingLeft: '20px',
+            paddingLeft: { xs: '12px', md: '20px' },
+            paddingRight: { xs: '12px', md: 0 },
           }}
         >
           {duplicatedStudents.map((student, index) => (
             <Card
               key={`${student.id}-${index}`}
               sx={{
-                minWidth: '300px',
-                width: '300px',
+                minWidth: { xs: '78vw', sm: '280px', md: '300px' },
+                width: { xs: '78vw', sm: '280px', md: '300px' },
+                maxWidth: { xs: '320px', md: '300px' },
                 borderRadius: '16px',
                 overflow: 'hidden',
                 position: 'relative',
@@ -125,7 +127,7 @@ const PTNAcceptanceSection = () => {
                 sx={{
                   position: 'relative',
                   width: '100%',
-                  height: '380px',
+                  height: { xs: '300px', sm: '340px', md: '380px' },
                   overflow: 'hidden',
                 }}
               >
@@ -212,7 +214,7 @@ const PTNAcceptanceSection = () => {
                   <Typography
                     variant="h3"
                     sx={{
-                      fontSize: '1.5rem',
+                      fontSize: { xs: '1.15rem', sm: '1.35rem', md: '1.5rem' },
                       fontWeight: 700,
                       marginBottom: '6px',
                       textShadow: '2px 2px 4px rgba(0,0,0,0.3)',
@@ -253,7 +255,7 @@ const PTNAcceptanceSection = () => {
               <CardContent
                 className="info-section"
                 sx={{
-                  padding: '24px',
+                  padding: { xs: '16px', md: '24px' },
                   textAlign: 'center',
                   backgroundColor: '#fff',
                 }}

@@ -82,18 +82,19 @@ const ExtracurricularSection = () => {
             <Box
               sx={{
                 display: 'flex',
-                gap: 3,
+                gap: { xs: 2, md: 3 },
                 overflowX: 'auto',
                 overflowY: 'hidden',
                 paddingBottom: '20px',
+                scrollSnapType: 'x mandatory',
               }}
             >
               {[1, 2, 3, 4, 5, 6].map((index) => (
                 <Card
                   key={index}
                   sx={{
-                    minWidth: '220px',
-                    maxWidth: '220px',
+                    minWidth: { xs: '200px', sm: '220px' },
+                    maxWidth: { xs: '200px', sm: '220px' },
                     minHeight: '280px',
                     display: 'flex',
                     flexDirection: 'column',
@@ -102,6 +103,7 @@ const ExtracurricularSection = () => {
                     borderRadius: '12px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                     padding: '24px',
+                    scrollSnapAlign: 'start',
                   }}
                 >
                   {/* Skeleton Logo */}
@@ -172,10 +174,11 @@ const ExtracurricularSection = () => {
           <Box
             sx={{
               display: 'flex',
-              gap: 3,
+              gap: { xs: 2, md: 3 },
               overflowX: 'auto',
               overflowY: 'hidden',
               paddingBottom: '20px',
+              scrollSnapType: 'x mandatory',
               '&::-webkit-scrollbar': {
                 height: '8px',
               },
@@ -200,8 +203,8 @@ const ExtracurricularSection = () => {
                   key={ekskul.id}
                   onClick={() => navigate(`/ekstrakurikuler/detail-ekstrakurikuler/${ekskul.id}`)}
                   sx={{
-                    minWidth: '220px',
-                    maxWidth: '220px',
+                    minWidth: { xs: '200px', sm: '220px' },
+                    maxWidth: { xs: '200px', sm: '220px' },
                     minHeight: '280px',
                     display: 'flex',
                     flexDirection: 'column',
@@ -211,6 +214,7 @@ const ExtracurricularSection = () => {
                     boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
                     padding: '24px',
                     cursor: 'pointer',
+                    scrollSnapAlign: 'start',
                     transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                     '&:hover': {
                       transform: 'translateY(-4px)',

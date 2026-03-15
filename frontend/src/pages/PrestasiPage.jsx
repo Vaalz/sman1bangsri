@@ -57,10 +57,9 @@ const PrestasiPage = () => {
   const SkeletonCard = () => (
     <Card
       sx={{
-        minWidth: { xs: '280px', sm: '320px' },
         minHeight: '420px',
-        width: { xs: '100%', sm: '320px' },
-        maxWidth: { xs: '320px', sm: 'none' },
+        width: { xs: '100%', sm: 'calc(50% - 12px)', lg: '320px' },
+        maxWidth: '360px',
         borderRadius: '16px',
         overflow: 'hidden',
       }}
@@ -172,10 +171,9 @@ const PrestasiPage = () => {
                 <Card
                   key={prestasi.id}
                   sx={{
-                    minWidth: { xs: '280px', sm: '320px' },
                     minHeight: '420px',
-                    width: { xs: '100%', sm: '320px' },
-                    maxWidth: { xs: '320px', sm: 'none' },
+                    width: { xs: '100%', sm: 'calc(50% - 12px)', lg: '320px' },
+                    maxWidth: '360px',
                     display: 'flex',
                     flexDirection: 'column',
                     borderRadius: '16px',

@@ -42,6 +42,8 @@ const Footer = () => {
                 flexDirection: 'column',
                 gap: 2,
                 padding: { xs: '0 16px', md: '0' },
+                textAlign: { xs: 'center', md: 'left' },
+                alignItems: { xs: 'center', md: 'flex-start' },
               }}
             >
               <Box
@@ -49,6 +51,7 @@ const Footer = () => {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 2,
+                  justifyContent: { xs: 'center', md: 'flex-start' },
                 }}
               >
                 <Box
@@ -104,6 +107,7 @@ const Footer = () => {
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
+                    justifyContent: { xs: 'center', md: 'flex-start' },
                   }}
                 >
                   <PhoneIcon sx={{ fontSize: '1.2rem', color: '#34495e' }} />
@@ -126,6 +130,7 @@ const Footer = () => {
                   display: 'flex',
                   gap: 1,
                   marginTop: '8px',
+                  justifyContent: { xs: 'center', md: 'flex-start' },
                 }}
               >
                 <IconButton
@@ -214,7 +219,7 @@ const Footer = () => {
 
           {/* Menu Utama */}
           <Grid item xs={12} sm={6} md={2}>
-            <Box sx={{ padding: { xs: '0 16px', md: '0' } }}>
+            <Box sx={{ padding: { xs: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
               <Typography
                 variant="h6"
                 sx={{
@@ -259,7 +264,7 @@ const Footer = () => {
 
           {/* Lain - Lain */}
           <Grid item xs={12} sm={6} md={2}>
-            <Box sx={{ padding: { xs: '0 16px', md: '0' } }}>
+            <Box sx={{ padding: { xs: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
             <Typography
               variant="h6"
               sx={{
@@ -312,6 +317,7 @@ const Footer = () => {
                 color: '#2c3e50',
                 fontSize: { xs: '1.1rem', md: '1.2rem' },
                 marginBottom: { xs: '16px', md: '20px' },
+                textAlign: { xs: 'center', md: 'left' },
               }}
             >
               Maps

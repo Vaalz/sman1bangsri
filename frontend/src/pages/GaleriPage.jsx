@@ -191,7 +191,9 @@ const GaleriPage = () => {
                 <Grid item xs={12} sm={6} md={4} key={item.id} sx={{ display: 'flex', justifyContent: 'center' }}>
                   <Card
                     sx={{
-                      width: '320px',
+                      width: '100%',
+                      maxWidth: '340px',
+                      mx: 'auto',
                       height: { xs: 'auto', sm: '420px' },
                       minHeight: { xs: '380px', sm: '420px' },
                       display: 'flex',

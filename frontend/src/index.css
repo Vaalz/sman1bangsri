@@ -30,6 +30,29 @@ body {
   background-color: #ffffff;
 }
 
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+.MuiCard-root {
+  max-width: 100%;
+}
+
+.MuiTableContainer-root {
+  width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 899px) {
+  .MuiDialog-paper {
+    width: calc(100% - 24px);
+    margin: 12px;
+  }
+}
+
 a {
   text-decoration: none;
   color: inherit;

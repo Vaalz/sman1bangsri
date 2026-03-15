@@ -29,10 +29,9 @@ const GuruPage = () => {
   const SkeletonCard = () => (
     <Card
       sx={{
-        minWidth: { xs: '180px', sm: '230px' },
         minHeight: { xs: '300px', sm: '320px' },
-        width: { xs: '100%', sm: '230px' },
-        maxWidth: { xs: '230px', sm: 'none' },
+        width: { xs: '100%', sm: 'calc(50% - 8px)', lg: '230px' },
+        maxWidth: '280px',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -146,10 +145,9 @@ const GuruPage = () => {
                 <Card
                   key={guru.id}
                   sx={{
-                    minWidth: { xs: '180px', sm: '230px' },
                     minHeight: { xs: '300px', sm: '320px' },
-                    width: { xs: '100%', sm: '230px' },
-                    maxWidth: { xs: '230px', sm: 'none' },
+                    width: { xs: '100%', sm: 'calc(50% - 8px)', lg: '230px' },
+                    maxWidth: '280px',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
