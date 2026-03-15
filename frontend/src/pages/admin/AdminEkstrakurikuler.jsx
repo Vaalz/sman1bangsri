@@ -91,11 +91,50 @@ function AdminEkstrakurikuler() {
       { value: 'Sabtu', label: 'Sabtu' },
       { value: 'Minggu', label: 'Minggu' },
     ]},
-    { name: 'waktu_mulai', label: 'Waktu Mulai (HH:MM)', required: true, placeholder: '14:00' },
-    { name: 'waktu_selesai', label: 'Waktu Selesai (HH:MM)', required: true, placeholder: '16:00' },
+    { name: 'waktu_mulai', label: 'Waktu Mulai (HH:MM)', required: true, type: 'time' },
+    { name: 'waktu_selesai', label: 'Waktu Selesai (HH:MM)', required: true, type: 'time' },
     { name: 'tempat', label: 'Tempat', required: true },
     { name: 'keterangan', label: 'Keterangan', multiline: true, rows: 3, required: false },
   ];
+
+  const normalizeTimeForApi = (value) => {
+    if (!value) return value;
+
+    const normalized = String(value).trim().replace('.', ':');
+    const parts = normalized.split(':');
+
+    if (parts.length >= 2) {
+      const hour = String(parts[0]).padStart(2, '0');
+      const minute = String(parts[1]).padStart(2, '0');
+      return `${hour}:${minute}`;
+    }
+
+    return normalized;
+  };
+
+  const normalizeJadwalPayload = (data) => ({
+    ...data,
+    waktu_mulai: normalizeTimeForApi(data.waktu_mulai),
+    waktu_selesai: normalizeTimeForApi(data.waktu_selesai),
+  });
+
+  const getErrorMessage = (err, fallback = 'Gagal menyimpan data') => {
+    const responseData = err?.response?.data;
+
+    if (responseData?.message) {
+      return responseData.message;
+    }
+
+    if (responseData?.errors) {
+      const firstKey = Object.keys(responseData.errors)[0];
+      const firstError = firstKey ? responseData.errors[firstKey]?.[0] : null;
+      if (firstError) {
+        return firstError;
+      }
+    }
+
+    return fallback;
+  };
 
   const getStrukturFormFields = () => [
     { name: 'ekstrakurikuler_id', label: 'Ekstrakurikuler', required: true, type: 'select', options: ekskul.map(e => ({ value: e.id, label: e.nama })) },
@@ -214,7 +253,15 @@ function AdminEkstrakurikuler() {
   const handleEdit = (row, tab) => {
     setCurrentTab(tab);
     setEditingId(row.id);
-    setFormData(row);
+    if (tab === 'jadwal') {
+      setFormData({
+        ...row,
+        waktu_mulai: normalizeTimeForApi(row.waktu_mulai),
+        waktu_selesai: normalizeTimeForApi(row.waktu_selesai),
+      });
+    } else {
+      setFormData(row);
+    }
     setOpenModal(true);
   };
 
@@ -250,8 +297,9 @@ function AdminEkstrakurikuler() {
         else await createEkstrakurikuler(data);
         fetchEkskul();
       } else if (currentTab === 'jadwal') {
-        if (editingId) await updateJadwalEkstrakurikuler(editingId, data);
-        else await createJadwalEkstrakurikuler(data);
+        const payload = normalizeJadwalPayload(data);
+        if (editingId) await updateJadwalEkstrakurikuler(editingId, payload);
+        else await createJadwalEkstrakurikuler(payload);
         fetchJadwal();
       } else if (currentTab === 'struktur') {
         if (editingId) await updateStrukturEkstrakurikuler(editingId, data);
@@ -266,7 +314,7 @@ function AdminEkstrakurikuler() {
       setOpenModal(false);
       setFormData({});
     } catch (err) {
-      alert('Gagal menyimpan data');
+      alert(getErrorMessage(err));
       console.error(err);
     }
   };
