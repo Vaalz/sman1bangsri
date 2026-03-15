@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Box, CircularProgress, Alert } from '@mui/material';
 import CrudTable from '../../components/admin/CrudTable';
 import CrudModal from '../../components/admin/CrudModal';
@@ -20,10 +20,14 @@ function AdminGaleri() {
   const [formData, setFormData] = useState({});
   const [editingId, setEditingId] = useState(null);
 
-  const formFields = baseFormFields.map((field) =>
-    field.name === 'foto'
-      ? { ...field, required: !editingId }
-      : field
+  const formFields = useMemo(
+    () =>
+      baseFormFields.map((field) =>
+        field.name === 'foto'
+          ? { ...field, required: !editingId }
+          : field
+      ),
+    [editingId]
   );
 
   const getErrorMessage = (err, fallback = 'Gagal menyimpan data') => {

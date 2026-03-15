@@ -11,16 +11,39 @@ const api = axios.create({
   },
 });
 
+const isFileField = (key) =>
+  key.includes('foto') ||
+  key.includes('file') ||
+  key.includes('gambar') ||
+  key.includes('logo') ||
+  key.includes('icon');
+
+const isFileLike = (value) => {
+  if (!value) return false;
+
+  if (typeof File !== 'undefined' && value instanceof File) return true;
+  if (typeof Blob !== 'undefined' && value instanceof Blob) return true;
+
+  return false;
+};
+
 // Helper function to append data to FormData, skip file fields if not actual File object
 const appendFormData = (formData, data, isUpdate = false) => {
   Object.keys(data).forEach(key => {
     const value = data[key];
     // Skip if null or undefined
     if (value === null || value === undefined) return;
+
+    if (isFileField(key)) {
+      // Only append real uploaded files for file fields.
+      if (isFileLike(value)) {
+        formData.append(key, value);
+      }
+      return;
+    }
     
     // For update operations, only append file fields if they are actual File objects
-    if (isUpdate && typeof value === 'string' && 
-        (key.includes('foto') || key.includes('file') || key.includes('gambar') || key.includes('logo') || key.includes('icon'))) {
+    if (isUpdate && typeof value === 'string' && isFileField(key)) {
       // Skip - this is an old file path, not a new upload
       return;
     }
@@ -36,6 +59,12 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
+    if (config.data instanceof FormData) {
+      // Let browser set multipart boundary automatically.
+      delete config.headers['Content-Type'];
+    }
+
     return config;
   },
   (error) => {

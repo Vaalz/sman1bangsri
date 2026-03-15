@@ -62,7 +62,7 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
     });
 
     setPreview(existingPreview);
-  }, [open, fields]);
+  }, [open]);
 
   const getExistingFileLabel = (value) => {
     if (!value) return 'Belum ada file dipilih';
