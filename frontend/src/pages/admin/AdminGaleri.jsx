@@ -169,6 +169,11 @@ function AdminGaleri() {
         return;
       }
 
+      if (data.foto instanceof File && data.foto.size > 2 * 1024 * 1024) {
+        alert('Ukuran foto maksimal 2 MB');
+        return;
+      }
+
       if (editingId) {
         await updateGaleri(editingId, payload);
       } else {

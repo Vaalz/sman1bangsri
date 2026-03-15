@@ -21,6 +21,25 @@ import { getImageUrl } from '../../services/api';
 function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormData }) {
   const [preview, setPreview] = useState({});
 
+  const normalizeDateValue = (value) => {
+    if (!value) return '';
+    if (typeof value !== 'string') return '';
+
+    if (value.includes('T')) {
+      return value.split('T')[0];
+    }
+
+    if (value.includes('/')) {
+      const parts = value.split('/');
+      if (parts.length === 3) {
+        const [day, month, year] = parts;
+        return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      }
+    }
+
+    return value;
+  };
+
   useEffect(() => {
     if (!open) return;
 
@@ -43,7 +62,7 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
     });
 
     setPreview(existingPreview);
-  }, [open, fields, formData]);
+  }, [open, fields]);
 
   const getExistingFileLabel = (value) => {
     if (!value) return 'Belum ada file dipilih';
@@ -57,10 +76,13 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
   };
 
   const handleChange = (field) => (event) => {
-    const value = event.target.type === 'file' ? event.target.files[0] : event.target.value;
+    const isFileInput = event.target.type === 'file';
+    const rawValue = isFileInput ? event.target.files[0] : event.target.value;
+    const fieldConfig = fields.find((item) => item.name === field);
+    const value = fieldConfig?.type === 'date' ? normalizeDateValue(rawValue) : rawValue;
     
     // Create preview for image files
-    if (event.target.type === 'file' && event.target.files[0]) {
+    if (isFileInput && event.target.files[0]) {
       const file = event.target.files[0];
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
@@ -167,7 +189,7 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
         multiline={field.multiline || false}
         rows={field.rows || 1}
         required={field.required !== false}
-        value={formData[field.name] || ''}
+        value={field.type === 'date' ? normalizeDateValue(formData[field.name]) : (formData[field.name] || '')}
         onChange={handleChange(field.name)}
         placeholder={field.placeholder || ''}
         fullWidth

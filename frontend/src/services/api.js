@@ -115,17 +115,13 @@ export const getAdminGaleri = (params = {}) => api.get('/admin/galeri', { params
 export const createGaleri = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
-  return api.post('/admin/galeri', formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  });
+  return api.post('/admin/galeri', formData);
 };
 export const updateGaleri = (id, data) => {
   const formData = new FormData();
   formData.append('_method', 'PUT');
   appendFormData(formData, data, true);
-  return api.post(`/admin/galeri/${id}`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
-  });
+  return api.post(`/admin/galeri/${id}`, formData);
 };
 export const deleteGaleri = (id) => api.delete(`/admin/galeri/${id}`);
 
