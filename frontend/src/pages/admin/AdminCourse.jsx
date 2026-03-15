@@ -69,18 +69,46 @@ function AdminCourse() {
     }
   };
 
+  const normalizeLink = (value) => {
+    if (!value || typeof value !== 'string') return '';
+    const trimmed = value.trim();
+    if (!trimmed) return '';
+    if (/^https?:\/\//i.test(trimmed)) return trimmed;
+    return `https://${trimmed}`;
+  };
+
+  const getApiErrorMessage = (err, fallback) => {
+    const validationErrors = err?.response?.data?.errors;
+    if (validationErrors && typeof validationErrors === 'object') {
+      const firstField = Object.keys(validationErrors)[0];
+      const firstMessage = validationErrors[firstField]?.[0];
+      if (firstMessage) return firstMessage;
+    }
+
+    return err?.response?.data?.message || fallback;
+  };
+
   const handleSubmit = async (data) => {
     try {
+      const payload = {
+        ...data,
+        judul: data.judul?.trim() || '',
+        mapel: data.mapel?.trim() || '',
+        kelas: data.kelas?.trim() || '',
+        deskripsi: data.deskripsi?.trim() || '',
+        link: normalizeLink(data.link),
+      };
+
       if (editingId) {
-        await updateCourse(editingId, data);
+        await updateCourse(editingId, payload);
       } else {
-        await createCourse(data);
+        await createCourse(payload);
       }
       setOpenModal(false);
       setFormData({});
       fetchData();
     } catch (err) {
-      alert('Gagal menyimpan data');
+      alert(getApiErrorMessage(err, 'Gagal menyimpan data'));
       console.error(err);
     }
   };

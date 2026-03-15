@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, Chip, CircularProgress, Alert } from '@mui/material';
 import CrudTable from '../../components/admin/CrudTable';
 import CrudModal from '../../components/admin/CrudModal';
-import { getAdminBerita, createBerita, updateBerita, deleteBerita } from '../../services/api';
+import { getAdminBerita, createBerita, updateBerita, deleteBerita, getImageUrl } from '../../services/api';
 
 const formFields = [
   { name: 'judul', label: 'Judul Berita', required: true },
@@ -44,6 +44,25 @@ function AdminBerita() {
 
   const columns = [
     { field: 'judul', headerName: 'Judul' },
+    {
+      field: 'foto',
+      headerName: 'Foto',
+      render: (value, row) => value ? (
+        <Box
+          component="img"
+          src={getImageUrl(value)}
+          alt={row.judul || 'Foto berita'}
+          sx={{
+            width: 88,
+            height: 56,
+            objectFit: 'cover',
+            borderRadius: 1,
+            border: '1px solid',
+            borderColor: 'divider'
+          }}
+        />
+      ) : '-'
+    },
     { field: 'kategori', headerName: 'Kategori' },
     { field: 'penulis', headerName: 'Penulis' },
     { 

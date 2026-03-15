@@ -15,10 +15,46 @@ import {
   Avatar,
 } from '@mui/material';
 import { Close, CloudUpload } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getImageUrl } from '../../services/api';
 
 function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormData }) {
   const [preview, setPreview] = useState({});
+
+  useEffect(() => {
+    if (!open) return;
+
+    const existingPreview = {};
+
+    fields.forEach((field) => {
+      if (field.type !== 'file') return;
+
+      const currentValue = formData?.[field.name];
+      if (typeof currentValue !== 'string' || !currentValue) return;
+
+      const accepted = String(field.accept || '').toLowerCase();
+      const likelyImage =
+        accepted.includes('image') ||
+        /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(currentValue);
+
+      if (likelyImage) {
+        existingPreview[field.name] = getImageUrl(currentValue);
+      }
+    });
+
+    setPreview(existingPreview);
+  }, [open, fields, formData]);
+
+  const getExistingFileLabel = (value) => {
+    if (!value) return 'Belum ada file dipilih';
+    if (typeof value === 'object' && value.name) return value.name;
+    if (typeof value === 'string') {
+      const normalized = value.replace(/\\/g, '/');
+      const parts = normalized.split('/');
+      return parts[parts.length - 1] || value;
+    }
+    return 'Belum ada file dipilih';
+  };
 
   const handleChange = (field) => (event) => {
     const value = event.target.type === 'file' ? event.target.files[0] : event.target.value;
@@ -101,8 +137,13 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
             />
           </Button>
           <Typography variant="caption" color="text.secondary" display="block">
-            {formData[field.name]?.name || 'Belum ada file dipilih'}
+            {getExistingFileLabel(formData[field.name])}
           </Typography>
+          {typeof formData[field.name] === 'string' && formData[field.name] && (
+            <Typography variant="caption" color="success.main" display="block">
+              File lama tetap digunakan jika tidak upload file baru
+            </Typography>
+          )}
           <Typography variant="caption" color="primary" display="block" sx={{ mb: 1, fontWeight: 600 }}>
             Maksimal {maxSize} • Format: {fileTypes}
           </Typography>
