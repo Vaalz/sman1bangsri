@@ -75,6 +75,7 @@ function AdminEkstrakurikuler() {
   const prestasiColumns = [
     { field: 'ekstrakurikuler_nama', headerName: 'Ekstrakurikuler' },
     { field: 'nama_prestasi', headerName: 'Nama Prestasi' },
+    { field: 'nama_siswa', headerName: 'Nama Siswa' },
     { field: 'juara', headerName: 'Juara' },
     { field: 'tingkat', headerName: 'Tingkat' },
     { field: 'tahun', headerName: 'Tahun' },
@@ -148,6 +149,7 @@ function AdminEkstrakurikuler() {
   const getPrestasiFormFields = () => [
     { name: 'ekstrakurikuler_id', label: 'Ekstrakurikuler', required: true, type: 'select', options: ekskul.map(e => ({ value: e.id, label: e.nama })) },
     { name: 'nama_prestasi', label: 'Nama Prestasi', required: true },
+    { name: 'nama_siswa', label: 'Nama Siswa', required: true, placeholder: 'Nama siswa peraih prestasi' },
     { name: 'juara', label: 'Juara', required: false, placeholder: 'Juara 1/Juara 2/dll' },
     { name: 'tingkat', label: 'Tingkat', required: true, type: 'select', options: [
       { value: 'Kecamatan', label: 'Kecamatan' },

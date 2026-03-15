@@ -35,6 +35,7 @@ class PrestasiEkstrakurikulerController extends Controller
         $validated = $request->validate([
             'ekstrakurikuler_id' => 'required|exists:ekstrakurikuler,id',
             'nama_prestasi' => 'required|string',
+            'nama_siswa' => 'required|string|max:255',
             'juara' => 'nullable|string',
             'tingkat' => 'required|string',
             'tahun' => 'required|integer|min:1900|max:2100',
@@ -67,6 +68,7 @@ class PrestasiEkstrakurikulerController extends Controller
         $validated = $request->validate([
             'ekstrakurikuler_id' => 'sometimes|required|exists:ekstrakurikuler,id',
             'nama_prestasi' => 'sometimes|required|string',
+            'nama_siswa' => 'sometimes|required|string|max:255',
             'juara' => 'nullable|string',
             'tingkat' => 'sometimes|required|string',
             'tahun' => 'sometimes|required|integer|min:1900|max:2100',

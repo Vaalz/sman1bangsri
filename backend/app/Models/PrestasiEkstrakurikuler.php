@@ -14,6 +14,7 @@ class PrestasiEkstrakurikuler extends Model
     protected $fillable = [
         'ekstrakurikuler_id',
         'nama_prestasi',
+        'nama_siswa',
         'juara',
         'tingkat',
         'tahun',

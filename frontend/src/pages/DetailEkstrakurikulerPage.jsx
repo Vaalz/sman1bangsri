@@ -698,6 +698,11 @@ const DetailEkstrakurikulerPage = () => {
                               />
                             )}
                             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5, mb: 1 }}>
+                              {item.nama_siswa && (
+                                <Typography sx={{ fontSize: '0.9rem', color: '#666', display: 'flex', alignItems: 'center', gap: 0.5 }}>
+                                  👤 {item.nama_siswa}
+                                </Typography>
+                              )}
                               <Typography sx={{ fontSize: '0.9rem', color: '#666', display: 'flex', alignItems: 'center', gap: 0.5 }}>
                                 🏆 {item.tingkat}
                               </Typography>
