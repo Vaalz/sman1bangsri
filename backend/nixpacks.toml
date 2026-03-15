@@ -1,6 +1,9 @@
 [phases.setup]
 nixPkgs = ["php82", "php82Packages.composer"]
 
+[variables]
+NIXPACKS_PHP_EXTENSIONS = "pdo_pgsql,pgsql"
+
 [phases.install]
 cmds = ["composer install --no-dev --optimize-autoloader"]
 
@@ -12,4 +15,4 @@ cmds = [
 ]
 
 [start]
-cmd = "php artisan storage:link || true && php artisan serve --host=0.0.0.0 --port=$PORT"
+cmd = "php artisan storage:link || true && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=$PORT"
