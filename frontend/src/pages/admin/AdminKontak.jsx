@@ -167,7 +167,7 @@ function AdminKontak() {
               value={formData.maps_embed_url}
               onChange={handleChange('maps_embed_url')}
               fullWidth
-              helperText="URL embed dari Google Maps (optional)"
+              helperText="Bisa URL embed atau URL Google Maps biasa (/maps/place). Sistem akan menyesuaikan otomatis."
             />
 
             <Divider />

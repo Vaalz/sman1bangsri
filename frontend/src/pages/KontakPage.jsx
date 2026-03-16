@@ -6,9 +6,49 @@ import smansabaImage from '../assets/image/smansaba.jpg';
 import { LocationOn, Phone, Email, AccessTime } from '@mui/icons-material';
 import { getContact } from '../services/api';
 
+const normalizeGoogleMapsEmbedUrl = (url) => {
+  if (!url || typeof url !== 'string') {
+    return '';
+  }
+
+  const trimmed = url.trim();
+  if (!trimmed) {
+    return '';
+  }
+
+  // Already a valid Google Maps embed URL.
+  if (/google\.[^/]+\/maps\/embed/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  // Convert regular query links to embeddable format.
+  if (/google\.[^/]+\/maps\?q=/i.test(trimmed)) {
+    return /output=embed/i.test(trimmed) ? trimmed : `${trimmed}&output=embed`;
+  }
+
+  // Convert /maps/place/... links (non-embeddable) to query embed URL.
+  if (/google\.[^/]+\/maps\/place\//i.test(trimmed)) {
+    const placeMatch = trimmed.match(/\/maps\/place\/([^/?]+)/i);
+    if (placeMatch && placeMatch[1]) {
+      const placeName = decodeURIComponent(placeMatch[1]).replace(/\+/g, ' ');
+      return `https://www.google.com/maps?q=${encodeURIComponent(placeName)}&output=embed`;
+    }
+
+    const coordinateMatch = trimmed.match(/@(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (coordinateMatch) {
+      const latitude = coordinateMatch[1];
+      const longitude = coordinateMatch[2];
+      return `https://www.google.com/maps?q=${latitude},${longitude}&output=embed`;
+    }
+  }
+
+  return trimmed;
+};
+
 const KontakPage = () => {
   const [contact, setContact] = useState(null);
   const [loading, setLoading] = useState(true);
+  const mapEmbedUrl = normalizeGoogleMapsEmbedUrl(contact?.maps_embed_url);
 
   useEffect(() => {
     const fetchContact = async () => {
@@ -249,7 +289,7 @@ const KontakPage = () => {
           )}
 
           {/* Google Maps Embed */}
-          {contact && contact.maps_embed_url && (
+          {mapEmbedUrl && (
             <Box 
               sx={{ 
                 maxWidth: '1000px',
@@ -281,7 +321,7 @@ const KontakPage = () => {
                 }}
               >
                 <iframe
-                  src={contact.maps_embed_url}
+                  src={mapEmbedUrl}
                   width="100%"
                   height="100%"
                   style={{ border: 0 }}
