@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Box, CircularProgress, Alert } from '@mui/material';
 import CrudTable from '../../components/admin/CrudTable';
 import CrudModal from '../../components/admin/CrudModal';
-import { getAdminCourses, createCourse, updateCourse, deleteCourse } from '../../services/api';
+import { getAdminCourses, createCourse, updateCourse, deleteCourse, getImageUrl } from '../../services/api';
 
 const formFields = [
   { name: 'judul', label: 'Nama Mata Pelajaran', required: true },
@@ -21,7 +21,36 @@ function AdminCourse() {
   const [formData, setFormData] = useState({});
   const [editingId, setEditingId] = useState(null);
 
+  const isImageFile = (path) => {
+    if (!path || typeof path !== 'string') return false;
+    return /\.(jpg|jpeg|png|gif|webp)$/i.test(path);
+  };
+
   const columns = [
+    {
+      field: 'file',
+      headerName: 'Gambar',
+      render: (value) => {
+        if (!value) return '-';
+        if (!isImageFile(value)) return 'File dokumen';
+
+        return (
+          <Box
+            component="img"
+            src={getImageUrl(value)}
+            alt="Course"
+            sx={{
+              width: 80,
+              height: 56,
+              objectFit: 'cover',
+              borderRadius: 1,
+              border: '1px solid',
+              borderColor: 'divider',
+            }}
+          />
+        );
+      }
+    },
     { field: 'mapel', headerName: 'Kode' },
     { field: 'judul', headerName: 'Mata Pelajaran' },
     { field: 'kelas', headerName: 'Kelas' },
