@@ -1,9 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Box, Grid, Paper, Typography, Card, CardContent, CircularProgress } from '@mui/material';
-import { Article, Photo, People, EmojiEvents, Sports, School, TrendingUp, FiberManualRecord, BarChart } from '@mui/icons-material';
+import { Box, Grid, Paper, Typography, Card, CardContent, CircularProgress, Button, Stack } from '@mui/material';
+import {
+  Article,
+  Photo,
+  People,
+  EmojiEvents,
+  Sports,
+  School,
+  WorkspacePremium,
+  RecordVoiceOver,
+  CalendarMonth,
+  History,
+  AddPhotoAlternate,
+  PostAdd,
+} from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import { getDashboardStats } from '../../services/api';
 
 function AdminDashboard() {
+  const navigate = useNavigate();
+
   const [stats, setStats] = useState({
     total_berita: 0,
     total_guru: 0,
@@ -11,6 +27,12 @@ function AdminDashboard() {
     total_ekstrakurikuler: 0,
     total_course: 0,
     total_galeri: 0,
+    total_jadwal_ekstrakurikuler: 0,
+    total_prestasi_ekstrakurikuler: 0,
+    total_siswa_ptn: 0,
+    prestasi_nasional: 0,
+    prestasi_provinsi: 0,
+    prestasi_kabupaten: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +42,7 @@ function AdminDashboard() {
         setLoading(true);
         const response = await getDashboardStats();
         if (response.data.success) {
-          setStats(response.data.data);
+          setStats((prev) => ({ ...prev, ...response.data.data }));
         }
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
@@ -32,245 +54,334 @@ function AdminDashboard() {
     fetchStats();
   }, []);
 
+  const gradients = {
+    blue: 'linear-gradient(135deg, #2457d6 0%, #2d8cff 100%)',
+    green: 'linear-gradient(135deg, #1f9d55 0%, #2fbf71 100%)',
+    orange: 'linear-gradient(135deg, #d97706 0%, #f59e0b 100%)',
+    gray: 'linear-gradient(135deg, #475569 0%, #64748b 100%)',
+  };
+
   const statCards = [
-    { title: 'Total Berita', value: stats.total_berita, icon: <Article />, color: '#1976d2', gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' },
-    { title: 'Total Guru', value: stats.total_guru, icon: <People />, color: '#ed6c02', gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)' },
-    { title: 'Total Prestasi', value: stats.total_prestasi, icon: <EmojiEvents />, color: '#9c27b0', gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' },
-    { title: 'Ekstrakurikuler', value: stats.total_ekstrakurikuler, icon: <Sports />, color: '#d32f2f', gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' },
-    { title: 'Total Course', value: stats.total_course, icon: <School />, color: '#0288d1', gradient: 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)' },
+    {
+      title: 'Total Berita',
+      value: stats.total_berita,
+      note: 'Konten informasi sekolah',
+      icon: <Article />,
+      gradient: gradients.blue,
+    },
+    {
+      title: 'Total Galeri',
+      value: stats.total_galeri,
+      note: 'Dokumentasi kegiatan',
+      icon: <Photo />,
+      gradient: gradients.blue,
+    },
+    {
+      title: 'Total Guru',
+      value: stats.total_guru,
+      note: 'Data SDM aktif',
+      icon: <People />,
+      gradient: gradients.blue,
+    },
+    {
+      title: 'Total Course',
+      value: stats.total_course,
+      note: 'Materi pembelajaran',
+      icon: <School />,
+      gradient: gradients.blue,
+    },
+    {
+      title: 'Total Prestasi',
+      value: stats.total_prestasi,
+      note: 'Prestasi akademik',
+      icon: <EmojiEvents />,
+      gradient: gradients.green,
+    },
+    {
+      title: 'Prestasi Ekskul',
+      value: stats.total_prestasi_ekstrakurikuler,
+      note: 'Prestasi non-akademik',
+      icon: <EmojiEvents />,
+      gradient: gradients.green,
+    },
+    {
+      title: 'Ekstrakurikuler',
+      value: stats.total_ekstrakurikuler,
+      note: 'Kegiatan aktif siswa',
+      icon: <Sports />,
+      gradient: gradients.orange,
+    },
+    {
+      title: 'Jadwal Ekskul',
+      value: stats.total_jadwal_ekstrakurikuler,
+      note: 'Jadwal yang terdata',
+      icon: <CalendarMonth />,
+      gradient: gradients.orange,
+    },
+    {
+      title: 'Siswa PTN',
+      value: stats.total_siswa_ptn,
+      note: 'Riwayat lolos PTN',
+      icon: <WorkspacePremium />,
+      gradient: gradients.gray,
+    },
+  ];
+
+  const maxPrestasiLevel = Math.max(1, stats.prestasi_nasional, stats.prestasi_provinsi, stats.prestasi_kabupaten);
+  const maxKonten = Math.max(1, stats.total_berita, stats.total_galeri, stats.total_course);
+
+  const prestasiChartData = [
+    { label: 'Nasional', value: stats.prestasi_nasional, color: '#16a34a' },
+    { label: 'Provinsi', value: stats.prestasi_provinsi, color: '#22c55e' },
+    { label: 'Kabupaten/Kota', value: stats.prestasi_kabupaten, color: '#4ade80' },
+  ];
+
+  const kontenChartData = [
+    { label: 'Berita', value: stats.total_berita, color: '#2563eb' },
+    { label: 'Galeri', value: stats.total_galeri, color: '#3b82f6' },
+    { label: 'Course', value: stats.total_course, color: '#60a5fa' },
   ];
 
   const recentActivities = [
-    { action: 'Berita baru ditambahkan', time: '2 jam yang lalu' },
-    { action: 'Data guru ditambahkan', time: '1 hari yang lalu' },
-    { action: 'Prestasi baru ditambahkan', time: '2 hari yang lalu' },
+    'Admin menambah data berita',
+    'Admin mengupdate galeri kegiatan',
+    'Admin menambah prestasi terbaru',
   ];
 
+  const quickActions = [
+    { label: 'Tambah Berita', path: '/admin/berita', icon: <PostAdd />, color: 'primary' },
+    { label: 'Tambah Galeri', path: '/admin/galeri', icon: <AddPhotoAlternate />, color: 'info' },
+    { label: 'Tambah Guru', path: '/admin/guru', icon: <People />, color: 'secondary' },
+    { label: 'Tambah Prestasi', path: '/admin/prestasi', icon: <EmojiEvents />, color: 'success' },
+    { label: 'Tambah Ekskul', path: '/admin/ekstrakurikuler', icon: <Sports />, color: 'warning' },
+    { label: 'Tambah Course', path: '/admin/course', icon: <School />, color: 'primary' },
+    { label: 'Tambah Sambutan', path: '/admin/sambutan', icon: <RecordVoiceOver />, color: 'secondary' },
+    { label: 'Tambah Siswa PTN', path: '/admin/siswa-ptn', icon: <WorkspacePremium />, color: 'success' },
+  ];
+
+  const renderBarDiagram = (data, maxValue) => (
+    <Box
+      sx={{
+        height: 220,
+        px: 1,
+        pb: 1,
+        display: 'flex',
+        alignItems: 'flex-end',
+        gap: 2,
+        borderBottom: '2px solid #cbd5e1',
+      }}
+    >
+      {data.map((item) => {
+        const barHeight = Math.max((item.value / maxValue) * 150, 8);
+
+        return (
+          <Box key={item.label} sx={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+            <Typography variant="caption" fontWeight={700} sx={{ color: '#0f172a' }}>
+              {item.value}
+            </Typography>
+            <Box
+              sx={{
+                width: '100%',
+                maxWidth: 88,
+                height: barHeight,
+                backgroundColor: item.color,
+                borderRadius: '10px 10px 4px 4px',
+                boxShadow: '0 4px 10px rgba(15, 23, 42, 0.16)',
+                transition: 'height 0.35s ease',
+              }}
+            />
+            <Typography variant="caption" sx={{ color: '#475569', textAlign: 'center', minHeight: 30 }}>
+              {item.label}
+            </Typography>
+          </Box>
+        );
+      })}
+    </Box>
+  );
+
   return (
-    <Box>
-      {/* Header Section */}
-      <Box sx={{ mb: 5 }}>
-        <Typography 
-          variant="h4" 
-          fontWeight="bold" 
-          sx={{ mb: 1, color: '#1a1a1a', letterSpacing: '-0.5px' }}
-        >
-          Dashboard
+    <Box sx={{ maxWidth: 1400, mx: 'auto' }}>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" fontWeight={800} sx={{ color: '#0f172a', mb: 0.75 }}>
+          Selamat datang, Admin
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ fontSize: '1rem' }}>
-          Selamat datang di Admin Dashboard SMAN 1 BANGSRI
+        <Typography variant="body1" sx={{ color: '#64748b' }}>
+          Ringkasan aktivitas website hari ini
         </Typography>
       </Box>
 
-      {/* Loading State */}
       {loading ? (
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: 280 }}>
           <CircularProgress />
         </Box>
       ) : (
         <>
-          {/* Statistics Cards */}
-          <Grid container spacing={7} sx={{ mb: 4 }}>
-        {statCards.map((card, index) => (
-          <Grid item xs={12} sm={6} md={6} lg={6} xl={6} key={index}>
-            <Card
-              sx={{
-                height: 240,
-                width: 300,
-                background: card.gradient,
-                color: 'white',
-                borderRadius: 3,
-                boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-                overflow: 'hidden',
-                position: 'relative',
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
-              <CardContent sx={{ p: 4, pb: 3, '&:last-child': { pb: 3 }, flex: 1, display: 'flex' }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%' }}>
-                  <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
-                    <Box>
-                      <Typography variant="body2" sx={{ opacity: 0.9, mb: 2.5, fontWeight: 500, fontSize: '0.9375rem' }}>
-                        {card.title}
-                      </Typography>
-                      <Typography variant="h2" fontWeight="700" sx={{ mb: 2.5, fontSize: '3rem', lineHeight: 1 }}>
-                        {card.value}
-                      </Typography>
-                    </Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', opacity: 0.85 }}>
-                      <FiberManualRecord sx={{ fontSize: 8, mr: 0.75 }} />
-                      <Typography variant="caption" sx={{ fontSize: '0.75rem' }}>Data terkini</Typography>
-                    </Box>
-                  </Box>
-                  <Box 
-                    sx={{ 
-                      width: 72, 
-                      height: 72, 
-                      borderRadius: 2.5,
-                      backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backdropFilter: 'blur(10px)',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <Box sx={{ fontSize: 42 }}>
-                      {card.icon}
-                    </Box>
-                  </Box>
-                </Box>
-              </CardContent>
-              <Box 
-                sx={{ 
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: 3,
-                  background: 'rgba(255, 255, 255, 0.25)',
-                }}
-              />
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      {/* Bottom Section - Activities & Stats */}
-      <Grid container spacing={3}>
-        {/* Recent Activities */}
-        <Grid item xs={12} lg={6}>
-          <Paper 
-            sx={{ 
-              p: 3.5, 
-              borderRadius: 3,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-              height: '100%',
-              border: '1px solid rgba(0,0,0,0.05)',
+          <Paper
+            sx={{
+              p: { xs: 2, md: 2.5 },
+              borderRadius: 2,
+              mb: 3,
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.06)',
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3.5 }}>
-              <Box 
-                sx={{ 
-                  width: 48, 
-                  height: 48, 
-                  borderRadius: 2.5,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mr: 2,
-                  boxShadow: '0 4px 12px rgba(102, 126, 234, 0.3)',
-                }}
-              >
-                <TrendingUp sx={{ color: 'white', fontSize: 24 }} />
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" sx={{ mb: 0.25 }}>
-                  Aktivitas Terbaru
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Update terakhir sistem
-                </Typography>
-              </Box>
-            </Box>
-            <Box>
-              {recentActivities.map((activity, index) => (
-                <Box
-                  key={index}
+            <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 1.5, color: '#0f172a' }}>
+              Quick Actions
+            </Typography>
+            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={1.25} useFlexGap flexWrap="wrap">
+              {quickActions.map((action) => (
+                <Button
+                  key={action.label}
+                  variant="contained"
+                  color={action.color}
+                  startIcon={action.icon}
+                  onClick={() => navigate(action.path)}
+                  sx={{ minWidth: 180 }}
+                >
+                  {action.label}
+                </Button>
+              ))}
+            </Stack>
+          </Paper>
+
+          <Box
+            sx={{
+              mb: 3,
+              display: 'grid',
+              gap: 3,
+              gridTemplateColumns: {
+                xs: '1fr',
+                sm: 'repeat(2, minmax(0, 1fr))',
+                md: 'repeat(3, minmax(0, 1fr))',
+              },
+            }}
+          >
+            {statCards.map((card) => (
+              <Box key={card.title}>
+                <Card
                   sx={{
-                    py: 2,
-                    px: 2.5,
-                    mb: index !== recentActivities.length - 1 ? 2 : 0,
-                    borderRadius: 2.5,
-                    backgroundColor: '#f8f9fb',
-                    borderLeft: '4px solid',
-                    borderLeftColor: 'primary.main',
-                    display: 'flex',
-                    flexDirection: 'column',
+                    minHeight: 190,
+                    borderRadius: 2,
+                    background: card.gradient,
+                    color: 'white',
+                    boxShadow: '0 8px 20px rgba(15, 23, 42, 0.14)',
                   }}
                 >
-                  <Typography variant="body1" fontWeight={600} sx={{ mb: 0.5, fontSize: '0.9375rem' }}>
-                    {activity.action}
-                  </Typography>
-                  <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.8125rem' }}>
-                    {activity.time}
-                  </Typography>
-                </Box>
-              ))}
-            </Box>
-          </Paper>
-        </Grid>
+                  <CardContent sx={{ p: 2.75, '&:last-child': { pb: 2.75 }, display: 'flex', flexDirection: 'column', gap: 1.75 }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                      <Typography sx={{ fontSize: '0.95rem', fontWeight: 600, opacity: 0.95 }}>{card.title}</Typography>
+                      <Box
+                        sx={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 1.5,
+                          backgroundColor: 'rgba(255,255,255,0.2)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          opacity: 0.85,
+                          '& svg': { fontSize: 24 },
+                        }}
+                      >
+                        {card.icon}
+                      </Box>
+                    </Box>
+                    <Typography sx={{ fontSize: '2.25rem', lineHeight: 1, fontWeight: 800 }}>
+                      {card.value}
+                    </Typography>
+                    <Typography sx={{ fontSize: '0.8rem', opacity: 0.9 }}>{card.note}</Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            ))}
+          </Box>
 
-        {/* Quick Stats */}
-        <Grid item xs={12} lg={6}>
-          <Paper 
-            sx={{ 
-              p: 3.5, 
-              borderRadius: 3,
-              boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-              height: '100%',
-              width: 700,
-              border: '1px solid rgba(0,0,0,0.05)',
+          <Box
+            sx={{
+              mb: 3,
+              display: 'grid',
+              gap: 3,
+              gridTemplateColumns: {
+                xs: '1fr',
+                md: 'repeat(2, minmax(0, 1fr))',
+              },
+              alignItems: 'stretch',
             }}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 3.5 }}>
-              <Box 
-                sx={{ 
-                  width: 48, 
-                  height: 48, 
-                  borderRadius: 2.5,
-                  background: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  mr: 2,
-                  boxShadow: '0 4px 12px rgba(79, 172, 254, 0.3)',
+            <Box sx={{ display: 'flex' }}>
+              <Paper
+                sx={{
+                  p: 2.5,
+                  borderRadius: 2,
+                  minHeight: 260,
+                  width: '100%',
+                  height: '100%',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 4px 14px rgba(15, 23, 42, 0.06)',
                 }}
               >
-                <BarChart sx={{ color: 'white', fontSize: 24 }} />
-              </Box>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" sx={{ mb: 0.25 }}>
-                  Quick Stats
+                <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2, color: '#0f172a' }}>
+                  Grafik Konten
                 </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  Statistik persentase data
-                </Typography>
-              </Box>
+                {renderBarDiagram(kontenChartData, maxKonten)}
+              </Paper>
             </Box>
-            <Box>
-              {[
-                { label: 'Berita Published', value: 85, color: 'primary.main', bgColor: '#e3f2fd', gradient: 'linear-gradient(90deg, #1976d2 0%, #42a5f5 100%)' },
-                { label: 'Data Completion', value: 78, color: 'warning.main', bgColor: '#fff3e0', gradient: 'linear-gradient(90deg, #ed6c02 0%, #ff9800 100%)' },
-              ].map((stat, index, array) => (
-                <Box key={stat.label} sx={{ mb: index !== array.length - 1 ? 3.5 : 0 }}>
-                  <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
-                    <Typography variant="body1" fontWeight={600} sx={{ fontSize: '0.9375rem' }}>
-                      {stat.label}
-                    </Typography>
-                    <Typography variant="h6" fontWeight="bold" color={stat.color} sx={{ fontSize: '1.125rem' }}>
-                      {stat.value}%
-                    </Typography>
-                  </Box>
-                  <Box sx={{ height: 10, backgroundColor: stat.bgColor, borderRadius: 2, overflow: 'hidden' }}>
-                    <Box 
-                      sx={{ 
-                        width: `${stat.value}%`, 
-                        height: '100%', 
-                        background: stat.gradient,
-                        borderRadius: 2,
-                        transition: 'width 1.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                      }} 
-                    />
-                  </Box>
+
+            <Box sx={{ display: 'flex' }}>
+              <Paper
+                sx={{
+                  p: 2.5,
+                  borderRadius: 2,
+                  minHeight: 260,
+                  width: '100%',
+                  height: '100%',
+                  border: '1px solid #e2e8f0',
+                  boxShadow: '0 4px 14px rgba(15, 23, 42, 0.06)',
+                }}
+              >
+                <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 2, color: '#0f172a' }}>
+                  Grafik Prestasi per Tingkat
+                </Typography>
+                {renderBarDiagram(prestasiChartData, maxPrestasiLevel)}
+              </Paper>
+            </Box>
+          </Box>
+
+          <Paper
+            sx={{
+              p: 2.5,
+              borderRadius: 2,
+              border: '1px solid #e2e8f0',
+              boxShadow: '0 4px 14px rgba(15, 23, 42, 0.06)',
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+              <History sx={{ color: '#f59e0b' }} />
+              <Typography variant="subtitle1" fontWeight={700}>
+                Aktivitas Terbaru
+              </Typography>
+            </Box>
+            <Stack spacing={1.25}>
+              {recentActivities.map((item, index) => (
+                <Box
+                  key={item}
+                  sx={{
+                    p: 1.5,
+                    borderRadius: 1.5,
+                    backgroundColor: '#f8fafc',
+                    borderLeft: '4px solid #f59e0b',
+                  }}
+                >
+                  <Typography variant="body2" fontWeight={600} sx={{ color: '#0f172a' }}>
+                    {item}
+                  </Typography>
+                  <Typography variant="caption" sx={{ color: '#64748b' }}>
+                    {index === 0 ? '2 jam lalu' : index === 1 ? '5 jam lalu' : '1 hari lalu'}
+                  </Typography>
                 </Box>
               ))}
-            </Box>
+            </Stack>
           </Paper>
-        </Grid>
-      </Grid>
         </>
       )}
     </Box>
