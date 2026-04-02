@@ -16,6 +16,7 @@ use App\Models\SiswaPtn;
 use App\Models\Sambutan;
 use App\Models\Tentang;
 use App\Models\Contact;
+use App\Models\ActivityLog;
 use Illuminate\Support\Facades\Cache;
 
 class DashboardController extends Controller
@@ -46,6 +47,25 @@ class DashboardController extends Controller
                     ->count(),
             ];
         });
+
+        $recentActivities = ActivityLog::with('user:id,name')
+            ->latest()
+            ->take(10)
+            ->get()
+            ->map(function (ActivityLog $activity) {
+                return [
+                    'id' => $activity->id,
+                    'action' => $activity->action,
+                    'resource' => $activity->resource,
+                    'description' => $activity->description,
+                    'admin_name' => $activity->user?->name ?? 'Admin tidak diketahui',
+                    'created_at' => optional($activity->created_at)->toIso8601String(),
+                    'time_ago' => optional($activity->created_at)?->diffForHumans(),
+                ];
+            })
+            ->values();
+
+        $stats['recent_activities'] = $recentActivities;
 
         return response()->json([
             'success' => true,

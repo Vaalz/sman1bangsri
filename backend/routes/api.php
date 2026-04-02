@@ -47,7 +47,7 @@ Route::middleware(['auth:sanctum', 'superadmin'])->prefix('superadmin')->group(f
 });
 
 // API Routes for Admin Dashboard (Protected)
-Route::prefix('admin')->middleware('auth:sanctum')->group(function () {
+Route::prefix('admin')->middleware(['auth:sanctum', 'log.admin.activity'])->group(function () {
     // Dashboard Stats
     Route::get('dashboard/stats', [DashboardController::class, 'stats']);
     

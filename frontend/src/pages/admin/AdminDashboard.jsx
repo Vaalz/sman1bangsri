@@ -33,6 +33,7 @@ function AdminDashboard() {
     prestasi_nasional: 0,
     prestasi_provinsi: 0,
     prestasi_kabupaten: 0,
+    recent_activities: [],
   });
   const [loading, setLoading] = useState(true);
 
@@ -140,12 +141,6 @@ function AdminDashboard() {
     { label: 'Berita', value: stats.total_berita, color: '#2563eb' },
     { label: 'Galeri', value: stats.total_galeri, color: '#3b82f6' },
     { label: 'Course', value: stats.total_course, color: '#60a5fa' },
-  ];
-
-  const recentActivities = [
-    'Admin menambah data berita',
-    'Admin mengupdate galeri kegiatan',
-    'Admin menambah prestasi terbaru',
   ];
 
   const quickActions = [
@@ -362,9 +357,9 @@ function AdminDashboard() {
               </Typography>
             </Box>
             <Stack spacing={1.25}>
-              {recentActivities.map((item, index) => (
+              {stats.recent_activities?.length ? stats.recent_activities.map((activity) => (
                 <Box
-                  key={item}
+                  key={activity.id}
                   sx={{
                     p: 1.5,
                     borderRadius: 1.5,
@@ -373,13 +368,26 @@ function AdminDashboard() {
                   }}
                 >
                   <Typography variant="body2" fontWeight={600} sx={{ color: '#0f172a' }}>
-                    {item}
+                    {activity.description}
                   </Typography>
                   <Typography variant="caption" sx={{ color: '#64748b' }}>
-                    {index === 0 ? '2 jam lalu' : index === 1 ? '5 jam lalu' : '1 hari lalu'}
+                    {activity.admin_name} • {activity.time_ago || '-'}
                   </Typography>
                 </Box>
-              ))}
+              )) : (
+                <Box
+                  sx={{
+                    p: 1.5,
+                    borderRadius: 1.5,
+                    backgroundColor: '#f8fafc',
+                    borderLeft: '4px solid #cbd5e1',
+                  }}
+                >
+                  <Typography variant="body2" sx={{ color: '#64748b' }}>
+                    Belum ada aktivitas admin terbaru.
+                  </Typography>
+                </Box>
+              )}
             </Stack>
           </Paper>
         </>

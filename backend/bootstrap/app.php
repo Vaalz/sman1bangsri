@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'superadmin' => \App\Http\Middleware\CheckSuperAdmin::class,
+            'log.admin.activity' => \App\Http\Middleware\LogAdminActivity::class,
         ]);
 
         // For API requests, do not redirect unauthenticated users to a web login route.
