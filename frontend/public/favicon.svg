@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <title>SMA Negeri 1 Bangsri Favicon</title>
+  <!-- Crop tighter so the crest looks larger at small favicon sizes -->
+  <image href="/favicon.png" x="-64" y="-64" width="640" height="640" />
+</svg>

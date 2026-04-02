@@ -291,7 +291,6 @@ const AchievementSection = () => {
             {achievements.map((achievement) => (
               <Card
                 key={achievement.id}
-                onClick={() => navigate(`/prestasi/detail-prestasi/${achievement.id}`)}
                 sx={{
                   minHeight: { xs: '340px', sm: '360px' },
                   width: { xs: '100%', sm: 'calc(50% - 12px)', lg: '320px' },
@@ -300,7 +299,7 @@ const AchievementSection = () => {
                   border: '2px solid rgba(255,255,255,0.2)',
                   borderRadius: '16px',
                   transition: 'all 0.3s ease',
-                  cursor: 'pointer',
+                  cursor: 'default',
                   display: 'flex',
                   flexDirection: 'column',
                   '&:hover': {

@@ -23,8 +23,12 @@ const ekskulFormFields = [
   { name: 'kategori', label: 'Kategori', required: true },
   { name: 'pembina', label: 'Pembina', required: true },
   { name: 'deskripsi', label: 'Deskripsi', multiline: true, rows: 4, required: false },
-  { name: 'icon', label: 'Icon (Sports/MusicNote/Palette/Science/Language)', required: false },
   { name: 'logo', label: 'Logo Ekstrakurikuler', type: 'file', required: false, accept: 'image/*' },
+];
+
+const ekskulEditFormFields = [
+  ...ekskulFormFields,
+  { name: 'icon', label: 'Icon (Sports/MusicNote/Palette/Science/Language)', required: false },
 ];
 
 function AdminEkstrakurikuler() {
@@ -331,7 +335,7 @@ function AdminEkstrakurikuler() {
   };
 
   const getCurrentFields = () => {
-    if (currentTab === 'ekskul') return ekskulFormFields;
+    if (currentTab === 'ekskul') return editingId ? ekskulEditFormFields : ekskulFormFields;
     if (currentTab === 'jadwal') return getJadwalFormFields();
     if (currentTab === 'struktur') return getStrukturFormFields();
     if (currentTab === 'prestasi') return getPrestasiFormFields();

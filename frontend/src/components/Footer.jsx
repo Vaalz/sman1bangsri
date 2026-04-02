@@ -28,20 +28,25 @@ const Footer = () => {
       sx={{
         backgroundColor: '#f8f9fa',
         borderTop: '3px solid #34495e',
-        paddingTop: { xs: '40px', md: '60px' },
-        paddingBottom: '20px',
+        paddingTop: { xs: '32px', md: '60px' },
+        paddingBottom: { xs: '24px', md: '32px' },
       }}
     >
-      <Container maxWidth="xl">
-        <Grid container spacing={{ xs: 3, md: 4 }} justifyContent="space-between">
+      <Container maxWidth="xl" sx={{ paddingX: { xs: 2, sm: 3, md: 4, lg: 5 }, paddingY: 0 }}>
+        <Grid
+          container
+          spacing={{ xs: 2, sm: 3, md: 4 }}
+          justifyContent={{ xs: 'center', md: 'space-between' }}
+          alignItems="flex-start"
+        >
           {/* Logo and School Info */}
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} sm={6} md={3} sx={{ mb: { xs: 3, md: 0 } }}>
             <Box
               sx={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
-                padding: { xs: '0 16px', md: '0' },
+                padding: { xs: '0 8px', sm: '0 16px', md: '0' },
                 textAlign: { xs: 'center', md: 'left' },
                 alignItems: { xs: 'center', md: 'flex-start' },
               }}
@@ -59,7 +64,7 @@ const Footer = () => {
                   src={logo}
                   alt="Logo"
                   sx={{
-                    height: '70px',
+                    height: { xs: '54px', sm: '65px', md: '70px' },
                     width: 'auto',
                   }}
                   onError={(e) => {
@@ -71,7 +76,7 @@ const Footer = () => {
                   sx={{
                     fontWeight: 700,
                     color: '#2c3e50',
-                    fontSize: { xs: '0.95rem', md: '1rem' },
+                    fontSize: { xs: '0.95rem', sm: '1.05rem', md: '1rem' },
                     lineHeight: 1.3,
                   }}
                 >
@@ -83,19 +88,20 @@ const Footer = () => {
                 variant="body2"
                 sx={{
                   color: '#555',
-                  fontSize: { xs: '0.9rem', md: '0.95rem' },
+                  fontSize: { xs: '0.85rem', sm: '0.9rem', md: '0.95rem' },
                   lineHeight: 1.6,
+                  wordBreak: 'break-word',
                 }}
               >
                 Jl. Jerukwangi, Bangsri, Krajan, Jerukwangi, <br/>Kec. Jepara, Jawa Tengah, 59453
               </Typography>
 
-              <Box>
+              <Box sx={{ width: '100%' }}>
                 <Typography
                   variant="body2"
                   sx={{
                     color: '#555',
-                    fontSize: '0.9rem',
+                    fontSize: { xs: '0.85rem', sm: '0.9rem' },
                     fontWeight: 600,
                     marginBottom: '4px',
                   }}
@@ -115,7 +121,7 @@ const Footer = () => {
                     variant="body1"
                     sx={{
                       color: '#2c3e50',
-                      fontSize: '1.1rem',
+                      fontSize: { xs: '1rem', sm: '1.08rem', md: '1.1rem' },
                       fontWeight: 700,
                     }}
                   >
@@ -128,7 +134,7 @@ const Footer = () => {
               <Box
                 sx={{
                   display: 'flex',
-                  gap: 1,
+                  gap: { xs: 0.5, sm: 1 },
                   marginTop: '8px',
                   justifyContent: { xs: 'center', md: 'flex-start' },
                 }}
@@ -218,8 +224,8 @@ const Footer = () => {
           </Grid>
 
           {/* Menu Utama */}
-          <Grid item xs={12} sm={6} md={2}>
-            <Box sx={{ padding: { xs: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
+          <Grid item xs={12} sm={6} md={2} sx={{ mb: { xs: 3, md: 0 } }}>
+            <Box sx={{ padding: { xs: '0 8px', sm: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
               <Typography
                 variant="h6"
                 sx={{
@@ -263,8 +269,8 @@ const Footer = () => {
           </Grid>
 
           {/* Lain - Lain */}
-          <Grid item xs={12} sm={6} md={2}>
-            <Box sx={{ padding: { xs: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
+          <Grid item xs={12} sm={6} md={2} sx={{ mb: { xs: 3, md: 0 } }}>
+            <Box sx={{ padding: { xs: '0 8px', sm: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
             <Typography
               variant="h6"
               sx={{
@@ -309,7 +315,7 @@ const Footer = () => {
 
           {/* Maps */}
           <Grid item xs={12} md={5}>
-            <Box sx={{ padding: { xs: '0 16px', md: '0' } }}>
+            <Box sx={{ padding: { xs: '0 8px', sm: '0 16px', md: '0' } }}>
             <Typography
               variant="h6"
               sx={{
@@ -326,8 +332,8 @@ const Footer = () => {
               sx={{
                 position: 'relative',
                 width: '100%',
-                height: { xs: '200px', sm: '250px' },
-                borderRadius: '12px',
+                height: { xs: '180px', sm: '220px', md: '250px' },
+                borderRadius: { xs: '8px', sm: '10px', md: '12px' },
                 overflow: 'hidden',
                 boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                 border: '3px solid #e0e0e0',
@@ -349,12 +355,12 @@ const Footer = () => {
                 target="_blank"
                 sx={{
                   position: 'absolute',
-                  top: '10px',
-                  left: '10px',
+                  top: { xs: '6px', sm: '10px' },
+                  left: { xs: '6px', sm: '10px' },
                   backgroundColor: '#fff',
-                  padding: { xs: '6px 12px', sm: '8px 16px' },
-                  borderRadius: '6px',
-                  fontSize: { xs: '0.75rem', sm: '0.85rem' },
+                  padding: { xs: '4px 10px', sm: '8px 16px' },
+                  borderRadius: { xs: '4px', sm: '6px' },
+                  fontSize: { xs: '0.7rem', sm: '0.85rem' },
                   fontWeight: 600,
                   color: '#34495e',
                   textDecoration: 'none',
@@ -377,18 +383,19 @@ const Footer = () => {
         {/* Copyright Section */}
         <Box
           sx={{
-            marginTop: { xs: '40px', md: '50px' },
-            paddingTop: '24px',
+            marginTop: { xs: '32px', md: '50px' },
+            paddingTop: { xs: '18px', md: '24px' },
             borderTop: '1px solid #ddd',
             textAlign: 'center',
-            padding: { xs: '24px 16px 0', md: '24px 0 0' },
+            padding: { xs: '18px 8px 8px', sm: '20px 16px 10px', md: '24px 0 12px' },
           }}
         >
           <Typography
             variant="body2"
             sx={{
               color: '#7f8c8d',
-              fontSize: { xs: '0.85rem', md: '0.9rem' },
+              fontSize: { xs: '0.8rem', sm: '0.85rem', md: '0.9rem' },
+              wordBreak: 'break-word',
             }}
           >
             2026 © SMA Negeri 1 Bangsri, All Right Reserved. dikembangkan oleh:{' '}
