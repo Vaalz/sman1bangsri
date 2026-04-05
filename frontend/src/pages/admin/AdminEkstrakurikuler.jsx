@@ -26,11 +26,6 @@ const ekskulFormFields = [
   { name: 'logo', label: 'Logo Ekstrakurikuler', type: 'file', required: false, accept: 'image/*' },
 ];
 
-const ekskulEditFormFields = [
-  ...ekskulFormFields,
-  { name: 'icon', label: 'Icon (Sports/MusicNote/Palette/Science/Language)', required: false },
-];
-
 function AdminEkstrakurikuler() {
   const [tabValue, setTabValue] = useState(0);
   const [ekskul, setEkskul] = useState([]);
@@ -335,7 +330,7 @@ function AdminEkstrakurikuler() {
   };
 
   const getCurrentFields = () => {
-    if (currentTab === 'ekskul') return editingId ? ekskulEditFormFields : ekskulFormFields;
+    if (currentTab === 'ekskul') return ekskulFormFields;
     if (currentTab === 'jadwal') return getJadwalFormFields();
     if (currentTab === 'struktur') return getStrukturFormFields();
     if (currentTab === 'prestasi') return getPrestasiFormFields();

@@ -22,7 +22,7 @@ class EkstrakurikulerController extends Controller
         
         // Cache response for 5 minutes (300 seconds)
         $ekstrakurikuler = Cache::remember($cacheKey, 300, function () use ($perPage) {
-            return Ekstrakurikuler::select(['id', 'nama', 'kategori', 'pembina', 'icon', 'logo', 'slug', 'created_at'])
+            return Ekstrakurikuler::select(['id', 'nama', 'kategori', 'pembina', 'deskripsi', 'logo', 'slug', 'created_at'])
                 ->orderBy('nama', 'asc')
                 ->paginate($perPage);
         });
