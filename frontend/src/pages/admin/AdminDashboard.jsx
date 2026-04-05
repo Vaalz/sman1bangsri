@@ -154,6 +154,8 @@ function AdminDashboard() {
     { label: 'Tambah Siswa PTN', path: '/admin/siswa-ptn', icon: <WorkspacePremium />, color: 'success' },
   ];
 
+  const recentActivities = stats.recent_activities?.slice(0, 10) || [];
+
   const renderBarDiagram = (data, maxValue) => (
     <Box
       sx={{
@@ -357,7 +359,7 @@ function AdminDashboard() {
               </Typography>
             </Box>
             <Stack spacing={1.25}>
-              {stats.recent_activities?.length ? stats.recent_activities.map((activity) => (
+              {recentActivities.length ? recentActivities.map((activity) => (
                 <Box
                   key={activity.id}
                   sx={{
