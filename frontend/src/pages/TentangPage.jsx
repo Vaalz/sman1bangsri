@@ -1,5 +1,6 @@
 import { Box, Container, Typography, Paper, CircularProgress, Skeleton } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { AutoStories, School, Visibility, Flag, HistoryEdu } from '@mui/icons-material';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import smansabaImage from '../assets/image/smansaba.jpg';
@@ -127,6 +128,8 @@ const TentangPage = () => {
                 margin: '0 auto',
                 borderLeft: '4px solid #1976d2',
                 boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                position: 'relative',
+                overflow: 'hidden',
                 transition: 'border-left-width 0.3s ease, box-shadow 0.3s ease',
                 '&:hover': {
                   borderLeft: '6px solid #1976d2',
@@ -134,18 +137,46 @@ const TentangPage = () => {
                 },
               }}
             >
-              <Typography
-                variant="h2"
+              <School
                 sx={{
-                  fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
-                  fontWeight: 700,
-                  marginBottom: '24px',
-                  color: '#1976d2',
-                  letterSpacing: '-0.5px',
+                  position: 'absolute',
+                  top: { xs: 10, md: 12 },
+                  right: { xs: 10, md: 14 },
+                  fontSize: { xs: 52, md: 68 },
+                  color: 'rgba(25, 118, 210, 0.09)',
+                  pointerEvents: 'none',
                 }}
-              >
-                Tentang Kami
-              </Typography>
+              />
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, marginBottom: '24px' }}>
+                <Box
+                  sx={{
+                    width: { xs: 34, md: 38 },
+                    height: { xs: 34, md: 38 },
+                    borderRadius: '50%',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #1976d2, #42a5f5)',
+                    boxShadow: '0 6px 14px rgba(25, 118, 210, 0.22)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <AutoStories sx={{ fontSize: 20, color: '#fff' }} />
+                </Box>
+
+                <Typography
+                  variant="h2"
+                  sx={{
+                    fontSize: { xs: '1.5rem', sm: '1.75rem', md: '2rem' },
+                    fontWeight: 700,
+                    color: '#1976d2',
+                    letterSpacing: '-0.5px',
+                  }}
+                >
+                  Tentang Kami
+                </Typography>
+              </Box>
               {tentang?.tentang_kami ? (
                 renderWithLineBreaks(tentang.tentang_kami)
               ) : (
@@ -186,6 +217,8 @@ const TentangPage = () => {
                 margin: '0 auto',
                 borderLeft: '4px solid #2e7d32',
                 boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                position: 'relative',
+                overflow: 'hidden',
                 transition: 'border-left-width 0.3s ease, box-shadow 0.3s ease',
                 '&:hover': {
                   borderLeft: '6px solid #2e7d32',
@@ -193,18 +226,46 @@ const TentangPage = () => {
                 },
               }}
             >
-              <Typography
-                variant="h3"
+              <Visibility
                 sx={{
-                  fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.75rem' },
-                  fontWeight: 700,
-                  marginBottom: '24px',
-                  color: '#2e7d32',
-                  letterSpacing: '-0.5px',
+                  position: 'absolute',
+                  top: { xs: 10, md: 12 },
+                  right: { xs: 10, md: 14 },
+                  fontSize: { xs: 48, md: 64 },
+                  color: 'rgba(46, 125, 50, 0.1)',
+                  pointerEvents: 'none',
                 }}
-              >
-                Visi
-              </Typography>
+              />
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, marginBottom: '24px' }}>
+                <Box
+                  sx={{
+                    width: { xs: 34, md: 38 },
+                    height: { xs: 34, md: 38 },
+                    borderRadius: '50%',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #2e7d32, #66bb6a)',
+                    boxShadow: '0 6px 14px rgba(46, 125, 50, 0.22)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Visibility sx={{ fontSize: 20, color: '#fff' }} />
+                </Box>
+
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.75rem' },
+                    fontWeight: 700,
+                    color: '#2e7d32',
+                    letterSpacing: '-0.5px',
+                  }}
+                >
+                  Visi
+                </Typography>
+              </Box>
               {tentang?.visi ? (
                 renderWithLineBreaks(tentang.visi)
               ) : (
@@ -245,6 +306,8 @@ const TentangPage = () => {
                 margin: '0 auto',
                 borderLeft: '4px solid #ed6c02',
                 boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                position: 'relative',
+                overflow: 'hidden',
                 transition: 'border-left-width 0.3s ease, box-shadow 0.3s ease',
                 '&:hover': {
                   borderLeft: '6px solid #ed6c02',
@@ -252,18 +315,46 @@ const TentangPage = () => {
                 },
               }}
             >
-              <Typography
-                variant="h3"
+              <Flag
                 sx={{
-                  fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.75rem' },
-                  fontWeight: 700,
-                  marginBottom: '24px',
-                  color: '#ed6c02',
-                  letterSpacing: '-0.5px',
+                  position: 'absolute',
+                  top: { xs: 10, md: 12 },
+                  right: { xs: 10, md: 14 },
+                  fontSize: { xs: 48, md: 64 },
+                  color: 'rgba(237, 108, 2, 0.1)',
+                  pointerEvents: 'none',
                 }}
-              >
-                Misi
-              </Typography>
+              />
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, marginBottom: '24px' }}>
+                <Box
+                  sx={{
+                    width: { xs: 34, md: 38 },
+                    height: { xs: 34, md: 38 },
+                    borderRadius: '50%',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #ed6c02, #ffb74d)',
+                    boxShadow: '0 6px 14px rgba(237, 108, 2, 0.22)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <Flag sx={{ fontSize: 20, color: '#fff' }} />
+                </Box>
+
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.75rem' },
+                    fontWeight: 700,
+                    color: '#ed6c02',
+                    letterSpacing: '-0.5px',
+                  }}
+                >
+                  Misi
+                </Typography>
+              </Box>
               {tentang?.misi ? (
                 renderWithLineBreaks(tentang.misi)
               ) : (
@@ -304,6 +395,8 @@ const TentangPage = () => {
                 margin: '0 auto',
                 borderLeft: '4px solid #9c27b0',
                 boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                position: 'relative',
+                overflow: 'hidden',
                 transition: 'border-left-width 0.3s ease, box-shadow 0.3s ease',
                 '&:hover': {
                   borderLeft: '6px solid #9c27b0',
@@ -311,18 +404,46 @@ const TentangPage = () => {
                 },
               }}
             >
-              <Typography
-                variant="h3"
+              <HistoryEdu
                 sx={{
-                  fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.75rem' },
-                  fontWeight: 700,
-                  marginBottom: '24px',
-                  color: '#9c27b0',
-                  letterSpacing: '-0.5px',
+                  position: 'absolute',
+                  top: { xs: 10, md: 12 },
+                  right: { xs: 10, md: 14 },
+                  fontSize: { xs: 48, md: 64 },
+                  color: 'rgba(156, 39, 176, 0.1)',
+                  pointerEvents: 'none',
                 }}
-              >
-                Sejarah
-              </Typography>
+              />
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.25, marginBottom: '24px' }}>
+                <Box
+                  sx={{
+                    width: { xs: 34, md: 38 },
+                    height: { xs: 34, md: 38 },
+                    borderRadius: '50%',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'linear-gradient(135deg, #9c27b0, #ce93d8)',
+                    boxShadow: '0 6px 14px rgba(156, 39, 176, 0.22)',
+                    flexShrink: 0,
+                  }}
+                >
+                  <HistoryEdu sx={{ fontSize: 20, color: '#fff' }} />
+                </Box>
+
+                <Typography
+                  variant="h3"
+                  sx={{
+                    fontSize: { xs: '1.3rem', sm: '1.5rem', md: '1.75rem' },
+                    fontWeight: 700,
+                    color: '#9c27b0',
+                    letterSpacing: '-0.5px',
+                  }}
+                >
+                  Sejarah
+                </Typography>
+              </Box>
               {tentang?.sejarah ? (
                 renderWithLineBreaks(tentang.sejarah)
               ) : (

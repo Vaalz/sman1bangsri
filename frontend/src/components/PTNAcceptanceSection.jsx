@@ -1,22 +1,13 @@
-import { Box, Container, Typography, Paper, Card, CardContent, CardMedia, Chip } from '@mui/material';
-import { keyframes } from '@mui/system';
+import { Box, Container, Typography, Card, CardContent, Chip } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { getSiswaPtnList, getImageUrl } from '../services/api';
-
-// Animasi scroll horizontal
-const scroll = keyframes`
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-`;
 
 const PTNAcceptanceSection = () => {
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const scrollViewportRef = useRef(null);
+  const isHoveredRef = useRef(false);
 
   useEffect(() => {
     fetchStudents();
@@ -36,6 +27,25 @@ const PTNAcceptanceSection = () => {
 
   // Duplikasi data untuk seamless loop
   const duplicatedStudents = [...students, ...students];
+
+  useEffect(() => {
+    if (!students.length) return;
+
+    const interval = setInterval(() => {
+      const viewport = scrollViewportRef.current;
+      if (!viewport || isHoveredRef.current) return;
+
+      const halfScrollWidth = viewport.scrollWidth / 2;
+      const maxScrollLeft = viewport.scrollWidth - viewport.clientWidth;
+      const resetPoint = Math.min(halfScrollWidth, maxScrollLeft);
+      const nextScrollLeft = viewport.scrollLeft + 1;
+
+      // Reset ke awal saat mencapai batas loop agar auto-scroll tidak berhenti di ujung.
+      viewport.scrollLeft = nextScrollLeft >= resetPoint ? 0 : nextScrollLeft;
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [students]);
 
   if (loading || students.length === 0) {
     return null; // Don't show section if loading or no data
@@ -79,13 +89,33 @@ const PTNAcceptanceSection = () => {
 
       {/* Container untuk scrolling */}
       <Box
+        ref={scrollViewportRef}
         sx={{
           width: '100%',
-          overflow: 'hidden',
+          overflowX: 'auto',
+          overflowY: 'hidden',
           position: 'relative',
-          '&:hover .scroll-container': {
-            animationPlayState: 'paused',
+          scrollbarWidth: 'thin',
+          '&::-webkit-scrollbar': {
+            height: '8px',
           },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: '#f0f0f0',
+            borderRadius: '999px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            backgroundColor: '#c7c7c7',
+            borderRadius: '999px',
+          },
+          '&::-webkit-scrollbar-thumb:hover': {
+            backgroundColor: '#b0b0b0',
+          },
+        }}
+        onMouseEnter={() => {
+          isHoveredRef.current = true;
+        }}
+        onMouseLeave={() => {
+          isHoveredRef.current = false;
         }}
       >
         <Box
@@ -93,10 +123,10 @@ const PTNAcceptanceSection = () => {
           sx={{
             display: 'flex',
             gap: { xs: 2, md: 4 },
-            animation: { xs: 'none', md: `${scroll} 25s linear infinite` },
             width: 'fit-content',
             paddingLeft: { xs: '12px', md: '20px' },
-            paddingRight: { xs: '12px', md: 0 },
+            paddingRight: { xs: '12px', md: '20px' },
+            paddingBottom: '10px',
           }}
         >
           {duplicatedStudents.map((student, index) => (
