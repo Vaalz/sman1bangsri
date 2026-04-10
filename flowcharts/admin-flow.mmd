@@ -1,0 +1,66 @@
+flowchart TD
+    A[Admin/Superadmin buka /admin atau /admin/login] --> B{Sudah punya token?}
+    B -->|Tidak| C[Halaman Login Admin]
+    B -->|Ya| D[ProtectedRoute lolos]
+
+    C --> E[Input email + password]
+    E --> F[POST /api/login]
+    F --> G{Login valid?}
+    G -->|Tidak| H[Tampilkan error login]
+    H --> C
+    G -->|Ya| I[Simpan token + user ke localStorage]
+    I --> D
+
+    C --> FP[Lupa password?]
+    FP -->|Ya| F1[POST /api/forgot-password]
+    F1 --> F2[Buka halaman reset password]
+    F2 --> F3[POST /api/reset-password]
+    F3 --> C
+
+    D --> J[Masuk Admin Layout dan Dashboard]
+    J --> K[GET /api/admin/dashboard/stats]
+
+    K --> L{Pilih menu admin}
+    L -->|Berita| M[CRUD /api/admin/berita]
+    L -->|Galeri| N[CRUD /api/admin/galeri]
+    L -->|Guru| O[CRUD /api/admin/guru]
+    L -->|Prestasi| P[CRUD /api/admin/prestasi]
+    L -->|Ekstrakurikuler| Q[CRUD /api/admin/ekstrakurikuler]
+    L -->|Course| R[CRUD /api/admin/courses]
+    L -->|Sambutan| S[CRUD /api/admin/sambutan]
+    L -->|Tentang| T[GET/PUT /api/admin/tentang]
+    L -->|Kontak| U[GET/PUT /api/admin/contact]
+    L -->|Siswa PTN| V[CRUD /api/admin/siswa-ptn]
+    L -->|Pengaturan Akun| W[POST /api/change-password atau /api/change-email]
+
+    M --> X[Data tersimpan dan list diperbarui]
+    N --> X
+    O --> X
+    P --> X
+    Q --> X
+    R --> X
+    S --> X
+    T --> X
+    U --> X
+    V --> X
+    W --> X
+
+    X --> Y{Role superadmin?}
+    Y -->|Tidak| Z{Logout?}
+    Y -->|Ya| SA1[Akses Manajemen Admin]
+
+    SA1 --> SA2[GET /api/superadmin/admins]
+    SA2 --> SA3{Aksi manajemen}
+    SA3 -->|Tambah admin| SA4[POST /api/superadmin/admins]
+    SA3 -->|Aktif/Nonaktif| SA5[PATCH /api/superadmin/admins/:id/status]
+    SA3 -->|Reset password admin| SA6[POST /api/superadmin/admins/:id/reset-password]
+    SA3 -->|Hapus admin| SA7[DELETE /api/superadmin/admins/:id]
+
+    SA4 --> Z
+    SA5 --> Z
+    SA6 --> Z
+    SA7 --> Z
+
+    Z -->|Ya| LO[POST /api/logout]
+    Z -->|Tidak| L
+    LO --> END[Selesai]

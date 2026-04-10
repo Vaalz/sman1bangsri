@@ -1,0 +1,37 @@
+flowchart TD
+    A[User membuka website] --> B{Path yang diakses}
+    B -->|/| C[Redirect ke /beranda]
+    B -->|Halaman publik| D[Render halaman publik]
+
+    C --> D
+
+    D --> E{Pilih menu konten}
+    E -->|Beranda| F[GET /api/public/stats]
+    E -->|Berita| G[GET /api/public/berita]
+    E -->|Detail Berita| H[GET /api/public/berita/:id]
+    E -->|Galeri| I[GET /api/public/galeri]
+    E -->|Guru| J[GET /api/public/guru]
+    E -->|Prestasi| K[GET /api/public/prestasi]
+    E -->|Ekstrakurikuler| L[GET /api/public/ekstrakurikuler]
+    E -->|Detail Ekstrakurikuler| M[GET /api/public/ekstrakurikuler/:id]
+    E -->|Course| N[GET /api/public/courses]
+    E -->|Tentang| O[GET /api/public/tentang]
+    E -->|Kontak| P[GET /api/public/contact]
+    E -->|Siswa PTN| Q[GET /api/public/siswa-ptn]
+
+    F --> R[Tampilkan data ke user]
+    G --> R
+    H --> R
+    I --> R
+    J --> R
+    K --> R
+    L --> R
+    M --> R
+    N --> R
+    O --> R
+    P --> R
+    Q --> R
+
+    R --> S{User lanjut jelajah?}
+    S -->|Ya| E
+    S -->|Tidak| T[Selesai]
