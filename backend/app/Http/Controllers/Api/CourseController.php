@@ -13,18 +13,20 @@ class CourseController extends Controller
     {
         // Check if pagination is requested
         $perPage = $request->get('per_page', 10);
-        $search = $request->get('search', '');
+        $search = trim((string) $request->get('search', ''));
         
         // Build query with search
         $query = Course::select(['id', 'judul', 'mapel', 'kelas', 'deskripsi', 'file', 'link', 'created_at']);
         
         // Apply search filter if search term exists
         if (!empty($search)) {
-            $query->where(function($q) use ($search) {
-                $q->where('judul', 'like', '%' . $search . '%')
-                  ->orWhere('mapel', 'like', '%' . $search . '%')
-                  ->orWhere('kelas', 'like', '%' . $search . '%')
-                  ->orWhere('deskripsi', 'like', '%' . $search . '%');
+                        $searchTerm = '%' . mb_strtolower($search, 'UTF-8') . '%';
+
+                        $query->where(function($q) use ($searchTerm) {
+                                $q->whereRaw('LOWER(judul) LIKE ?', [$searchTerm])
+                                    ->orWhereRaw('LOWER(mapel) LIKE ?', [$searchTerm])
+                                    ->orWhereRaw('LOWER(kelas) LIKE ?', [$searchTerm])
+                                    ->orWhereRaw('LOWER(deskripsi) LIKE ?', [$searchTerm]);
             });
         }
         
