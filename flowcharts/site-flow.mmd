@@ -1,0 +1,52 @@
+flowchart TB
+    %% High-level website flowchart (Gabungan User + Admin)
+    Home["Beranda (/) - Landing Page"]
+    Auth["Auth\nLogin / Register"]
+    Public["Halaman Publik\n(Berita, Galeri, Tentang, Kontak)"]
+    UserDash["Dashboard Pengguna\n(Profile, Kirim Dokumen, Statistik)"]
+    AdminDash["Dashboard Admin\n(Manajemen Konten & Pengguna)"]
+    Upload["Upload File / Storage"]
+    API["API / Integrasi\n(Email, Notifikasi, External)"]
+    Forgot["Lupa Password / Reset"]
+    Logout["Logout"]
+
+    Home --> Public
+    Home --> Auth
+    Public -->|Pilih konten| PublicContent
+    Auth -->|Sukses| UserDash
+    Auth -->|Admin login| AdminDash
+    UserDash --> Profile["Profil"]
+    UserDash --> Submit["Kirim / Submit Dokumen"]
+    Submit --> Upload
+    UserDash --> UserDocs["Daftar Dokumen / Lihat"]
+    UserDocs --> ViewDoc["Detail Dokumen"]
+
+    AdminDash --> ManageContent["Kelola Berita, Galeri, dll."]
+    AdminDash --> ManageUsers["Kelola Pengguna & Izin"]
+    ManageContent -->|CRUD| Upload
+    ManageUsers -->|Reset Password| Forgot
+
+    Upload --> Storage[(Storage / public/storage)]
+    API --> Email["Email / Notifikasi"]
+    API --> External["Integrasi Eksternal"]
+
+    Home -.-> AdminDash
+    UserDash --> Logout
+    AdminDash --> Logout
+
+    subgraph UserFlow [Alur Pengguna]
+        Public
+        Auth
+        UserDash
+        Submit
+        UserDocs
+    end
+
+    subgraph AdminFlow [Alur Admin]
+        AdminDash
+        ManageContent
+        ManageUsers
+    end
+
+    %% Notes
+    %% - Untuk detail CRUD dan endpoint lihat flowcharts/user-flow.mmd dan flowcharts/admin-flow.mmd

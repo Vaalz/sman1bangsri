@@ -21,6 +21,31 @@ const normalizeGoogleMapsEmbedUrl = (url) => {
     return trimmed;
   }
 
+  try {
+    const parsed = new URL(trimmed);
+    const isGoogleMapsHost = /google\./i.test(parsed.hostname);
+    const isMapsPath = /^\/maps(\/|$)/i.test(parsed.pathname);
+
+    if (isGoogleMapsHost && isMapsPath) {
+      const q = parsed.searchParams.get('q');
+      if (q) {
+        return `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+      }
+
+      const ll = parsed.searchParams.get('ll');
+      if (ll && /^-?\d+(?:\.\d+)?,-?\d+(?:\.\d+)?$/.test(ll)) {
+        return `https://www.google.com/maps?q=${encodeURIComponent(ll)}&output=embed`;
+      }
+
+      const cid = parsed.searchParams.get('cid');
+      if (cid) {
+        return `https://www.google.com/maps?q=${encodeURIComponent(`cid:${cid}`)}&output=embed`;
+      }
+    }
+  } catch {
+    // Ignore malformed URLs and continue with fallback logic.
+  }
+
   // Convert regular query links to embeddable format.
   if (/google\.[^/]+\/maps\?q=/i.test(trimmed)) {
     return /output=embed/i.test(trimmed) ? trimmed : `${trimmed}&output=embed`;

@@ -2,8 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import { EmojiEventsOutlined, WorkspacePremiumOutlined, MilitaryTechOutlined } from '@mui/icons-material';
 import axios from 'axios';
-
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api';
+import { API_BASE_URL } from '../services/apiBaseUrl';
 
 const StatisticsSection = () => {
   const [stats, setStats] = useState({

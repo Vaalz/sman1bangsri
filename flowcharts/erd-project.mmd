@@ -1,0 +1,214 @@
+erDiagram
+  USERS {
+    BIGINT id PK
+    VARCHAR name
+    VARCHAR username
+    VARCHAR email
+    VARCHAR password
+    ENUM role
+    BOOLEAN is_active
+    TIMESTAMP email_verified_at
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  PERSONAL_ACCESS_TOKENS {
+    BIGINT id PK
+    VARCHAR tokenable_type
+    BIGINT tokenable_id
+    TEXT name
+    VARCHAR token
+    TEXT abilities
+    TIMESTAMP last_used_at
+    TIMESTAMP expires_at
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  PASSWORD_RESET_TOKENS {
+    VARCHAR email PK
+    VARCHAR token
+    TIMESTAMP created_at
+  }
+
+  SESSIONS {
+    VARCHAR id PK
+    BIGINT user_id
+    VARCHAR ip_address
+    TEXT user_agent
+    LONGTEXT payload
+    INT last_activity
+  }
+
+  ACTIVITY_LOGS {
+    BIGINT id PK
+    BIGINT user_id FK
+    VARCHAR action
+    VARCHAR resource
+    TEXT description
+    VARCHAR ip_address
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  BERITA {
+    BIGINT id PK
+    VARCHAR judul
+    VARCHAR slug
+    VARCHAR kategori
+    VARCHAR penulis
+    TEXT konten
+    VARCHAR foto
+    DATE tanggal
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  GALERI {
+    BIGINT id PK
+    VARCHAR judul
+    VARCHAR kategori
+    VARCHAR foto
+    TEXT caption
+    DATE tanggal
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  GURU {
+    BIGINT id PK
+    VARCHAR nama
+    VARCHAR nip
+    VARCHAR jabatan
+    VARCHAR mapel
+    VARCHAR foto
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  PRESTASI {
+    BIGINT id PK
+    VARCHAR judul
+    VARCHAR nama_siswa
+    ENUM tingkat
+    VARCHAR kategori
+    VARCHAR juara
+    VARCHAR tahun
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  EKSTRAKURIKULER {
+    BIGINT id PK
+    VARCHAR nama
+    VARCHAR slug
+    VARCHAR kategori
+    TEXT deskripsi
+    VARCHAR pembina
+    VARCHAR icon
+    VARCHAR logo
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  JADWAL_EKSTRAKURIKULER {
+    BIGINT id PK
+    BIGINT ekstrakurikuler_id FK
+    VARCHAR hari
+    TIME waktu_mulai
+    TIME waktu_selesai
+    VARCHAR tempat
+    TEXT keterangan
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  STRUKTUR_EKSTRAKURIKULER {
+    BIGINT id PK
+    BIGINT ekstrakurikuler_id FK
+    VARCHAR nama
+    VARCHAR jabatan
+    VARCHAR kelas
+    VARCHAR foto
+    INT urutan
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  PRESTASI_EKSTRAKURIKULER {
+    BIGINT id PK
+    BIGINT ekstrakurikuler_id FK
+    VARCHAR nama_prestasi
+    VARCHAR nama_siswa
+    VARCHAR juara
+    VARCHAR tingkat
+    YEAR tahun
+    TEXT deskripsi
+    VARCHAR foto
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  SISWA_PTN {
+    BIGINT id PK
+    VARCHAR nama_siswa
+    VARCHAR foto_siswa
+    VARCHAR kelas
+    VARCHAR nama_ptn
+    VARCHAR logo_ptn
+    VARCHAR jurusan
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  COURSES {
+    BIGINT id PK
+    VARCHAR judul
+    VARCHAR mapel
+    VARCHAR kelas
+    TEXT deskripsi
+    TEXT konten
+    VARCHAR file
+    VARCHAR link
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  SAMBUTAN {
+    BIGINT id PK
+    VARCHAR nama
+    VARCHAR jabatan
+    VARCHAR foto
+    TEXT sambutan
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  TENTANG {
+    BIGINT id PK
+    TEXT sejarah
+    TEXT tentang_kami
+    TEXT visi
+    TEXT misi
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  CONTACT {
+    BIGINT id PK
+    VARCHAR alamat
+    VARCHAR telepon
+    VARCHAR email
+    TEXT jam_operasional
+    TEXT maps_embed_url
+    TIMESTAMP created_at
+    TIMESTAMP updated_at
+  }
+
+  USERS ||--o{ ACTIVITY_LOGS : mencatat
+  USERS ||--o{ SESSIONS : memiliki
+  USERS ||--o{ PERSONAL_ACCESS_TOKENS : token_sanctum
+
+  EKSTRAKURIKULER ||--o{ JADWAL_EKSTRAKURIKULER : memiliki
+  EKSTRAKURIKULER ||--o{ STRUKTUR_EKSTRAKURIKULER : memiliki
+  EKSTRAKURIKULER ||--o{ PRESTASI_EKSTRAKURIKULER : memiliki
