@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\JadwalEkstrakurikulerController;
 use App\Http\Controllers\Api\StrukturEkstrakurikulerController;
 use App\Http\Controllers\Api\PrestasiEkstrakurikulerController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\SocialLinkController;
 
 Route::get('/test', function () {
     return response()->json([
@@ -77,6 +78,12 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'log.admin.activity'])->grou
     
     // Course Routes
     Route::apiResource('courses', CourseController::class);
+
+    // Keuangan Routes
+    Route::apiResource('keuangan', \App\Http\Controllers\Api\KeuanganController::class);
+
+    // Social Links Routes
+    Route::apiResource('social-links', SocialLinkController::class)->only(['index', 'store', 'update', 'destroy']);
     
     // Sambutan Routes
     Route::apiResource('sambutan', SambutanController::class);
@@ -122,8 +129,15 @@ Route::prefix('public')->group(function () {
     Route::get('prestasi-ekstrakurikuler', [PrestasiEkstrakurikulerController::class, 'index']);
     Route::get('prestasi-ekstrakurikuler/{id}', [PrestasiEkstrakurikulerController::class, 'show']);
     
+
     Route::get('courses', [CourseController::class, 'index']);
     Route::get('courses/{id}', [CourseController::class, 'show']);
+
+    // Public Keuangan
+    Route::get('keuangan', [\App\Http\Controllers\Api\KeuanganController::class, 'index']);
+
+    // Public Social Links
+    Route::get('social-links', [SocialLinkController::class, 'index']);
     
     Route::get('sambutan', [SambutanController::class, 'getCurrent']);
     

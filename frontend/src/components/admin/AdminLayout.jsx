@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Box, Drawer, AppBar, Toolbar, Typography, IconButton, List, ListItem, ListItemIcon, ListItemText, ListItemButton, Divider } from '@mui/material';
-import { Menu as MenuIcon, Dashboard, Article, Photo, People, EmojiEvents, Sports, School, RecordVoiceOver, Info, ContactMail, Settings, ExitToApp, SupervisorAccount, WorkspacePremium } from '@mui/icons-material';
+import { Menu as MenuIcon, Dashboard, Article, Photo, People, EmojiEvents, Sports, School, RecordVoiceOver, Info, ContactMail, Settings, ExitToApp, SupervisorAccount, WorkspacePremium, AccountBalance, Share } from '@mui/icons-material';
 import { useNavigate, Outlet, useLocation } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -27,7 +27,9 @@ function AdminLayout() {
     { text: 'Prestasi', icon: <EmojiEvents />, path: '/admin/prestasi' },
     { text: 'Ekstrakurikuler', icon: <Sports />, path: '/admin/ekstrakurikuler' },
     { text: 'Course', icon: <School />, path: '/admin/course' },
+    { text: 'Keuangan', icon: <AccountBalance />, path: '/admin/keuangan' },
     { text: 'Sambutan', icon: <RecordVoiceOver />, path: '/admin/sambutan' },
+    { text: 'Sosmed', icon: <Share />, path: '/admin/sosmed' },
     { text: 'Tentang', icon: <Info />, path: '/admin/tentang' },
     { text: 'Kontak', icon: <ContactMail />, path: '/admin/kontak' },
     { text: 'Siswa PTN', icon: <WorkspacePremium />, path: '/admin/siswa-ptn' },

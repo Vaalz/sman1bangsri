@@ -4,10 +4,127 @@ import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import XIcon from '@mui/icons-material/X';
+import TikTokIcon from '@mui/icons-material/MusicNote';
+import LanguageIcon from '@mui/icons-material/Language';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import TelegramIcon from '@mui/icons-material/Telegram';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import RedditIcon from '@mui/icons-material/Reddit';
+import PinterestIcon from '@mui/icons-material/Pinterest';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import ForumIcon from '@mui/icons-material/Forum';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import PhoneIcon from '@mui/icons-material/Phone';
+import { useEffect, useMemo, useState } from 'react';
+import { getSocialLinks } from '../services/api';
 import logo from '../assets/image/logo.png';
 
 const Footer = () => {
+  const [socialLinks, setSocialLinks] = useState([]);
+
+  useEffect(() => {
+    const fetchSocialLinks = async () => {
+      try {
+        const response = await getSocialLinks();
+        const payload = response?.data?.data;
+        setSocialLinks(Array.isArray(payload) ? payload : []);
+      } catch (error) {
+        console.error('Error fetching social links:', error);
+      }
+    };
+
+    fetchSocialLinks();
+  }, []);
+
+  const socialConfig = useMemo(
+    () => ({
+      instagram: {
+        label: 'Instagram',
+        icon: <InstagramIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#E4405F',
+      },
+      whatsapp: {
+        label: 'WhatsApp',
+        icon: <WhatsAppIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#25D366',
+      },
+      telegram: {
+        label: 'Telegram',
+        icon: <TelegramIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#229ED9',
+      },
+      threads: {
+        label: 'Threads',
+        icon: <AlternateEmailIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#111111',
+      },
+      youtube: {
+        label: 'YouTube',
+        icon: <YouTubeIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#FF0000',
+      },
+      facebook: {
+        label: 'Facebook',
+        icon: <FacebookIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#1877F2',
+      },
+      x: {
+        label: 'X',
+        icon: <XIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#000000',
+      },
+      tiktok: {
+        label: 'TikTok',
+        icon: <TikTokIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#111111',
+      },
+      discord: {
+        label: 'Discord',
+        icon: <ForumIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#5865F2',
+      },
+      linkedin: {
+        label: 'LinkedIn',
+        icon: <LinkedInIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#0A66C2',
+      },
+      github: {
+        label: 'GitHub',
+        icon: <GitHubIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#24292F',
+      },
+      reddit: {
+        label: 'Reddit',
+        icon: <RedditIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#FF4500',
+      },
+      pinterest: {
+        label: 'Pinterest',
+        icon: <PinterestIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#BD081C',
+      },
+      snapchat: {
+        label: 'Snapchat',
+        icon: <PhotoCameraIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#FFFC00',
+      },
+      twitch: {
+        label: 'Twitch',
+        icon: <SportsEsportsIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#9146FF',
+      },
+      website: {
+        label: 'Website',
+        icon: <LanguageIcon sx={{ fontSize: '1.3rem' }} />,
+        hoverBg: '#2c3e50',
+      },
+    }),
+    []
+  );
+
+  const socialItems = socialLinks;
   const menuItems = [
     { label: 'Beranda', href: '/' },
     { label: 'Tentang', href: '/tentang' },
@@ -139,86 +256,43 @@ const Footer = () => {
                   justifyContent: { xs: 'center', md: 'flex-start' },
                 }}
               >
-                <IconButton
-                  component="a"
-                  href="https://www.instagram.com/smansatubangsri?igsh=dWJmNHg5dHhreXE3"
-                  target="_blank"
-                  sx={{
-                    backgroundColor: '#fff',
-                    border: '2px solid #ddd',
-                    width: '40px',
-                    height: '40px',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: '#E4405F',
-                      borderColor: '#E4405F',
-                      color: '#fff',
-                      transform: 'translateY(-3px)',
-                    },
-                  }}
-                >
-                  <InstagramIcon sx={{ fontSize: '1.3rem' }} />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="https://www.youtube.com/@sman1bangsriofficial881"
-                  target="_blank"
-                  sx={{
-                    backgroundColor: '#fff',
-                    border: '2px solid #ddd',
-                    width: '40px',
-                    height: '40px',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: '#FF0000',
-                      borderColor: '#FF0000',
-                      color: '#fff',
-                      transform: 'translateY(-3px)',
-                    },
-                  }}
-                >
-                  <YouTubeIcon sx={{ fontSize: '1.3rem' }} />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="https://www.facebook.com/smansatubangsri"
-                  target="_blank"
-                  sx={{
-                    backgroundColor: '#fff',
-                    border: '2px solid #ddd',
-                    width: '40px',
-                    height: '40px',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: '#1877F2',
-                      borderColor: '#1877F2',
-                      color: '#fff',
-                      transform: 'translateY(-3px)',
-                    },
-                  }}
-                >
-                  <FacebookIcon sx={{ fontSize: '1.3rem' }} />
-                </IconButton>
-                <IconButton
-                  component="a"
-                  href="https://x.com/sman_bangsri"
-                  target="_blank"
-                  sx={{
-                    backgroundColor: '#fff',
-                    border: '2px solid #ddd',
-                    width: '40px',
-                    height: '40px',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: '#000',
-                      borderColor: '#000',
-                      color: '#fff',
-                      transform: 'translateY(-3px)',
-                    },
-                  }}
-                >
-                  <XIcon sx={{ fontSize: '1.3rem' }} />
-                </IconButton>
+                {socialItems.map((item) => {
+                  const normalizedPlatform = String(item.platform || '')
+                    .trim()
+                    .toLowerCase()
+                    .replace(/\s+/g, '');
+                  const config = socialConfig[normalizedPlatform] || {
+                    label: item.platform || 'Social',
+                    icon: <LanguageIcon sx={{ fontSize: '1.3rem' }} />,
+                    hoverBg: '#2c3e50',
+                  };
+
+                  return (
+                    <IconButton
+                      key={item.id || `${normalizedPlatform}-${item.url}`}
+                      component="a"
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={config.label}
+                      sx={{
+                        backgroundColor: '#fff',
+                        border: '2px solid #ddd',
+                        width: '40px',
+                        height: '40px',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          backgroundColor: config.hoverBg,
+                          borderColor: config.hoverBg,
+                          color: '#fff',
+                          transform: 'translateY(-3px)',
+                        },
+                      }}
+                    >
+                      {config.icon}
+                    </IconButton>
+                  );
+                })}
               </Box>
             </Box>
           </Grid>

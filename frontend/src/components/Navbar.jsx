@@ -36,6 +36,7 @@ const Navbar = () => {
         { label: 'Materi Pembelajaran', path: '/course' },
       ]
     },
+    { label: 'Keuangan', path: '/keuangan' },
     { label: 'Prestasi', path: '/prestasi' },
     { label: 'Radar Ekstrakurikuler', path: '/ekstrakurikuler' },
     { label: 'Berita', path: '/berita' },

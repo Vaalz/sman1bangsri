@@ -4,6 +4,7 @@ import LandingPage from './pages/LandingPage';
 import TentangPage from './pages/TentangPage';
 import GuruPage from './pages/GuruPage';
 import CoursePage from './pages/CoursePage';
+import KeuanganPage from './pages/KeuanganPage';
 import PrestasiPage from './pages/PrestasiPage';
 import EkstrakurikulerPage from './pages/EkstrakurikulerPage';
 import DetailEkstrakurikulerPage from './pages/DetailEkstrakurikulerPage';
@@ -23,6 +24,8 @@ import AdminGuru from './pages/admin/AdminGuru';
 import AdminPrestasi from './pages/admin/AdminPrestasi';
 import AdminEkstrakurikuler from './pages/admin/AdminEkstrakurikuler';
 import AdminCourse from './pages/admin/AdminCourse';
+import AdminKeuangan from './pages/admin/AdminKeuangan';
+import AdminSosmed from './pages/admin/AdminSosmed';
 import AdminSambutan from './pages/admin/AdminSambutan';
 import AdminTentang from './pages/admin/AdminTentang';
 import AdminKontak from './pages/admin/AdminKontak';
@@ -49,6 +52,7 @@ function App() {
           <Route path="/tentang" element={<TentangPage />} />
           <Route path="/guru" element={<GuruPage />} />
           <Route path="/course" element={<CoursePage />} />
+          <Route path="/keuangan" element={<KeuanganPage />} />
           <Route path="/prestasi" element={<PrestasiPage />} />
           <Route path="/ekstrakurikuler" element={<EkstrakurikulerPage />} />
           <Route path="/ekstrakurikuler/detail-ekstrakurikuler/:id" element={<DetailEkstrakurikulerPage />} />
@@ -71,6 +75,8 @@ function App() {
             <Route path="prestasi" element={<AdminPrestasi />} />
             <Route path="ekstrakurikuler" element={<AdminEkstrakurikuler />} />
             <Route path="course" element={<AdminCourse />} />
+            <Route path="keuangan" element={<AdminKeuangan />} />
+            <Route path="sosmed" element={<AdminSosmed />} />
             <Route path="sambutan" element={<AdminSambutan />} />
             <Route path="tentang" element={<AdminTentang />} />
             <Route path="kontak" element={<AdminKontak />} />

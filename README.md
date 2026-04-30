@@ -93,13 +93,13 @@ npm run dev            # Start local dev server
 This project is open-source and MIT licensed. See [backend/README.md](backend/README.md) for details.
 
 ---
-
+     
 ## 🙋 Need Help?
 - Read the full documentation above
 - Check logs on Railway/Vercel
 - Google specific error messages
 - Join Railway/Vercel Discord communities
 
----
+--- 
 
 **Happy Coding & Deploying!** 🚀

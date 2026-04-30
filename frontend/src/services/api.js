@@ -113,6 +113,12 @@ export const getEkstrakurikulerBySlug = (slug) => api.get(`/public/ekstrakurikul
 export const getCourseList = (params = {}) => api.get('/public/courses', { params });
 export const getCourseById = (id) => api.get(`/public/courses/${id}`);
 
+// Keuangan
+export const getKeuanganList = (params = {}) => api.get('/public/keuangan', { params });
+
+// Social Links
+export const getSocialLinks = () => api.get('/public/social-links');
+
 // ==================== ADMIN API ====================
 
 // Dashboard Stats
@@ -289,6 +295,31 @@ export const updateCourse = (id, data) => {
   });
 };
 export const deleteCourse = (id) => api.delete(`/admin/courses/${id}`);
+
+// Admin Keuangan
+export const getAdminKeuangan = (params = {}) => api.get('/admin/keuangan', { params });
+export const createKeuangan = (data) => {
+  const formData = new FormData();
+  appendFormData(formData, data);
+  return api.post('/admin/keuangan', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+};
+export const updateKeuangan = (id, data) => {
+  const formData = new FormData();
+  formData.append('_method', 'PUT');
+  appendFormData(formData, data, true);
+  return api.post(`/admin/keuangan/${id}`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  });
+};
+export const deleteKeuangan = (id) => api.delete(`/admin/keuangan/${id}`);
+
+// Admin Social Links
+export const getAdminSocialLinks = () => api.get('/admin/social-links');
+export const createSocialLink = (data) => api.post('/admin/social-links', data);
+export const updateSocialLink = (id, data) => api.put(`/admin/social-links/${id}`, data);
+export const deleteSocialLink = (id) => api.delete(`/admin/social-links/${id}`);
 
 // Admin Sambutan
 export const getAdminSambutan = (params = {}) => api.get('/admin/sambutan', { params });
