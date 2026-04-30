@@ -13,6 +13,8 @@ import {
   History,
   AddPhotoAlternate,
   PostAdd,
+  AttachMoney,
+  Share,
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { getDashboardStats } from '../../services/api';
@@ -150,6 +152,8 @@ function AdminDashboard() {
     { label: 'Tambah Prestasi', path: '/admin/prestasi', icon: <EmojiEvents />, color: 'success' },
     { label: 'Tambah Ekskul', path: '/admin/ekstrakurikuler', icon: <Sports />, color: 'warning' },
     { label: 'Tambah Course', path: '/admin/course', icon: <School />, color: 'primary' },
+    { label: 'Kelola Keuangan', path: '/admin/keuangan', icon: <AttachMoney />, color: 'info' },
+    { label: 'Kelola Sosmed', path: '/admin/sosmed', icon: <Share />, color: 'secondary' },
     { label: 'Tambah Sambutan', path: '/admin/sambutan', icon: <RecordVoiceOver />, color: 'secondary' },
     { label: 'Tambah Siswa PTN', path: '/admin/siswa-ptn', icon: <WorkspacePremium />, color: 'success' },
   ];

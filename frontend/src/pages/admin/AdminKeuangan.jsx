@@ -8,7 +8,6 @@ const formFields = [
   { name: 'judul', label: 'Judul Laporan', required: true },
   { name: 'tanggal', label: 'Tanggal', type: 'date', required: true },
   { name: 'deskripsi', label: 'Deskripsi', multiline: true, rows: 3, required: false },
-  { name: 'drive_link', label: 'Link Drive', required: false },
   { name: 'file', label: 'Upload PDF', type: 'file', accept: '.pdf', fileTypes: 'PDF', maxSize: '5 MB', required: false },
 ];
 
@@ -23,25 +22,6 @@ function AdminKeuangan() {
   const columns = [
     { field: 'judul', headerName: 'Judul' },
     { field: 'tanggal', headerName: 'Tanggal' },
-    {
-      field: 'drive_link',
-      headerName: 'Link Drive',
-      render: (value) => {
-        if (!value) return '-';
-        return (
-          <Button
-            component="a"
-            href={value}
-            target="_blank"
-            rel="noopener noreferrer"
-            size="small"
-            variant="outlined"
-          >
-            Drive
-          </Button>
-        );
-      },
-    },
     {
       field: 'file',
       headerName: 'PDF',
@@ -105,14 +85,6 @@ function AdminKeuangan() {
     }
   };
 
-  const normalizeLink = (value) => {
-    if (!value || typeof value !== 'string') return '';
-    const trimmed = value.trim();
-    if (!trimmed) return '';
-    if (/^https?:\/\//i.test(trimmed)) return trimmed;
-    return `https://${trimmed}`;
-  };
-
   const getApiErrorMessage = (err, fallback) => {
     const validationErrors = err?.response?.data?.errors;
     if (validationErrors && typeof validationErrors === 'object') {
@@ -131,7 +103,6 @@ function AdminKeuangan() {
         judul: data.judul?.trim() || '',
         tanggal: data.tanggal || '',
         deskripsi: data.deskripsi?.trim() || '',
-        drive_link: normalizeLink(data.drive_link),
       };
 
       if (editingId) {

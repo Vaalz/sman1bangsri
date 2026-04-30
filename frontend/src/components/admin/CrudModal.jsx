@@ -138,7 +138,7 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
 
     if (field.type === 'file') {
       const isImageFile = !field.accept || field.accept.includes('image');
-      const maxSize = field.maxSize || (isImageFile ? '2 MB' : '5 MB');
+      const maxSize = field.maxSize || (isImageFile ? '5 MB' : '5 MB');
       const fileTypes = field.fileTypes || (isImageFile ? 'JPG, PNG, GIF' : 'PDF, DOC, DOCX');
       
       return (

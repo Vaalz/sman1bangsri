@@ -34,13 +34,13 @@ const Navbar = () => {
       dropdown: [
         { label: 'Guru & Staff', path: '/guru' },
         { label: 'Materi Pembelajaran', path: '/course' },
+        { label: 'Prestasi', path: '/prestasi' },
       ]
     },
-    { label: 'Keuangan', path: '/keuangan' },
-    { label: 'Prestasi', path: '/prestasi' },
     { label: 'Radar Ekstrakurikuler', path: '/ekstrakurikuler' },
     { label: 'Berita', path: '/berita' },
     { label: 'Galeri', path: '/galeri' },
+    { label: 'Keuangan', path: '/keuangan' },
     { label: 'Kontak', path: '/kontak' },
   ];
 

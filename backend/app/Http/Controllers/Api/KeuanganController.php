@@ -14,7 +14,7 @@ class KeuanganController extends Controller
         $perPage = (int) $request->get('per_page', 12);
         $search = trim((string) $request->get('search', ''));
 
-        $query = Keuangan::select(['id', 'judul', 'tanggal', 'deskripsi', 'drive_link', 'file', 'created_at']);
+        $query = Keuangan::select(['id', 'judul', 'tanggal', 'deskripsi', 'file', 'created_at']);
 
         if (!empty($search)) {
             $searchTerm = '%' . mb_strtolower($search, 'UTF-8') . '%';
@@ -37,7 +37,6 @@ class KeuanganController extends Controller
             'judul' => 'required|string|max:255',
             'tanggal' => 'required|date',
             'deskripsi' => 'nullable|string',
-            'drive_link' => 'nullable|url|max:500',
             'file' => 'nullable|file|mimes:pdf|max:5120',
         ]);
 
@@ -65,7 +64,6 @@ class KeuanganController extends Controller
             'judul' => 'sometimes|required|string|max:255',
             'tanggal' => 'sometimes|required|date',
             'deskripsi' => 'nullable|string',
-            'drive_link' => 'nullable|url|max:500',
             'file' => 'nullable|file|mimes:pdf|max:5120',
         ]);
 

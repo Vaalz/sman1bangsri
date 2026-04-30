@@ -173,8 +173,8 @@ function AdminGaleri() {
         return;
       }
 
-      if (data.foto instanceof File && data.foto.size > 2 * 1024 * 1024) {
-        alert('Ukuran foto maksimal 2 MB');
+      if (data.foto instanceof File && data.foto.size > 5 * 1024 * 1024) {
+        alert('Ukuran foto maksimal 5 MB');
         return;
       }
 

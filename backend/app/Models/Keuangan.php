@@ -15,7 +15,6 @@ class Keuangan extends Model
         'judul',
         'tanggal',
         'deskripsi',
-        'drive_link',
         'file',
     ];
 }

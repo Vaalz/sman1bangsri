@@ -1,6 +1,6 @@
 import { Box, Container, Typography, Grid, Card, CardContent, Chip, Button, TextField, InputAdornment, IconButton, Skeleton } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
-import { AccountBalance, CalendarMonth, Description, Link as LinkIcon, Search, Clear, PictureAsPdf } from '@mui/icons-material';
+import { AccountBalance, CalendarMonth, Description, Search, Clear, PictureAsPdf } from '@mui/icons-material';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import smansabaImage from '../assets/image/smansaba.jpg';
@@ -218,8 +218,6 @@ const KeuanganPage = () => {
               >
                 {sortedReports.map((report) => {
                   const fileUrl = report.file ? getImageUrl(report.file) : '';
-                  const driveLink = report.drive_link || report.link || '';
-
                   return (
                     <Grid item xs={12} sm={6} md={4} key={report.id}>
                       <Card
@@ -312,22 +310,6 @@ const KeuanganPage = () => {
                           </Box>
 
                           <Box sx={{ display: 'flex', gap: 1, mt: 'auto', flexDirection: 'column' }}>
-                            <Button
-                              variant="outlined"
-                              startIcon={<LinkIcon />}
-                              component={driveLink ? 'a' : 'button'}
-                              href={driveLink || undefined}
-                              target={driveLink ? '_blank' : undefined}
-                              rel={driveLink ? 'noopener noreferrer' : undefined}
-                              disabled={!driveLink}
-                              sx={{
-                                textTransform: 'none',
-                                fontWeight: 600,
-                                borderRadius: '8px',
-                              }}
-                            >
-                              {driveLink ? 'Lihat Drive' : 'Link Drive Belum Ada'}
-                            </Button>
                             <Button
                               variant="contained"
                               startIcon={<PictureAsPdf />}
