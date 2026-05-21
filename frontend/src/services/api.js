@@ -90,27 +90,27 @@ api.interceptors.response.use(
 // ==================== PUBLIC API ====================
 
 // Berita
-export const getBeritaList = (params = {}) => api.get('/public/berita', { params });
+export const getBeritaList = (params = {}) => api.get('/public/berita', { params: { per_page: 100, ...params } });
 export const getBeritaBySlug = (slug) => api.get(`/public/berita/${slug}`);
 
 // Galeri
-export const getGaleriList = (params = {}) => api.get('/public/galeri', { params });
+export const getGaleriList = (params = {}) => api.get('/public/galeri', { params: { per_page: 100, ...params } });
 export const getGaleriById = (id) => api.get(`/public/galeri/${id}`);
 
 // Guru
-export const getGuruList = (params = {}) => api.get('/public/guru', { params });
+export const getGuruList = (params = {}) => api.get('/public/guru', { params: { per_page: 100, ...params } });
 export const getGuruById = (id) => api.get(`/public/guru/${id}`);
 
 // Prestasi
-export const getPrestasiList = (params = {}) => api.get('/public/prestasi', { params });
+export const getPrestasiList = (params = {}) => api.get('/public/prestasi', { params: { per_page: 100, ...params } });
 export const getPrestasiById = (id) => api.get(`/public/prestasi/${id}`);
 
 // Ekstrakurikuler
-export const getEkstrakurikulerList = (params = {}) => api.get('/public/ekstrakurikuler', { params });
+export const getEkstrakurikulerList = (params = {}) => api.get('/public/ekstrakurikuler', { params: { per_page: 100, ...params } });
 export const getEkstrakurikulerBySlug = (slug) => api.get(`/public/ekstrakurikuler/${slug}`);
 
 // Courses
-export const getCourseList = (params = {}) => api.get('/public/courses', { params });
+export const getCourseList = (params = {}) => api.get('/public/courses', { params: { per_page: 100, ...params } });
 export const getCourseById = (id) => api.get(`/public/courses/${id}`);
 
 // Keuangan
@@ -125,7 +125,7 @@ export const getSocialLinks = () => api.get('/public/social-links');
 export const getDashboardStats = () => api.get('/admin/dashboard/stats');
 
 // Admin Berita
-export const getAdminBerita = (params = {}) => api.get('/admin/berita', { params });
+export const getAdminBerita = (params = {}) => api.get('/admin/berita', { params: { per_page: 100, ...params } });
 export const createBerita = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
@@ -144,7 +144,7 @@ export const updateBerita = (id, data) => {
 export const deleteBerita = (id) => api.delete(`/admin/berita/${id}`);
 
 // Admin Galeri
-export const getAdminGaleri = (params = {}) => api.get('/admin/galeri', { params });
+export const getAdminGaleri = (params = {}) => api.get('/admin/galeri', { params: { per_page: 100, ...params } });
 export const createGaleri = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
@@ -159,7 +159,7 @@ export const updateGaleri = (id, data) => {
 export const deleteGaleri = (id) => api.delete(`/admin/galeri/${id}`);
 
 // Admin Guru
-export const getAdminGuru = (params = {}) => api.get('/admin/guru', { params });
+export const getAdminGuru = (params = {}) => api.get('/admin/guru', { params: { per_page: 100, ...params } });
 export const createGuru = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
@@ -178,7 +178,7 @@ export const updateGuru = (id, data) => {
 export const deleteGuru = (id) => api.delete(`/admin/guru/${id}`);
 
 // Admin Prestasi
-export const getAdminPrestasi = (params = {}) => api.get('/admin/prestasi', { params });
+export const getAdminPrestasi = (params = {}) => api.get('/admin/prestasi', { params: { per_page: 100, ...params } });
 export const createPrestasi = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
@@ -197,7 +197,7 @@ export const updatePrestasi = (id, data) => {
 export const deletePrestasi = (id) => api.delete(`/admin/prestasi/${id}`);
 
 // Admin Ekstrakurikuler
-export const getAdminEkstrakurikuler = (params = {}) => api.get('/admin/ekstrakurikuler', { params });
+export const getAdminEkstrakurikuler = (params = {}) => api.get('/admin/ekstrakurikuler', { params: { per_page: 100, ...params } });
 export const createEkstrakurikuler = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
@@ -216,7 +216,7 @@ export const updateEkstrakurikuler = (id, data) => {
 export const deleteEkstrakurikuler = (id) => api.delete(`/admin/ekstrakurikuler/${id}`);
 
 // Admin Jadwal Ekstrakurikuler
-export const getAdminJadwalEkstrakurikuler = (params = {}) => api.get('/admin/jadwal-ekstrakurikuler', { params });
+export const getAdminJadwalEkstrakurikuler = (params = {}) => api.get('/admin/jadwal-ekstrakurikuler', { params: { per_page: 100, ...params } });
 export const createJadwalEkstrakurikuler = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
@@ -235,7 +235,7 @@ export const updateJadwalEkstrakurikuler = (id, data) => {
 export const deleteJadwalEkstrakurikuler = (id) => api.delete(`/admin/jadwal-ekstrakurikuler/${id}`);
 
 // Admin Struktur Ekstrakurikuler
-export const getAdminStrukturEkstrakurikuler = (params = {}) => api.get('/admin/struktur-ekstrakurikuler', { params });
+export const getAdminStrukturEkstrakurikuler = (params = {}) => api.get('/admin/struktur-ekstrakurikuler', { params: { per_page: 100, ...params } });
 export const createStrukturEkstrakurikuler = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);
@@ -254,7 +254,7 @@ export const updateStrukturEkstrakurikuler = (id, data) => {
 export const deleteStrukturEkstrakurikuler = (id) => api.delete(`/admin/struktur-ekstrakurikuler/${id}`);
 
 // Admin Prestasi Ekstrakurikuler
-export const getAdminPrestasiEkstrakurikuler = (params = {}) => api.get('/admin/prestasi-ekstrakurikuler', { params });
+export const getAdminPrestasiEkstrakurikuler = (params = {}) => api.get('/admin/prestasi-ekstrakurikuler', { params: { per_page: 100, ...params } });
 export const createPrestasiEkstrakurikuler = (data) => {
   const formData = new FormData();
   appendFormData(formData, data);

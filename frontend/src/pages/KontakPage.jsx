@@ -11,9 +11,15 @@ const normalizeGoogleMapsEmbedUrl = (url) => {
     return '';
   }
 
-  const trimmed = url.trim();
+  let trimmed = url.trim();
   if (!trimmed) {
     return '';
+  }
+
+  // Jika user memasukkan full tag <iframe>, kita ambil bagian href/src di dalamnya
+  const iframeMatch = trimmed.match(/<iframe[^>]+src=["']([^"']+)["']/i);
+  if (iframeMatch && iframeMatch[1]) {
+    trimmed = iframeMatch[1].trim();
   }
 
   // Already a valid Google Maps embed URL.
