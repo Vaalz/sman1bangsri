@@ -21,6 +21,21 @@ function AdminSiswaPtn() {
   const [formData, setFormData] = useState({});
   const [editingId, setEditingId] = useState(null);
 
+  const getApiErrorMessage = (err, fallback = 'Gagal menyimpan data') => {
+    const validationErrors = err?.response?.data?.errors;
+
+    if (validationErrors && typeof validationErrors === 'object') {
+      const firstField = Object.keys(validationErrors)[0];
+      const firstMessage = firstField ? validationErrors[firstField]?.[0] : null;
+
+      if (firstMessage) {
+        return firstMessage;
+      }
+    }
+
+    return err?.response?.data?.message || fallback;
+  };
+
   const columns = [
     {
       field: 'foto_siswa',
@@ -42,7 +57,7 @@ function AdminSiswaPtn() {
     try {
       setLoading(true);
       setError(null);
-      const response = await getAdminSiswaPtn();
+      const response = await getAdminSiswaPtn({ per_page: 1000 });
       setSiswaPtn(response.data.data || []);
     } catch (err) {
       setError('Gagal memuat data siswa PTN');
@@ -91,7 +106,7 @@ function AdminSiswaPtn() {
       setFormData({});
       fetchData();
     } catch (err) {
-      alert('Gagal menyimpan data');
+      alert(getApiErrorMessage(err, 'Gagal menyimpan data'));
       console.error(err);
     }
   };

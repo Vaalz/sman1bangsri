@@ -15,7 +15,7 @@ const PTNAcceptanceSection = () => {
 
   const fetchStudents = async () => {
     try {
-      const response = await getSiswaPtnList({ per_page: 100 });
+      const response = await getSiswaPtnList({ per_page: 1000 });
       const data = response.data.data || [];
       setStudents(data);
     } catch (error) {

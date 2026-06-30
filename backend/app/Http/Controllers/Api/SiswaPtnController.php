@@ -66,10 +66,10 @@ class SiswaPtnController extends Controller
     {
         $validated = $request->validate([
             'nama_siswa' => 'required|string|max:255',
-            'foto_siswa' => 'nullable|image|max:2048',
+            'foto_siswa' => 'nullable|image|max:5120',
             'kelas' => 'required|string|max:50',
             'nama_ptn' => 'required|string|max:255',
-            'logo_ptn' => 'nullable|image|max:2048',
+            'logo_ptn' => 'nullable|image|max:5120',
             'jurusan' => 'required|string|max:255',
         ]);
 
@@ -97,10 +97,10 @@ class SiswaPtnController extends Controller
 
         $validated = $request->validate([
             'nama_siswa' => 'sometimes|required|string|max:255',
-            'foto_siswa' => 'nullable|image|max:2048',
+            'foto_siswa' => 'nullable|image|max:5120',
             'kelas' => 'sometimes|required|string|max:50',
             'nama_ptn' => 'sometimes|required|string|max:255',
-            'logo_ptn' => 'nullable|image|max:2048',
+            'logo_ptn' => 'nullable|image|max:5120',
             'jurusan' => 'sometimes|required|string|max:255',
         ]);
 
