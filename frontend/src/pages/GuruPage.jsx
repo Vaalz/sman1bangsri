@@ -98,18 +98,7 @@ const GuruPage = () => {
         }}
       >
         <Container maxWidth="xl">
-          <Typography
-            variant="h2"
-            sx={{
-              fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
-              fontWeight: 700,
-              textAlign: 'center',
-              marginBottom: { xs: '40px', md: '50px' },
-              color: '#333',
-            }}
-          >
-            Daftar Guru
-          </Typography>
+
 
           {loading ? (
             <Box

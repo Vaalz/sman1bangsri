@@ -119,6 +119,9 @@ export const getKeuanganList = (params = {}) => api.get('/public/keuangan', { pa
 // Social Links
 export const getSocialLinks = () => api.get('/public/social-links');
 
+// Ucapan (greeting cards) - public
+export const getUcapanList = () => api.get('/public/ucapan');
+
 // ==================== ADMIN API ====================
 
 // Dashboard Stats
@@ -157,6 +160,21 @@ export const updateGaleri = (id, data) => {
   return api.post(`/admin/galeri/${id}`, formData);
 };
 export const deleteGaleri = (id) => api.delete(`/admin/galeri/${id}`);
+
+// Admin Ucapan
+export const getAdminUcapan = (params = {}) => api.get('/admin/ucapan', { params: { per_page: 100, ...params } });
+export const createUcapan = (data) => {
+  const formData = new FormData();
+  appendFormData(formData, data);
+  return api.post('/admin/ucapan', formData);
+};
+export const updateUcapan = (id, data) => {
+  const formData = new FormData();
+  formData.append('_method', 'PUT');
+  appendFormData(formData, data, true);
+  return api.post(`/admin/ucapan/${id}`, formData);
+};
+export const deleteUcapan = (id) => api.delete(`/admin/ucapan/${id}`);
 
 // Admin Guru
 export const getAdminGuru = (params = {}) => api.get('/admin/guru', { params: { per_page: 100, ...params } });

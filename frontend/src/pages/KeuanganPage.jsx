@@ -52,7 +52,7 @@ const KeuanganPage = () => {
   }, [reports]);
 
   const SkeletonCard = () => (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid size={{ xs: 12, sm: 6, md: 4 }}>
       <Card
         sx={{
           width: '100%',
@@ -219,7 +219,7 @@ const KeuanganPage = () => {
                 {sortedReports.map((report) => {
                   const fileUrl = report.file ? getImageUrl(report.file) : '';
                   return (
-                    <Grid item xs={12} sm={6} md={4} key={report.id}>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={report.id}>
                       <Card
                         sx={{
                           width: '100%',

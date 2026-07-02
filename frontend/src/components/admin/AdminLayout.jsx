@@ -14,7 +14,6 @@ function AdminLayout() {
   const isDesktop = useMediaQuery(theme.breakpoints.up('lg'));
   const navigate = useNavigate();
   const location = useLocation();
-  const currentUser = authService.getStoredUser();
   const isSuperAdmin = authService.isSuperAdmin();
 
   // Menu items with conditional Admin Management for superadmin
@@ -23,6 +22,7 @@ function AdminLayout() {
     ...(isSuperAdmin ? [{ text: 'Manajemen Admin', icon: <SupervisorAccount />, path: '/admin/admins' }] : []),
     { text: 'Berita', icon: <Article />, path: '/admin/berita' },
     { text: 'Galeri', icon: <Photo />, path: '/admin/galeri' },
+    { text: 'Pop up', icon: <RecordVoiceOver />, path: '/admin/ucapan' },
     { text: 'Guru', icon: <People />, path: '/admin/guru' },
     { text: 'Prestasi', icon: <EmojiEvents />, path: '/admin/prestasi' },
     { text: 'Ekstrakurikuler', icon: <Sports />, path: '/admin/ekstrakurikuler' },

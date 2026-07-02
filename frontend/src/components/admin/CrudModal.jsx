@@ -15,11 +15,11 @@ import {
   Avatar,
 } from '@mui/material';
 import { Close, CloudUpload } from '@mui/icons-material';
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { getImageUrl } from '../../services/api';
 
 function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormData }) {
-  const [preview, setPreview] = useState({});
+  const [localPreview, setLocalPreview] = useState({});
 
   const normalizeDateValue = (value) => {
     if (!value) return '';
@@ -40,16 +40,14 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
     return value;
   };
 
-  useEffect(() => {
-    if (!open) return;
+  const existingPreview = useMemo(() => {
+    if (!open) return {};
 
-    const existingPreview = {};
-
-    fields.forEach((field) => {
-      if (field.type !== 'file') return;
+    return fields.reduce((accumulator, field) => {
+      if (field.type !== 'file') return accumulator;
 
       const currentValue = formData?.[field.name];
-      if (typeof currentValue !== 'string' || !currentValue) return;
+      if (typeof currentValue !== 'string' || !currentValue) return accumulator;
 
       const accepted = String(field.accept || '').toLowerCase();
       const likelyImage =
@@ -57,12 +55,14 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
         /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(currentValue);
 
       if (likelyImage) {
-        existingPreview[field.name] = getImageUrl(currentValue);
+        accumulator[field.name] = getImageUrl(currentValue);
       }
-    });
 
-    setPreview(existingPreview);
-  }, [open]);
+      return accumulator;
+    }, {});
+  }, [fields, formData, open]);
+
+  const preview = { ...existingPreview, ...localPreview };
 
   const getExistingFileLabel = (value) => {
     if (!value) return 'Belum ada file dipilih';
@@ -87,7 +87,7 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
       if (file.type.startsWith('image/')) {
         const reader = new FileReader();
         reader.onloadend = () => {
-          setPreview(prev => ({ ...prev, [field]: reader.result }));
+          setLocalPreview((prev) => ({ ...prev, [field]: reader.result }));
         };
         reader.readAsDataURL(file);
       }
@@ -102,11 +102,11 @@ function CrudModal({ open, onClose, onSubmit, title, fields, formData, setFormDa
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
-    setPreview({});
+    setLocalPreview({});
   };
 
   const handleClose = () => {
-    setPreview({});
+    setLocalPreview({});
     onClose();
   };
 

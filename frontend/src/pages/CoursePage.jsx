@@ -46,7 +46,7 @@ const CoursePage = () => {
 
   // Skeleton Loading Component
   const SkeletonCard = () => (
-    <Grid item xs={12} sm={6} md={4}>
+    <Grid size={{ xs: 12, sm: 6, md: 4 }}>
       <Card
         sx={{
           width: '100%',
@@ -268,7 +268,7 @@ const CoursePage = () => {
               justifyContent="center"
             >
               {filteredCourses.map((course) => (
-                <Grid item xs={12} sm={6} md={4} key={course.id}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={course.id}>
                   <Card
                     sx={{
                       width: '100%',

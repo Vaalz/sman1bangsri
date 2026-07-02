@@ -1,4 +1,4 @@
-import { Box, Container, Typography, Paper, Grid, Card, CardMedia, CircularProgress, Avatar, Chip, Skeleton } from '@mui/material';
+import { Box, Container, Typography, Paper, Grid, Card, CardMedia, CircularProgress, Avatar, Chip, Skeleton, Button } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -151,7 +151,7 @@ const DetailEkstrakurikulerPage = () => {
                 <Skeleton variant="text" width="40%" height={40} sx={{ mb: 3 }} />
                 <Grid container spacing={3}>
                   {[1, 2, 3, 4].map((item) => (
-                    <Grid item xs={12} sm={6} key={item}>
+                    <Grid size={{ xs: 12, sm: 6 }} key={item}>
                       <Box
                         sx={{
                           padding: '20px',
@@ -186,7 +186,7 @@ const DetailEkstrakurikulerPage = () => {
                 <Skeleton variant="text" width="45%" height={40} sx={{ mb: 3 }} />
                 <Grid container spacing={3}>
                   {[1, 2, 3, 4].map((item) => (
-                    <Grid item xs={6} sm={4} md={3} key={item}>
+                    <Grid size={{ xs: 6, sm: 4, md: 3 }} key={item}>
                       <Card
                         sx={{
                           borderRadius: '12px',
@@ -221,7 +221,7 @@ const DetailEkstrakurikulerPage = () => {
                 <Skeleton variant="text" width="30%" height={40} sx={{ mb: 3 }} />
                 <Grid container spacing={3}>
                   {[1, 2, 3, 4].map((item) => (
-                    <Grid item xs={12} sm={6} key={item}>
+                    <Grid size={{ xs: 12, sm: 6 }} key={item}>
                       <Card
                         sx={{
                           borderRadius: '12px',
@@ -352,27 +352,74 @@ const DetailEkstrakurikulerPage = () => {
               >
                 {ekstrakurikuler.nama}
               </Typography>
-              <Box
-                sx={{
-                  alignItems: 'center',
-                  gap: 1,
-                  justifyContent: { xs: 'center', md: 'flex-start' },
-                  backgroundColor: 'rgba(255,255,255,0.15)',
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  display: 'inline-flex',
-                }}
-              >
-                <Person />
-                <Typography
-                  variant="h6"
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xs: 'center', md: 'flex-start' } }}>
+                <Box
                   sx={{
-                    fontSize: { xs: '1rem', md: '1.1rem' },
-                    fontWeight: 500,
+                    alignItems: 'center',
+                    gap: 1,
+                    justifyContent: { xs: 'center', md: 'flex-start' },
+                    backgroundColor: 'rgba(255,255,255,0.15)',
+                    px: 2,
+                    py: 1,
+                    borderRadius: '10px',
+                    display: 'inline-flex',
+                    width: 'fit-content',
+                    maxWidth: '100%',
+                    backdropFilter: 'blur(6px)',
                   }}
                 >
-                  Pembina: {ekstrakurikuler.pembina}
-                </Typography>
+                  <Person />
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: { xs: '1rem', md: '1.1rem' },
+                      fontWeight: 500,
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    Pembina: {ekstrakurikuler.pembina}
+                  </Typography>
+                </Box>
+                {ekstrakurikuler.link_pendaftaran && String(ekstrakurikuler.link_pendaftaran).trim() !== '' && (
+                  <Button
+                    component="a"
+                    href={ekstrakurikuler.link_pendaftaran}
+                    variant="contained"
+                    color="primary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      mt: 1.25,
+                      fontWeight: 700,
+                      borderRadius: '999px',
+                      px: 3,
+                      py: 1,
+                      minHeight: 44,
+                      textTransform: 'none',
+                      backgroundColor: '#fff',
+                      color: '#1976d2',
+                      boxShadow: '0 10px 24px rgba(0, 0, 0, 0.14)',
+                      border: '1px solid rgba(25, 118, 210, 0.18)',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 1,
+                      transition: 'transform 180ms ease, box-shadow 180ms ease, background-color 180ms ease, color 180ms ease',
+                      '&:hover': {
+                        backgroundColor: '#eaf3ff',
+                        color: '#1259a8',
+                        boxShadow: '0 14px 30px rgba(0, 0, 0, 0.18)',
+                        transform: 'translateY(-1px)',
+                      },
+                      '&:active': {
+                        transform: 'translateY(0)',
+                        boxShadow: '0 8px 18px rgba(0, 0, 0, 0.14)',
+                      },
+                    }}
+                  >
+                    Pendaftaran Ekstrakurikuler
+                  </Button>
+                )}
               </Box>
             </Box>
           </Box>
@@ -452,7 +499,7 @@ const DetailEkstrakurikulerPage = () => {
                   </Typography>
                   <Grid container spacing={3}>
                     {jadwal.map((item) => (
-                      <Grid item xs={12} sm={6} key={item.id}>
+                      <Grid size={{ xs: 12, sm: 6 }} key={item.id}>
                         <Box
                           sx={{
                             padding: '20px',
@@ -530,7 +577,7 @@ const DetailEkstrakurikulerPage = () => {
                   </Typography>
                   <Grid container spacing={3}>
                     {struktur.map((member) => (
-                      <Grid item xs={12} sm={6} md={4} lg={3} key={member.id}>
+                      <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={member.id}>
                         <Card
                           sx={{
                             borderRadius: '12px',
@@ -629,7 +676,7 @@ const DetailEkstrakurikulerPage = () => {
                   </Typography>
                   <Grid container spacing={3}>
                     {prestasi.map((item) => (
-                      <Grid item xs={12} sm={6} key={item.id}>
+                      <Grid size={{ xs: 12, sm: 6 }} key={item.id}>
                         <Card
                           sx={{
                             borderRadius: '12px',

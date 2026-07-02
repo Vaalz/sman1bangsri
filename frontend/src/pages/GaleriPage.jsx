@@ -188,7 +188,7 @@ const GaleriPage = () => {
                 : 'https://via.placeholder.com/600x400?text=No+Image';
 
               return (
-                <Grid item xs={12} sm={6} md={4} key={item.id} sx={{ display: 'flex', justifyContent: 'center' }}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={item.id} sx={{ display: 'flex', justifyContent: 'center' }}>
                   <Card
                     sx={{
                       width: '100%',

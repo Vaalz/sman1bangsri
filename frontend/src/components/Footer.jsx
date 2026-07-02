@@ -157,7 +157,7 @@ const Footer = () => {
           alignItems="flex-start"
         >
           {/* Logo and School Info */}
-          <Grid item xs={12} sm={6} md={3} sx={{ mb: { xs: 3, md: 0 } }}>
+          <Grid size={{ xs: 12, sm: 6, md: 3 }} sx={{ mb: { xs: 3, md: 0 } }}>
             <Box
               sx={{
                 display: 'flex',
@@ -298,7 +298,7 @@ const Footer = () => {
           </Grid>
 
           {/* Menu Utama */}
-          <Grid item xs={12} sm={6} md={2} sx={{ mb: { xs: 3, md: 0 } }}>
+          <Grid size={{ xs: 12, sm: 6, md: 2 }} sx={{ mb: { xs: 3, md: 0 } }}>
             <Box sx={{ padding: { xs: '0 8px', sm: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
               <Typography
                 variant="h6"
@@ -343,7 +343,7 @@ const Footer = () => {
           </Grid>
 
           {/* Lain - Lain */}
-          <Grid item xs={12} sm={6} md={2} sx={{ mb: { xs: 3, md: 0 } }}>
+          <Grid size={{ xs: 12, sm: 6, md: 2 }} sx={{ mb: { xs: 3, md: 0 } }}>
             <Box sx={{ padding: { xs: '0 8px', sm: '0 16px', md: '0' }, textAlign: { xs: 'center', sm: 'left' } }}>
             <Typography
               variant="h6"
@@ -388,7 +388,7 @@ const Footer = () => {
           </Grid>
 
           {/* Maps */}
-          <Grid item xs={12} md={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             <Box sx={{ padding: { xs: '0 8px', sm: '0 16px', md: '0' } }}>
             <Typography
               variant="h6"

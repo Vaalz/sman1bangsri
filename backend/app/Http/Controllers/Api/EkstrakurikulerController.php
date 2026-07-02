@@ -11,6 +11,21 @@ use App\Traits\ImageCompressionTrait;
 class EkstrakurikulerController extends Controller
 {
     use ImageCompressionTrait;
+
+    private function normalizeLinkPendaftaran($value): ?string
+    {
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return null;
+        }
+
+        if (!preg_match('/^[a-z][a-z0-9+.-]*:\/\//i', $value)) {
+            $value = 'https://' . $value;
+        }
+
+        return filter_var($value, FILTER_VALIDATE_URL) ? $value : null;
+    }
     
     public function index(Request $request)
     {
@@ -22,7 +37,7 @@ class EkstrakurikulerController extends Controller
         
         // Cache response for 5 minutes (300 seconds)
         $ekstrakurikuler = Cache::remember($cacheKey, 300, function () use ($perPage) {
-            return Ekstrakurikuler::select(['id', 'nama', 'kategori', 'pembina', 'deskripsi', 'logo', 'slug', 'created_at'])
+            return Ekstrakurikuler::select(['id', 'nama', 'kategori', 'pembina', 'link_pendaftaran', 'deskripsi', 'logo', 'slug', 'created_at'])
                 ->orderBy('nama', 'asc')
                 ->paginate($perPage);
         });
@@ -36,10 +51,13 @@ class EkstrakurikulerController extends Controller
             'nama' => 'required|string|max:255',
             'kategori' => 'required|string',
             'pembina' => 'required|string',
+            'link_pendaftaran' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
             'icon' => 'nullable|string',
             'logo' => 'nullable|image|max:2048',
         ]);
+
+        $validated['link_pendaftaran'] = $this->normalizeLinkPendaftaran($validated['link_pendaftaran'] ?? null);
 
         if ($request->hasFile('logo')) {
             $validated['logo'] = $this->uploadCompressedImage($request->file('logo'), 'ekstrakurikuler', 800, 85);
@@ -67,10 +85,13 @@ class EkstrakurikulerController extends Controller
             'nama' => 'sometimes|required|string|max:255',
             'kategori' => 'sometimes|required|string',
             'pembina' => 'sometimes|required|string',
+            'link_pendaftaran' => 'nullable|string|max:255',
             'deskripsi' => 'nullable|string',
             'icon' => 'nullable|string',
             'logo' => 'nullable|image|max:2048',
         ]);
+
+        $validated['link_pendaftaran'] = $this->normalizeLinkPendaftaran($validated['link_pendaftaran'] ?? null);
 
         if ($request->hasFile('logo')) {
             // Delete old logo if exists

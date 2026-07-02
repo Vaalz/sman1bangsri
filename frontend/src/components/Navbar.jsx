@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Box, Button, Container, IconButton, Drawer, List, ListItem, ListItemText, Menu, MenuItem, Collapse } from '@mui/material';
+import { AppBar, Toolbar, Box, Button, Container, IconButton, Drawer, List, ListItem, ListItemButton, ListItemText, Menu, MenuItem, Collapse } from '@mui/material';
 import { Menu as MenuIcon, Close as CloseIcon, ExpandMore as ExpandMoreIcon, ExpandLess as ExpandLessIcon } from '@mui/icons-material';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -28,14 +28,14 @@ const Navbar = () => {
   const menuItems = [
     { label: 'Beranda', path: '/beranda' },
     { label: 'Tentang', path: '/tentang' },
-    { 
-      label: 'Akademik', 
+    {
+      label: 'Akademik',
       path: '#',
       dropdown: [
         { label: 'Guru & Staff', path: '/guru' },
         { label: 'Materi Pembelajaran', path: '/course' },
         { label: 'Prestasi', path: '/prestasi' },
-      ]
+      ],
     },
     { label: 'Radar Ekstrakurikuler', path: '/ekstrakurikuler' },
     { label: 'Berita', path: '/berita' },
@@ -47,23 +47,19 @@ const Navbar = () => {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
     if (mobileOpen) {
-      setMobileSubmenuOpen(null); // Reset submenu saat drawer ditutup
+      setMobileSubmenuOpen(null);
     }
   };
 
   const handleMenuClick = (item, event) => {
-    // Untuk menu dengan dropdown, toggle dropdown saat klik
     if (item.dropdown) {
       if (openDropdown === item.label) {
-        // Jika sudah terbuka, tutup
         handleCloseDropdown();
       } else {
-        // Jika belum terbuka, buka
         setAnchorEl(event.currentTarget);
         setOpenDropdown(item.label);
       }
     } else if (item.path !== '#') {
-      // Untuk menu biasa (non-dropdown), langsung navigate
       navigate(item.path);
       setMobileOpen(false);
       handleCloseDropdown();
@@ -72,7 +68,6 @@ const Navbar = () => {
 
   const handleMobileMenuClick = (item) => {
     if (item.dropdown) {
-      // Toggle submenu untuk mobile
       setMobileSubmenuOpen(mobileSubmenuOpen === item.label ? null : item.label);
     } else if (item.path !== '#') {
       navigate(item.path);
@@ -82,16 +77,10 @@ const Navbar = () => {
   };
 
   const handleMenuHover = (item, event) => {
-    // Untuk menu dengan dropdown, buka saat hover
     if (item.dropdown) {
       setAnchorEl(event.currentTarget);
       setOpenDropdown(item.label);
     }
-  };
-
-  const handleMenuLeave = () => {
-    // Delay penutupan agar user bisa pindah ke dropdown menu
-    // Tidak langsung tutup agar smooth transition
   };
 
   const handleDropdownItemClick = (path) => {
@@ -105,13 +94,11 @@ const Navbar = () => {
     setOpenDropdown(null);
   };
 
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+  const isActive = (path) => location.pathname === path;
 
   const isDropdownActive = (dropdown) => {
     if (!dropdown) return false;
-    return dropdown.some(item => location.pathname === item.path);
+    return dropdown.some((item) => location.pathname === item.path);
   };
 
   const drawer = (
@@ -157,7 +144,7 @@ const Navbar = () => {
             <Box
               component="span"
               sx={{
-                    fontSize: { xs: '14px', sm: '16px' },
+                fontSize: { xs: '14px', sm: '16px' },
                 fontWeight: 700,
                 color: '#34495e',
                 lineHeight: 1.2,
@@ -169,7 +156,7 @@ const Navbar = () => {
             <Box
               component="span"
               sx={{
-                    fontSize: { xs: '10px', sm: '11px' },
+                fontSize: { xs: '10px', sm: '11px' },
                 fontWeight: 400,
                 color: '#666',
                 fontStyle: 'italic',
@@ -186,58 +173,60 @@ const Navbar = () => {
       <List sx={{ padding: 0 }}>
         {menuItems.map((item) => (
           <Box key={item.label}>
-            <ListItem 
-              button 
-              onClick={() => handleMobileMenuClick(item)}
-              sx={{
-                padding: '16px 24px',
-                borderLeft: isActive(item.path) || isDropdownActive(item.dropdown) ? '4px solid #34495e' : '4px solid transparent',
-                backgroundColor: isActive(item.path) || isDropdownActive(item.dropdown) ? '#f5f5f5' : 'transparent',
-                '&:hover': {
-                  backgroundColor: '#f5f5f5',
-                },
-              }}
-            >
-              <ListItemText 
-                primary={item.label}
-                primaryTypographyProps={{
-                  fontSize: '16px',
-                  fontWeight: isActive(item.path) || isDropdownActive(item.dropdown) ? 700 : 500,
-                  color: isActive(item.path) || isDropdownActive(item.dropdown) ? '#34495e' : '#333',
+            <ListItem disablePadding>
+              <ListItemButton
+                onClick={() => handleMobileMenuClick(item)}
+                sx={{
+                  padding: '16px 24px',
+                  borderLeft: isActive(item.path) || isDropdownActive(item.dropdown) ? '4px solid #34495e' : '4px solid transparent',
+                  backgroundColor: isActive(item.path) || isDropdownActive(item.dropdown) ? '#f5f5f5' : 'transparent',
+                  '&:hover': {
+                    backgroundColor: '#f5f5f5',
+                  },
                 }}
-              />
-              {item.dropdown && (
-                mobileSubmenuOpen === item.label ? 
-                  <ExpandLessIcon sx={{ color: '#34495e' }} /> : 
-                  <ExpandMoreIcon sx={{ color: '#666' }} />
-              )}
+              >
+                <ListItemText
+                  primary={item.label}
+                  primaryTypographyProps={{
+                    fontSize: '16px',
+                    fontWeight: isActive(item.path) || isDropdownActive(item.dropdown) ? 700 : 500,
+                    color: isActive(item.path) || isDropdownActive(item.dropdown) ? '#34495e' : '#333',
+                  }}
+                />
+                {item.dropdown && (
+                  mobileSubmenuOpen === item.label ? (
+                    <ExpandLessIcon sx={{ color: '#34495e' }} />
+                  ) : (
+                    <ExpandMoreIcon sx={{ color: '#666' }} />
+                  )
+                )}
+              </ListItemButton>
             </ListItem>
-            {/* Dropdown items for mobile */}
             {item.dropdown && (
               <Collapse in={mobileSubmenuOpen === item.label} timeout="auto" unmountOnExit>
                 <Box sx={{ backgroundColor: '#fafafa' }}>
                   {item.dropdown.map((subItem) => (
-                    <ListItem
-                      button
-                      key={subItem.label}
-                      onClick={() => handleDropdownItemClick(subItem.path)}
-                      sx={{
-                        padding: '12px 24px 12px 48px',
-                        borderLeft: isActive(subItem.path) ? '4px solid #34495e' : '4px solid transparent',
-                        backgroundColor: isActive(subItem.path) ? '#e8f4f8' : 'transparent',
-                        '&:hover': {
-                          backgroundColor: '#e8f4f8',
-                        },
-                      }}
-                    >
-                      <ListItemText
-                        primary={subItem.label}
-                        primaryTypographyProps={{
-                          fontSize: '14px',
-                          fontWeight: isActive(subItem.path) ? 600 : 400,
-                          color: isActive(subItem.path) ? '#34495e' : '#666',
+                    <ListItem disablePadding key={subItem.label}>
+                      <ListItemButton
+                        onClick={() => handleDropdownItemClick(subItem.path)}
+                        sx={{
+                          padding: '12px 24px 12px 48px',
+                          borderLeft: isActive(subItem.path) ? '4px solid #34495e' : '4px solid transparent',
+                          backgroundColor: isActive(subItem.path) ? '#e8f4f8' : 'transparent',
+                          '&:hover': {
+                            backgroundColor: '#e8f4f8',
+                          },
                         }}
-                      />
+                      >
+                        <ListItemText
+                          primary={subItem.label}
+                          primaryTypographyProps={{
+                            fontSize: '14px',
+                            fontWeight: isActive(subItem.path) ? 600 : 400,
+                            color: isActive(subItem.path) ? '#34495e' : '#666',
+                          }}
+                        />
+                      </ListItemButton>
                     </ListItem>
                   ))}
                 </Box>
@@ -251,7 +240,7 @@ const Navbar = () => {
 
   return (
     <>
-      <AppBar 
+      <AppBar
         position="fixed"
         sx={{
           backgroundColor: scrolled ? '#ffffff' : 'transparent',
@@ -260,7 +249,7 @@ const Navbar = () => {
         }}
       >
         <Container maxWidth="xl">
-          <Toolbar 
+          <Toolbar
             disableGutters
             sx={{
               minHeight: { xs: '64px', md: '80px' },
@@ -316,16 +305,15 @@ const Navbar = () => {
               </Box>
             </Box>
 
-            {/* Desktop Menu */}
             <Box sx={{ flexGrow: 0, display: { xs: 'none', lg: 'flex' }, gap: 1 }}>
               {menuItems.map((item) => (
-                <Box 
-                  key={item.label} 
+                <Box
+                  key={item.label}
                   sx={{ position: 'relative' }}
                   onMouseEnter={(e) => handleMenuHover(item, e)}
                   onMouseLeave={item.dropdown ? undefined : handleCloseDropdown}
                 >
-                  <Button 
+                  <Button
                     onClick={(e) => handleMenuClick(item, e)}
                     endIcon={item.dropdown ? <ExpandMoreIcon /> : null}
                     sx={{
@@ -346,7 +334,6 @@ const Navbar = () => {
                   >
                     {item.label}
                   </Button>
-                  {/* Dropdown Menu */}
                   {item.dropdown && (
                     <Menu
                       anchorEl={anchorEl}
@@ -405,7 +392,6 @@ const Navbar = () => {
               ))}
             </Box>
 
-            {/* Mobile Hamburger Menu */}
             <IconButton
               color="inherit"
               aria-label="open drawer"
@@ -422,19 +408,18 @@ const Navbar = () => {
         </Container>
       </AppBar>
 
-      {/* Mobile Drawer */}
       <Drawer
         variant="temporary"
         anchor="right"
         open={mobileOpen}
         onClose={handleDrawerToggle}
         ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
+          keepMounted: true,
         }}
         sx={{
           display: { xs: 'block', lg: 'none' },
-          '& .MuiDrawer-paper': { 
-            boxSizing: 'border-box', 
+          '& .MuiDrawer-paper': {
+            boxSizing: 'border-box',
             width: 'min(86vw, 320px)',
           },
         }}

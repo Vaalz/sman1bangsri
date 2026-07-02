@@ -71,7 +71,7 @@ const AdminDashboard = () => {
 
         <Grid container spacing={3}>
           {/* Welcome Card */}
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Paper
               elevation={3}
               sx={{
@@ -102,7 +102,7 @@ const AdminDashboard = () => {
           </Grid>
 
           {/* Quick Actions */}
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Paper elevation={3} sx={{ padding: 3, height: '100%' }}>
               <Typography variant="h6" sx={{ fontWeight: 600, marginBottom: 2 }}>
                 Pengaturan Akun
@@ -125,7 +125,7 @@ const AdminDashboard = () => {
           </Grid>
 
           {/* Info Card */}
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <Paper elevation={3} sx={{ padding: 3, height: '100%' }}>
               <Typography variant="h6" sx={{ fontWeight: 600, marginBottom: 2 }}>
                 Informasi Akun

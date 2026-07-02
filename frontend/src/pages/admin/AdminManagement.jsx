@@ -56,8 +56,6 @@ const AdminManagement = () => {
     new_password_confirmation: '',
   });
 
-  const currentUser = authService.getStoredUser();
-
   useEffect(() => {
     loadAdmins();
   }, []);

@@ -26,7 +26,7 @@ const AdminSettings = () => {
         </Box>
         <Divider sx={{ marginBottom: 2 }} />
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Typography variant="body2" color="text.secondary">
               Nama
             </Typography>
@@ -34,7 +34,7 @@ const AdminSettings = () => {
               {user.name || '-'}
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Typography variant="body2" color="text.secondary">
               Email
             </Typography>
@@ -42,7 +42,7 @@ const AdminSettings = () => {
               {user.email || '-'}
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Typography variant="body2" color="text.secondary">
               Role
             </Typography>

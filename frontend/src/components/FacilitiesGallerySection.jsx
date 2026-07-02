@@ -107,8 +107,8 @@ const FacilitiesGallerySection = () => {
 
         {/* Gallery Grid */}
         <Grid container spacing={3}>
-          {facilities.map((facility, index) => (
-            <Grid item xs={12} sm={6} md={4} key={facility.id}>
+          {facilities.map((facility) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={facility.id}>
               <Card
                 sx={{
                   position: 'relative',

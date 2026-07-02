@@ -22,6 +22,7 @@ const ekskulFormFields = [
   { name: 'nama', label: 'Nama Ekstrakurikuler', required: true },
   { name: 'kategori', label: 'Kategori', required: true },
   { name: 'pembina', label: 'Pembina', required: true },
+  { name: 'link_pendaftaran', label: 'Link Pendaftaran', type: 'text', required: false, placeholder: 'https://...' },
   { name: 'deskripsi', label: 'Deskripsi', multiline: true, rows: 4, required: false },
   { name: 'logo', label: 'Logo Ekstrakurikuler', type: 'file', required: false, accept: 'image/*' },
 ];

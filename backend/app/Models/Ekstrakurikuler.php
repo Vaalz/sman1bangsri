@@ -18,6 +18,7 @@ class Ekstrakurikuler extends Model
         'kategori',
         'deskripsi',
         'pembina',
+        'link_pendaftaran',
         'icon',
         'logo',
     ];

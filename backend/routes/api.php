@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\SambutanController;
 use App\Http\Controllers\Api\TentangController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\UcapanController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SiswaPtnController;
 use App\Http\Controllers\Api\JadwalEkstrakurikulerController;
@@ -98,6 +99,8 @@ Route::prefix('admin')->middleware(['auth:sanctum', 'log.admin.activity'])->grou
     
     // Siswa PTN Routes
     Route::apiResource('siswa-ptn', SiswaPtnController::class);
+    // Ucapan (Greeting cards)
+    Route::apiResource('ucapan', UcapanController::class);
 });
 
 // Public API Routes (for frontend public pages)
@@ -147,4 +150,6 @@ Route::prefix('public')->group(function () {
     
     Route::get('siswa-ptn', [SiswaPtnController::class, 'index']);
     Route::get('siswa-ptn/{id}', [SiswaPtnController::class, 'show']);
+    // Public ucapan (greeting cards) - show active greetings for popup
+    Route::get('ucapan', [UcapanController::class, 'publicIndex']);
 });

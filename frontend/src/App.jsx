@@ -20,6 +20,7 @@ import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminBerita from './pages/admin/AdminBerita';
 import AdminGaleri from './pages/admin/AdminGaleri';
+import AdminUcapan from './pages/admin/AdminUcapan';
 import AdminGuru from './pages/admin/AdminGuru';
 import AdminPrestasi from './pages/admin/AdminPrestasi';
 import AdminEkstrakurikuler from './pages/admin/AdminEkstrakurikuler';
@@ -39,11 +40,13 @@ import ResetPassword from './pages/admin/ResetPassword';
 import ProtectedRoute from './components/admin/ProtectedRoute';
 
 import './App.css';
+import GreetingPopup from './components/GreetingPopup';
 
 function App() {
   return (
     <Box>
       <CssBaseline />
+      <GreetingPopup />
       <BrowserRouter>
         <ScrollToTop />
         <Routes>
@@ -71,6 +74,7 @@ function App() {
             <Route index element={<AdminDashboard />} />
             <Route path="berita" element={<AdminBerita />} />
             <Route path="galeri" element={<AdminGaleri />} />
+            <Route path="ucapan" element={<AdminUcapan />} />
             <Route path="guru" element={<AdminGuru />} />
             <Route path="prestasi" element={<AdminPrestasi />} />
             <Route path="ekstrakurikuler" element={<AdminEkstrakurikuler />} />
